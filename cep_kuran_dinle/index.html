@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dost Yurdu - Sesli Hatim Arşivi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+        /* GENEL ATMOSFER */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0; padding: 0;
+            background: #0f0c29; 
+            background: radial-gradient(circle at top, #1e1e3f 0%, #08071a 100%);
+            color: #ffffff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; overflow: hidden;
+        }
+
+        /* IŞIK SIZINTISI EFEKTİ */
+        body::before {
+            content: ''; position: absolute; top: -10%; left: -10%; width: 40%; height: 40%;
+            background: radial-gradient(circle, rgba(243, 156, 18, 0.1) 0%, transparent 70%);
+            filter: blur(50px); z-index: -1;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem; color: #f39c12; margin: 0;
+            text-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 0.8rem; color: #bdc3c7; letter-spacing: 5px;
+            text-transform: uppercase; margin-bottom: 40px; opacity: 0.7;
+        }
+
+        /* ANA KONTEYNER */
+        .glass-container {
+            width: 90%; max-width: 450px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border-radius: 40px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            text-align: center;
+            position: relative;
+        }
+
+        /* SLİM DROPDOWN */
+        .select-wrapper { margin-bottom: 30px; position: relative; }
+        select {
+            width: 100%; padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            border-radius: 20px;
+            color: #fff; font-size: 1rem; cursor: pointer;
+            appearance: none; outline: none; transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        select:hover { border-color: #f39c12; box-shadow: 0 0 15px rgba(243, 156, 18, 0.2); }
+
+        /* KİBAR PLAYER ALANI */
+        .player-info { margin-bottom: 25px; }
+        #current-title {
+            font-size: 1.2rem; font-weight: 600; color: #f39c12;
+            display: block; margin-bottom: 20px;
+            min-height: 30px;
+        }
+
+        /* MODERN SES ÇUBUĞU */
+        audio {
+            width: 100%; height: 35px;
+            filter: invert(100%) hue-rotate(180deg) brightness(1.5); /* Player'ı altın/beyaz tonlara yaklaştırır */
+            opacity: 0.8; transition: 0.3s;
+        }
+        audio:hover { opacity: 1; }
+
+        /* KONTROL BUTONLARI */
+        .nav-controls {
+            display: flex; justify-content: center; align-items: center; gap: 40px; margin-top: 30px;
+        }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff; font-size: 1.8rem;
+            width: 70px; height: 70px; border-radius: 50%;
+            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn:hover {
+            background: #f39c12; color: #000;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(243, 156, 18, 0.3);
+        }
+        .nav-btn:active { transform: scale(0.95); }
+
+        /* ALT BİLGİ */
+        footer { margin-top: 40px; font-size: 0.7rem; color: #444; letter-spacing: 2px; }
+        .blog-link { color: #f39c12; text-decoration: none; font-weight: 600; }
+
+    </style>
+</head>
+<body>
+
+    <h1>Dost Yurdu</h1>
+    <div class="tagline">Dijital Hatim Cüzdanı</div>
+
+    <div class="glass-container">
+        <div class="select-wrapper">
+            <select id="sureDropdown"></select>
+        </div>
+
+        <div class="player-info">
+            <span id="current-title">Sure Seçiniz</span>
+            <audio id="audioPlayer" controls></audio>
+        </div>
+
+        <div class="nav-controls">
+            <button class="nav-btn" id="prevTrack" title="Geri">⏮</button>
+            <button class="nav-btn" id="nextTrack" title="İleri">⏭</button>
+        </div>
+    </div>
+
+    <footer>
+        TASARIM: <span style="color:#666">MEHMET3620</span> | 
+        <a href="https://dostyurdu.blogspot.com/" target="_blank" class="blog-link">BLOG</a>
+    </footer>
+
+    <script>
+        const sureIsimleri = [
+            "Fatiha", "Bakara", "Al-i İmran", "Nisa", "Maide", "Enam", "Araf", "Enfal", "Tevbe",
+            "Yunus", "Hud", "Yusuf", "Rad", "İbrahim", "Hicr", "Nahl", "İsra", "Kehf", "Meryem",
+            "Taha", "Enbiya", "Hac", "Müminun", "Nur", "Furkan", "Şuara", "Neml", "Kasas",
+            "Ankebut", "Rum", "Lokman", "Secde", "Ahzab", "Sebe", "Fatır", "Yasin", "Saffat",
+            "Sad", "Zümer", "Mümin", "Fussilet", "Şura", "Zuhruf", "Duhan", "Casiye", "Ahkaf",
+            "Muhammed", "Fetih", "Hucurat", "Kaf", "Zariyat", "Tur", "Necm", "Kamer", "Rahman",
+            "Vakıa", "Hadid", "Mücadele", "Haşr", "Mümtehine", "Saf", "Cuma", "Münafıkun",
+            "Tegabun", "Talak", "Tahrim", "Mülk", "Kalem", "Hakka", "Mearic", "Nuh", "Cin",
+            "Müzzemmil", "Müddessir", "Kıyamet", "İnsan", "Mürselat", "Nebe", "Naziat", "Abese",
+            "Tekvir", "İnfitar", "Mutaffifin", "İnşikak", "Büruc", "Tarık", "Ala", "Gaşiye",
+            "Fecr", "Beled", "Şems", "Leyl", "Duha", "İnşirah", "Tin", "Alak", "Kadir",
+            "Beyyine", "Zilzal", "Adiyat", "Karia", "Tekasur", "Asr", "Hümeze", "Fil", "Kureyş",
+            "Maun", "Kevser", "Kafirun", "Nasr", "Tebbet", "İhlas", "Felak", "Nas"
+        ];
+
+        const tracks = sureIsimleri.map((sure, index) => ({
+            title: `${index + 1}. ${sure} Suresi`,
+            file: `https://ia600105.us.archive.org/22/items/Quran_mp3_Mishary_Alafasi/${String(index + 1).padStart(3, '0')}.mp3`
+        }));
+
+        const dropdown = document.getElementById('sureDropdown');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const titleDisp = document.getElementById('current-title');
+        let currentTrackIndex = 0;
+
+        tracks.forEach((track, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = track.title;
+            dropdown.appendChild(option);
+        });
+
+        dropdown.addEventListener('change', () => {
+            loadTrack(parseInt(dropdown.value), true);
+        });
+
+        function loadTrack(index, playImmediately = false) {
+            currentTrackIndex = index;
+            const track = tracks[index];
+            audioPlayer.src = track.file;
+            titleDisp.textContent = track.title;
+            dropdown.value = index;
+            if (playImmediately) {
+                audioPlayer.play();
+            }
+        }
+
+        audioPlayer.addEventListener('ended', () => {
+            const nextIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(nextIndex, true);
+        });
+
+        document.getElementById('prevTrack').addEventListener('click', () => {
+            const prevIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+            loadTrack(prevIndex, true);
+        });
+
+        document.getElementById('nextTrack').addEventListener('click', () => {
+            const nextIndex = (currentTrackIndex + 1) % tracks.length;
+            loadTrack(nextIndex, true);
+        });
+
+        loadTrack(currentTrackIndex, false);
+    </script>
+</body>
+</html>
