@@ -1,0 +1,171 @@
+<style>
+    /* ANA GÖVDE VE DARK MODE */
+    .m3620-ultra-portal {
+        background: #050505;
+        color: #efefef;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #222;
+        max-width: 1300px;
+        margin: auto;
+    }
+
+    /* ÜST BAR (NAVBAR) */
+    .top-bar {
+        height: 70px;
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        border-bottom: 2px solid #ff0000;
+    }
+
+    .logo { font-size: 26px; font-weight: 900; color: #ff0000; text-transform: uppercase; }
+    .search-area input { background: #222; border: 1px solid #444; padding: 10px 20px; border-radius: 30px; color: #fff; width: 300px; }
+
+    /* ANA İÇERİK DİZİLİMİ (3 KOLON) */
+    .main-layout { display: grid; grid-template-columns: 200px 1fr 250px; gap: 20px; padding: 20px; }
+
+    /* MODÜL 1: SOL MENÜ */
+    .side-menu { background: #111; padding: 15px; border-radius: 12px; }
+    .side-menu h4 { color: #ff0000; font-size: 14px; margin-bottom: 15px; text-transform: uppercase; }
+    .side-menu ul { list-style: none; padding: 0; }
+    .side-menu li { padding: 10px 0; border-bottom: 1px solid #222; font-size: 14px; cursor: pointer; transition: 0.3s; }
+    .side-menu li:hover { color: #ff0000; padding-left: 5px; }
+
+    /* MODÜL 2: ORTA VİTRİN VE GRID */
+    .featured-banner {
+        height: 350px;
+        background: linear-gradient(to right, #000, transparent), url('https://picsum.photos/id/1/1200/400');
+        background-size: cover;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        padding: 40px;
+        margin-bottom: 25px;
+        border: 1px solid #333;
+    }
+
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+    }
+
+    /* FİLM KARTLARI (RESİM GARANTİLİ) */
+    .movie-item {
+        background: #1a1a1a;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid #333;
+        position: relative;
+    }
+    
+    .movie-item:hover { transform: scale(1.05); border-color: #ff0000; }
+    
+    /* Resim Yüklenmezse Gri Arkaplan Gösterir */
+    .poster-box {
+        width: 100%;
+        height: 230px;
+        background: #333 url('https://via.placeholder.com/160x230/333/fff?text=RESİM+YÜKLENİYOR') no-repeat center;
+        background-size: cover;
+    }
+
+    .movie-info { padding: 10px; font-size: 13px; }
+    .movie-info b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .imdb-badge { position: absolute; top: 10px; left: 10px; background: #f1c40f; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+
+    /* MODÜL 3: SAĞ LİSTE (EN ÇOK İZLENENLER) */
+    .trending-list { background: #111; padding: 15px; border-radius: 12px; }
+    .trend-item { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; border-bottom: 1px solid #222; padding-bottom: 10px; }
+    .trend-rank { font-size: 24px; font-weight: 900; color: #333; }
+</style>
+
+<div class="m3620-ultra-portal">
+    
+    <header class="top-bar">
+        <div class="logo">M3620-VİZYON</div>
+        <div class="search-area"><input type="text" placeholder="Film, dizi veya oyuncu ara..."></div>
+        <div class="user-profile">👤 Giriş Yap</div>
+    </header>
+
+    <p></p> <div class="main-layout">
+        
+        <aside class="side-menu">
+            <h4>Kategoriler</h4>
+            <ul>
+                <li>🎬 Aksiyon</li>
+                <li>🚀 Bilim Kurgu</li>
+                <li>⚔️ Savaş</li>
+                <li>🏹 Tarih</li>
+                <li>🎭 Dram</li>
+                <li>🧟 Korku</li>
+            </ul>
+        </aside>
+
+        <main>
+            <div class="featured-banner">
+                <div class="hero-text">
+                    <span style="background:red; padding:3px 8px; border-radius:3px; font-size:12px;">HAFTANIN FİLMİ</span>
+                    <h2 style="font-size:36px; margin:10px 0;">GLADYATÖR II</h2>
+                    <p style="max-width:400px; color:#ccc;">İmparatorluğun kaderi bir kez daha arenada yazılıyor. Destansı bir intikam hikayesi.</p>
+                    <button style="background:red; color:white; border:none; padding:12px 25px; border-radius:5px; font-weight:bold; cursor:pointer;">▶ HEMEN İZLE</button>
+                </div>
+            </div>
+
+            <p></p> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="margin:0;">🍿 Son Eklenenler</h3>
+                <span style="color:red; font-size:13px; cursor:pointer;">Tümünü Gör</span>
+            </div>
+
+            <div class="movie-grid">
+                <div class="movie-item">
+                    <div class="imdb-badge">8.5</div>
+                    <div class="poster-box" style="background-image: url('https://image.tmdb.org/t/p/w342/q6y0Go1tsYKoH67U3Z69yKFGBR8.jpg');"></div>
+                    <div class="movie-info"><b>Yıldızlararası</b><span>2014 | Bilim Kurgu</span></div>
+                </div>
+                <div class="movie-item">
+                    <div class="imdb-badge">9.0</div>
+                    <div class="poster-box" style="background-image: url('https://image.tmdb.org/t/p/w342/8Gxv8S7HaU0STqyzS3uq9FWmhkp.jpg');"></div>
+                    <div class="movie-info"><b>Başlangıç</b><span>2010 | Aksiyon</span></div>
+                </div>
+                <div class="movie-item">
+                    <div class="imdb-badge">8.8</div>
+                    <div class="poster-box" style="background-image: url('https://image.tmdb.org/t/p/w342/saF3H0Bzb4ghJkLQQGvPbDf2oYI.jpg');"></div>
+                    <div class="movie-info"><b>Joker</b><span>2019 | Dram</span></div>
+                </div>
+                <div class="movie-item">
+                    <div class="imdb-badge">8.2</div>
+                    <div class="poster-box" style="background-image: url('https://image.tmdb.org/t/p/w342/7WsyChvgywgy0mQ7s7buPU9S407.jpg');"></div>
+                    <div class="movie-info"><b>The Matrix</b><span>1999 | Aksiyon</span></div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="trending-list">
+            <h4>🔥 Trend Listesi</h4>
+            <div class="trend-item">
+                <span class="trend-rank">1</span>
+                <div><b>Oppenheimer</b><br><small>1.2M İzlenme</small></div>
+            </div>
+            <div class="trend-item">
+                <span class="trend-rank">2</span>
+                <div><b>The Batman</b><br><small>950K İzlenme</small></div>
+            </div>
+            <div class="trend-item">
+                <span class="trend-rank">3</span>
+                <div><b>Dune: Part 2</b><br><small>890K İzlenme</small></div>
+            </div>
+        </aside>
+
+    </div>
+
+    <p></p> <footer style="text-align:center; padding:20px; background:#111; font-size:12px; color:#555; border-top:1px solid #222;">
+        Mehmet3620 Film Dökümanı © 2026 - Tüm Hakları Saklıdır.
+    </footer>
+</div>
