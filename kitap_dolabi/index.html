@@ -14,34 +14,37 @@ div#container {
 }
 body {text-align:center;margin:0}
 
-/* BAŞLIK STİLİ - Üstteki Tahta Üzerine */
+/* OYMA EFEKTİ VE YAZI STİLLERİ */
 .main-title {
     position: absolute;
     left: 102px;
-    top: 80px; 
+    top: 72px; /* Biraz daha yukarı çekildi */
     width: 773px;
     z-index: 100;
     text-align: center;
     font-family: "Georgia", serif;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
-    color: #3d2416;
+    color: #3d2416; /* Koyu Kahve */
+    /* Tahtaya oyulmuş efekti */
+    text-shadow: -1px -1px 1px #1a100a, 1px 1px 1px #8b5a2b;
     pointer-events: none;
 }
 
-/* İMZA STİLİ - En Alttaki Tahta Üzerine */
 .signature {
     position: absolute;
-    left: 329px; /* image30'un başlangıcı */
-    top: 615px;  /* Alt tahtanın tam ortası */
-    width: 319px; /* Orta tahtanın genişliği */
+    left: 329px; 
+    top: 618px; /* Alt tahtanın ortası */
+    width: 319px; 
     z-index: 100;
     text-align: center;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 22px;
+    font-family: "Georgia", serif;
+    font-size: 16px; /* Daha ufak yapıldı */
     font-weight: bold;
     font-style: italic;
-    color: #ffffff; /* Kahverengi tahta üzerinde beyaz daha iyi görünür */
+    color: #3d2416; /* Başlıkla aynı koyu kahve */
+    /* Tahtaya oyulmuş efekti */
+    text-shadow: -0.5px -0.5px 1px #1a100a, 0.5px 0.5px 1px #8b5a2b;
     pointer-events: none;
 }
 
@@ -84,7 +87,7 @@ body {text-align:center;margin:0}
     <span class="close" onclick="closeModal()">&times;</span>
     <h2 id="bookTitle">Kitap Adı</h2>
     <hr>
-    <p id="bookDescription">Özet.</p>
+    <p id="bookDescription">Açıklama buraya gelecek.</p>
   </div>
 </div>
 
