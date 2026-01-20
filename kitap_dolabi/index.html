@@ -5,14 +5,42 @@
 <meta charset="UTF-8">
 <style type="text/css">
 div#container {
-    position:relative;
-    width: 977px;
-    margin-top: 0px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align:left; 
+	position:relative;
+	width: 977px;
+	margin-top: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align:left; 
 }
 body {text-align:center;margin:0}
+
+/* BAŞLIK VE İMZA STİLLERİ */
+.main-title {
+    position: absolute;
+    left: 102px;
+    top: 75px; /* image49 üzerine gelecek şekilde */
+    width: 773px;
+    z-index: 100;
+    text-align: center;
+    font-family: "Georgia", serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #4a2c1d; /* Ahşap tonuyla uyumlu koyu kahve */
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    pointer-events: none; /* Altındaki görsele tıklamayı engellemez */
+}
+
+.signature {
+    position: absolute;
+    bottom: -40px; /* Dolabın en altına, dışarıya */
+    width: 100%;
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 20px;
+    font-style: italic;
+    color: #5d4037;
+    z-index: 100;
+}
 
 /* AÇIKLAMA KUTUSU STİLLERİ */
 .modal {
@@ -33,7 +61,7 @@ body {text-align:center;margin:0}
     width: 400px;
     text-align: center;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, sans-serif;
 }
 .close {
     color: #cc0000;
@@ -41,7 +69,6 @@ body {text-align:center;margin:0}
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
-    line-height: 20px;
 }
 .book-clickable { cursor: pointer; transition: transform 0.2s; }
 .book-clickable:hover { transform: scale(1.05); }
@@ -52,72 +79,75 @@ body {text-align:center;margin:0}
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
-    <h2 id="bookTitle" style="color:#333;">Kitap Adı</h2>
+    <h2 id="bookTitle">Kitap Adı</h2>
     <hr>
-    <p id="bookDescription" style="color:#666; line-height:1.6;">Açıklama buraya gelecek.</p>
+    <p id="bookDescription">Özet bölümü.</p>
   </div>
 </div>
 
 <div id="container">
-<div id="image44" style="position:absolute; overflow:hidden; left:101px; top:465px; width:58px; height:143px; z-index:0"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image42" style="position:absolute; overflow:hidden; left:271px; top:322px; width:58px; height:143px; z-index:1"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image49" style="position:absolute; overflow:hidden; left:102px; top:61px; width:773px; height:71px; z-index:2"><img src="images/FILE4935.PNG" border=0 width=773 height=71></div>
-<div id="image17" style="position:absolute; overflow:hidden; left:101px; top:111px; width:58px; height:143px; z-index:3"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image18" style="position:absolute; overflow:hidden; left:101px; top:322px; width:58px; height:143px; z-index:4"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image35" style="position:absolute; overflow:hidden; left:271px; top:252px; width:58px; height:143px; z-index:5"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image36" style="position:absolute; overflow:hidden; left:271px; top:111px; width:58px; height:143px; z-index:6"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image37" style="position:absolute; overflow:hidden; left:101px; top:179px; width:58px; height:143px; z-index:7"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image38" style="position:absolute; overflow:hidden; left:126px; top:179px; width:192px; height:143px; z-index:8"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
-<div id="image40" style="position:absolute; overflow:hidden; left:114px; top:111px; width:204px; height:71px; z-index:9"><img src="images/img6758890.PNG" border=0 width=204 height=71></div>
-<div id="image43" style="position:absolute; overflow:hidden; left:271px; top:465px; width:58px; height:143px; z-index:10"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image47" style="position:absolute; overflow:hidden; left:126px; top:322px; width:192px; height:143px; z-index:11"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
-<div id="image48" style="position:absolute; overflow:hidden; left:101px; top:607px; width:228px; height:52px; z-index:12"><img src="images/FILE4935.PNG" border=0 width=228 height=52></div>
-<div id="image39" style="position:absolute; overflow:hidden; left:123px; top:465px; width:194px; height:143px; z-index:14"><img src="images/FILE19829.JPG" border=0 width=194 height=143></div>
-<div id="image1" style="position:absolute; overflow:hidden; left:648px; top:465px; width:58px; height:143px; z-index:15"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image2" style="position:absolute; overflow:hidden; left:818px; top:322px; width:58px; height:143px; z-index:16"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image3" style="position:absolute; overflow:hidden; left:648px; top:111px; width:58px; height:143px; z-index:17"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image4" style="position:absolute; overflow:hidden; left:648px; top:322px; width:58px; height:143px; z-index:18"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image5" style="position:absolute; overflow:hidden; left:818px; top:252px; width:58px; height:143px; z-index:19"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image6" style="position:absolute; overflow:hidden; left:818px; top:111px; width:58px; height:143px; z-index:20"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image7" style="position:absolute; overflow:hidden; left:648px; top:179px; width:58px; height:143px; z-index:21"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image8" style="position:absolute; overflow:hidden; left:673px; top:179px; width:192px; height:143px; z-index:22"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
-<div id="image9" style="position:absolute; overflow:hidden; left:661px; top:111px; width:204px; height:71px; z-index:23"><img src="images/img6759546.PNG" border=0 width=204 height=71></div>
-<div id="image11" style="position:absolute; overflow:hidden; left:818px; top:465px; width:58px; height:143px; z-index:24"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image12" style="position:absolute; overflow:hidden; left:673px; top:322px; width:192px; height:143px; z-index:25"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
-<div id="image15" style="position:absolute; overflow:hidden; left:670px; top:465px; width:194px; height:143px; z-index:26"><img src="images/FILE19829.JPG" border=0 width=194 height=143></div>
-<div id="image16" style="position:absolute; overflow:hidden; left:329px; top:465px; width:58px; height:143px; z-index:27"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image19" style="position:absolute; overflow:hidden; left:590px; top:322px; width:58px; height:143px; z-index:28"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image20" style="position:absolute; overflow:hidden; left:329px; top:111px; width:58px; height:143px; z-index:29"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image21" style="position:absolute; overflow:hidden; left:329px; top:322px; width:58px; height:143px; z-index:30"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image22" style="position:absolute; overflow:hidden; left:590px; top:252px; width:58px; height:143px; z-index:31"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image23" style="position:absolute; overflow:hidden; left:590px; top:111px; width:58px; height:143px; z-index:32"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image24" style="position:absolute; overflow:hidden; left:329px; top:179px; width:58px; height:143px; z-index:33"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image25" style="position:absolute; overflow:hidden; left:355px; top:179px; width:283px; height:143px; z-index:34"><img src="images/FILE19829.JPG" border=0 width=283 height=143></div>
-<div id="image26" style="position:absolute; overflow:hidden; left:342px; top:111px; width:295px; height:71px; z-index:35"><img src="images/img6760109.PNG" border=0 width=295 height=71></div>
-<div id="image28" style="position:absolute; overflow:hidden; left:590px; top:465px; width:58px; height:143px; z-index:36"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
-<div id="image29" style="position:absolute; overflow:hidden; left:354px; top:322px; width:283px; height:143px; z-index:37"><img src="images/FILE19829.JPG" border=0 width=283 height=143></div>
-<div id="image32" style="position:absolute; overflow:hidden; left:351px; top:465px; width:286px; height:143px; z-index:38"><img src="images/FILE19829.JPG" border=0 width=286 height=143></div>
-<div id="image13" style="position:absolute; overflow:hidden; left:648px; top:607px; width:228px; height:52px; z-index:39"><img src="images/FILE4935.PNG" border=0 width=228 height=52></div>
-<div id="image30" style="position:absolute; overflow:hidden; left:329px; top:607px; width:319px; height:52px; z-index:40"><img src="images/FILE4935.PNG" border=0 width=319 height=52></div>
-<div id="image10" style="position:absolute; overflow:hidden; left:798px; top:612px; width:73px; height:25px; z-index:52"><img src="images/FILE4934.PNG" border=0 width=73 height=25></div>
+    <div class="main-title">Dost Yurdu Kitaplığı</div>
 
-<div id="image54" class="book-clickable" onclick="showBook('Kitap 1', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:133px; top:184px; width:76px; height:117px; z-index:13"><img src="images/FILE27933.JPG" border=0 width=76 height=117></div>
-<div id="image50" class="book-clickable" onclick="showBook('Kitap 2', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:133px; top:470px; width:76px; height:117px; z-index:41"><img src="images/FILE27946.JPG" border=0 width=76 height=117></div>
-<div id="image53" class="book-clickable" onclick="showBook('Kitap 3', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:683px; top:471px; width:76px; height:117px; z-index:42"><img src="images/FILE27937.JPG" border=0 width=76 height=117></div>
-<div id="image55" class="book-clickable" onclick="showBook('Kitap 4', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:768px; top:327px; width:76px; height:117px; z-index:43"><img src="images/FILE27940.JPG" border=0 width=76 height=117></div>
-<div id="image52" class="book-clickable" onclick="showBook('Kitap 5', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:680px; top:185px; width:76px; height:117px; z-index:44"><img src="images/FILE27938.JPG" border=0 width=76 height=117></div>
-<div id="image51" class="book-clickable" onclick="showBook('Kitap 6', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:768px; top:185px; width:76px; height:117px; z-index:45"><img src="images/FILE27934.JPG" border=0 width=76 height=117></div>
-<div id="image14" class="book-clickable" onclick="showBook('Kitap 7', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:219px; top:184px; width:76px; height:117px; z-index:46"><img src="images/FILE27955.JPG" border=0 width=76 height=117></div>
-<div id="image31" class="book-clickable" onclick="showBook('Kitap 8', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:131px; top:327px; width:76px; height:117px; z-index:47"><img src="images/FILE27991.JPG" border=0 width=76 height=117></div>
-<div id="image33" class="book-clickable" onclick="showBook('Kitap 9', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:219px; top:327px; width:76px; height:117px; z-index:48"><img src="images/FILE27985.JPG" border=0 width=76 height=117></div>
-<div id="image34" class="book-clickable" onclick="showBook('Kitap 10', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:220px; top:470px; width:76px; height:117px; z-index:49"><img src="images/FILE27980.JPG" border=0 width=76 height=117></div>
-<div id="image45" class="book-clickable" onclick="showBook('Kitap 11', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:356px; top:328px; width:76px; height:117px; z-index:50"><img src="images/FILE27960.JPG" border=0 width=76 height=117></div>
-<div id="image46" class="book-clickable" onclick="showBook('Kitap 12', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:773px; top:470px; width:76px; height:117px; z-index:51"><img src="images/FILE27961.JPG" border=0 width=76 height=117></div>
-<div id="image27" class="book-clickable" onclick="showBook('Kitap 13', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:449px; top:184px; width:80px; height:117px; z-index:53"><img src="images/FILE28163.JPG" border=0 width=80 height=117></div>
-<div id="image41" class="book-clickable" onclick="showBook('Kitap 14', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:542px; top:184px; width:85px; height:117px; z-index:54"><img src="images/FILE28167.JPG" border=0 width=85 height=117></div>
-<div id="image56" class="book-clickable" onclick="showBook('Kitap 15', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:356px; top:183px; width:81px; height:118px; z-index:55"><img src="images/FILE28184.JPG" border=0 width=81 height=118></div>
-<div id="image57" class="book-clickable" onclick="showBook('Kitap 16', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:678px; top:327px; width:80px; height:117px; z-index:56"><img src="images/FILE28193.JPG" border=0 width=80 height=117></div>
+    <div id="image44" style="position:absolute; overflow:hidden; left:101px; top:465px; width:58px; height:143px; z-index:0"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image42" style="position:absolute; overflow:hidden; left:271px; top:322px; width:58px; height:143px; z-index:1"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image49" style="position:absolute; overflow:hidden; left:102px; top:61px; width:773px; height:71px; z-index:2"><img src="images/FILE4935.PNG" border=0 width=773 height=71></div>
+    <div id="image17" style="position:absolute; overflow:hidden; left:101px; top:111px; width:58px; height:143px; z-index:3"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image18" style="position:absolute; overflow:hidden; left:101px; top:322px; width:58px; height:143px; z-index:4"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image35" style="position:absolute; overflow:hidden; left:271px; top:252px; width:58px; height:143px; z-index:5"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image36" style="position:absolute; overflow:hidden; left:271px; top:111px; width:58px; height:143px; z-index:6"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image37" style="position:absolute; overflow:hidden; left:101px; top:179px; width:58px; height:143px; z-index:7"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image38" style="position:absolute; overflow:hidden; left:126px; top:179px; width:192px; height:143px; z-index:8"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
+    <div id="image40" style="position:absolute; overflow:hidden; left:114px; top:111px; width:204px; height:71px; z-index:9"><img src="images/img6758890.PNG" border=0 width=204 height=71></div>
+    <div id="image43" style="position:absolute; overflow:hidden; left:271px; top:465px; width:58px; height:143px; z-index:10"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image47" style="position:absolute; overflow:hidden; left:126px; top:322px; width:192px; height:143px; z-index:11"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
+    <div id="image48" style="position:absolute; overflow:hidden; left:101px; top:607px; width:228px; height:52px; z-index:12"><img src="images/FILE4935.PNG" border=0 width=228 height=52></div>
+    <div id="image39" style="position:absolute; overflow:hidden; left:123px; top:465px; width:194px; height:143px; z-index:14"><img src="images/FILE19829.JPG" border=0 width=194 height=143></div>
+    <div id="image1" style="position:absolute; overflow:hidden; left:648px; top:465px; width:58px; height:143px; z-index:15"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image2" style="position:absolute; overflow:hidden; left:818px; top:322px; width:58px; height:143px; z-index:16"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image3" style="position:absolute; overflow:hidden; left:648px; top:111px; width:58px; height:143px; z-index:17"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image4" style="position:absolute; overflow:hidden; left:648px; top:322px; width:58px; height:143px; z-index:18"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image5" style="position:absolute; overflow:hidden; left:818px; top:252px; width:58px; height:143px; z-index:19"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image6" style="position:absolute; overflow:hidden; left:818px; top:111px; width:58px; height:143px; z-index:20"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image7" style="position:absolute; overflow:hidden; left:648px; top:179px; width:58px; height:143px; z-index:21"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image8" style="position:absolute; overflow:hidden; left:673px; top:179px; width:192px; height:143px; z-index:22"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
+    <div id="image9" style="position:absolute; overflow:hidden; left:661px; top:111px; width:204px; height:71px; z-index:23"><img src="images/img6759546.PNG" border=0 width=204 height=71></div>
+    <div id="image11" style="position:absolute; overflow:hidden; left:818px; top:465px; width:58px; height:143px; z-index:24"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image12" style="position:absolute; overflow:hidden; left:673px; top:322px; width:192px; height:143px; z-index:25"><img src="images/FILE19829.JPG" border=0 width=192 height=143></div>
+    <div id="image15" style="position:absolute; overflow:hidden; left:670px; top:465px; width:194px; height:143px; z-index:26"><img src="images/FILE19829.JPG" border=0 width=194 height=143></div>
+    <div id="image16" style="position:absolute; overflow:hidden; left:329px; top:465px; width:58px; height:143px; z-index:27"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image19" style="position:absolute; overflow:hidden; left:590px; top:322px; width:58px; height:143px; z-index:28"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image20" style="position:absolute; overflow:hidden; left:329px; top:111px; width:58px; height:143px; z-index:29"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image21" style="position:absolute; overflow:hidden; left:329px; top:322px; width:58px; height:143px; z-index:30"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image22" style="position:absolute; overflow:hidden; left:590px; top:252px; width:58px; height:143px; z-index:31"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image23" style="position:absolute; overflow:hidden; left:590px; top:111px; width:58px; height:143px; z-index:32"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image24" style="position:absolute; overflow:hidden; left:329px; top:179px; width:58px; height:143px; z-index:33"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image25" style="position:absolute; overflow:hidden; left:355px; top:179px; width:283px; height:143px; z-index:34"><img src="images/FILE19829.JPG" border=0 width=283 height=143></div>
+    <div id="image26" style="position:absolute; overflow:hidden; left:342px; top:111px; width:295px; height:71px; z-index:35"><img src="images/img6760109.PNG" border=0 width=295 height=71></div>
+    <div id="image28" style="position:absolute; overflow:hidden; left:590px; top:465px; width:58px; height:143px; z-index:36"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
+    <div id="image29" style="position:absolute; overflow:hidden; left:354px; top:322px; width:283px; height:143px; z-index:37"><img src="images/FILE19829.JPG" border=0 width=283 height=143></div>
+    <div id="image32" style="position:absolute; overflow:hidden; left:351px; top:465px; width:286px; height:143px; z-index:38"><img src="images/FILE19829.JPG" border=0 width=286 height=143></div>
+    <div id="image13" style="position:absolute; overflow:hidden; left:648px; top:607px; width:228px; height:52px; z-index:39"><img src="images/FILE4935.PNG" border=0 width=228 height=52></div>
+    <div id="image30" style="position:absolute; overflow:hidden; left:329px; top:607px; width:319px; height:52px; z-index:40"><img src="images/FILE4935.PNG" border=0 width=319 height=52></div>
+    <div id="image10" style="position:absolute; overflow:hidden; left:798px; top:612px; width:73px; height:25px; z-index:52"><img src="images/FILE4934.PNG" border=0 width=73 height=25></div>
 
+    <div id="image54" class="book-clickable" onclick="showBook('Kitap 1', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:133px; top:184px; width:76px; height:117px; z-index:13"><img src="images/FILE27933.JPG" border=0 width=76 height=117></div>
+    <div id="image50" class="book-clickable" onclick="showBook('Kitap 2', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:133px; top:470px; width:76px; height:117px; z-index:41"><img src="images/FILE27946.JPG" border=0 width=76 height=117></div>
+    <div id="image53" class="book-clickable" onclick="showBook('Kitap 3', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:683px; top:471px; width:76px; height:117px; z-index:42"><img src="images/FILE27937.JPG" border=0 width=76 height=117></div>
+    <div id="image55" class="book-clickable" onclick="showBook('Kitap 4', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:768px; top:327px; width:76px; height:117px; z-index:43"><img src="images/FILE27940.JPG" border=0 width=76 height=117></div>
+    <div id="image52" class="book-clickable" onclick="showBook('Kitap 5', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:680px; top:185px; width:76px; height:117px; z-index:44"><img src="images/FILE27938.JPG" border=0 width=76 height=117></div>
+    <div id="image51" class="book-clickable" onclick="showBook('Kitap 6', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:768px; top:185px; width:76px; height:117px; z-index:45"><img src="images/FILE27934.JPG" border=0 width=76 height=117></div>
+    <div id="image14" class="book-clickable" onclick="showBook('Kitap 7', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:219px; top:184px; width:76px; height:117px; z-index:46"><img src="images/FILE27955.JPG" border=0 width=76 height=117></div>
+    <div id="image31" class="book-clickable" onclick="showBook('Kitap 8', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:131px; top:327px; width:76px; height:117px; z-index:47"><img src="images/FILE27991.JPG" border=0 width=76 height=117></div>
+    <div id="image33" class="book-clickable" onclick="showBook('Kitap 9', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:219px; top:327px; width:76px; height:117px; z-index:48"><img src="images/FILE27985.JPG" border=0 width=76 height=117></div>
+    <div id="image34" class="book-clickable" onclick="showBook('Kitap 10', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:220px; top:470px; width:76px; height:117px; z-index:49"><img src="images/FILE27980.JPG" border=0 width=76 height=117></div>
+    <div id="image45" class="book-clickable" onclick="showBook('Kitap 11', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:356px; top:328px; width:76px; height:117px; z-index:50"><img src="images/FILE27960.JPG" border=0 width=76 height=117></div>
+    <div id="image46" class="book-clickable" onclick="showBook('Kitap 12', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:773px; top:470px; width:76px; height:117px; z-index:51"><img src="images/FILE27961.JPG" border=0 width=76 height=117></div>
+    <div id="image27" class="book-clickable" onclick="showBook('Kitap 13', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:449px; top:184px; width:80px; height:117px; z-index:53"><img src="images/FILE28163.JPG" border=0 width=80 height=117></div>
+    <div id="image41" class="book-clickable" onclick="showBook('Kitap 14', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:542px; top:184px; width:85px; height:117px; z-index:54"><img src="images/FILE28167.JPG" border=0 width=85 height=117></div>
+    <div id="image56" class="book-clickable" onclick="showBook('Kitap 15', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:356px; top:183px; width:81px; height:118px; z-index:55"><img src="images/FILE28184.JPG" border=0 width=81 height=118></div>
+    <div id="image57" class="book-clickable" onclick="showBook('Kitap 16', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:678px; top:327px; width:80px; height:117px; z-index:56"><img src="images/FILE28193.JPG" border=0 width=80 height=117></div>
+
+    <div class="signature">Seyyah</div>
 </div>
 
 <script type="text/javascript">
