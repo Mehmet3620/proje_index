@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arkaplan Tasarımı</title>
+    <title>Film Arkaplan Tasarımı</title>
     <style>
         /* Kenar boşluklarını sıfırlıyoruz */
         html, body {
@@ -11,7 +11,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Kaydırma çubuğunu gizler */
+            overflow: hidden;
             background-color: #000000;
         }
 
@@ -21,8 +21,9 @@
             left: 0;
             width: 100vw;
             height: 100vh;
+            /* Dosya yolu img klasörü içindeyse */
             background-image: url('img/ultra_vizyon.jpg');
-            background-size: cover; /* Resmi tüm ekrana yayar, boşluk bırakmaz */
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index: -1;
@@ -31,10 +32,8 @@
 </head>
 <body>
 
-    <div class="bg-container">
-        </div>
+    <div class="fullscreen-bg"></div>
 
 </body>
-
 </html>
 
