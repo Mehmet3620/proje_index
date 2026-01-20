@@ -7,6 +7,35 @@
 div#container { position:relative; width: 1000px; margin: 0 auto; text-align:left; }
 body { text-align:center; margin:0; background-color: #FFCC99; }
 
+/* AHŞABA GÖMÜLÜ YAZI EFEKTİ (OYMA) */
+.gömülü-yazi {
+    font-family: "Georgia", serif;
+    font-weight: bold;
+    color: #3d2416; /* Koyu ahşap rengi */
+    text-shadow: -1px -1px 1px #1a100a, 1px 1px 1px #8b5a2b; /* İçeri göçük hissi veren gölge */
+    pointer-events: none;
+    z-index: 100;
+}
+
+#ust-baslik {
+    position: absolute;
+    left: 0;
+    top: 75px; 
+    width: 1000px;
+    text-align: center;
+    font-size: 36px;
+}
+
+#alt-imza {
+    position: absolute;
+    left: 0;
+    top: 705px; 
+    width: 1000px;
+    text-align: center;
+    font-size: 20px;
+    font-style: italic;
+}
+
 /* MODAL STİLİ */
 .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
 .modal-content { background-color: #fff; margin: 10% auto; padding: 30px; border-radius: 15px; width: 450px; text-align: center; font-family: Arial, sans-serif; line-height: 1.6; }
@@ -27,50 +56,54 @@ body { text-align:center; margin:0; background-color: #FFCC99; }
 </div>
 
 <div id="container">
-<div id="image1" style="position:absolute; overflow:hidden; left:0px; top:56px; width:1000px; height:700px; z-index:0"><img src="images/dolap.png" border=0 width=1000 height=700></div>
+    <div id="ust-baslik" class="gömülü-yazi">Dost Yurdu Kitaplığı</div>
+    <div id="alt-imza" class="gömülü-yazi">Seyyah</div>
 
-<div id="image10" class="book-clickable" onclick="showBook('Bir Destandır Çanakkale', 'Çanakkale; altı asır üç kıtaya hükmeden şanlı Osmanlının son zaferi ve İstiklal harbimizin habercisi... Yedi Düvel\'in hasta adam dedikleri Osmanlıya son darbeyi vurmak isterken kazdıkları kuyuya düştükleri yer... <p></p> İki yüzelli bini aşkın şehidin kanıyla sulanan vatan toprağı... Allah ve Peygamber aşkıyla gözünü kırpmadan, korkusuzca düşmana karşı koyan Mehmetçiğin tarih yazdığı altın sayfa...')" style="position:absolute; left:52px; top:202px; width:88px; height:137px; z-index:20"><img src="images/bir-destandir-canakkalee.png" width=88 height=137></div>
+    <div id="image1" style="position:absolute; left:0px; top:56px; width:1000px; height:700px; z-index:0">
+        <img src="images/dolap.png" border=0 width=1000 height=700>
+    </div>
 
-<div id="image5" class="book-clickable" onclick="showBook('Seyyah', 'Çıktığım yollar, yaptığım seyahatler; ziyaret ettiğim bir çok şehirle içten bir bağ kurmama neden oldu. Bazı şehirlerin ruhu olduğuna inanan seyyahlardanım. <p></p> İstanbul, Saraybosna, Kahire, Gazze, Bağdat ve Kudüs gibi şehirler kendini size vermek için adeta can atar. Onları yüreğinizin en özel yerinde saklarsınız.')" style="position:absolute; left:173px; top:203px; width:88px; height:137px; z-index:13"><img src="images/seyyah.jpg" width=88 height=137></div>
+    <div id="image10" class="book-clickable" onclick="showBook('Bir Destandır Çanakkale', 'Çanakkale; altı asır üç kıtaya hükmeden şanlı Osmanlının son zaferi ve İstiklal harbimizin habercisi... Yedi Düvel\'in \'hasta adam\' dedikleri Osmanlıya son darbeyi vurmak isterken kazdıkları kuyuya düştükleri yer... <p></p> İki yüzelli bini aşkın şehidin kanıyla sulanan vatan toprağı... Allah ve Peygamber aşkıyla gözünü kırpmadan, korkusuzca düşmana karşı koyan Mehmetçiğin tarih yazdığı altın sayfa...')" style="position:absolute; left:52px; top:202px; width:88px; height:137px; z-index:20"><img src="images/bir-destandir-canakkalee.png" width=88 height=137></div>
 
-<div id="image27" class="book-clickable" onclick="showBook('Büyük Doğu Çağı', 'Bu eser, tarihin derinliklerinden gelen gizemli bir yolculuğu ve hakikat arayışını konu alıyor. <p></p> Okuyucuyu her sayfasında farklı bir tefekküre sevk eden, sürükleyici bir anlatıma sahiptir.')" style="position:absolute; left:340px; top:203px; width:88px; height:137px; z-index:1"><img src="images/4811.jpg" width=88 height=137></div>
+    <div id="image5" class="book-clickable" onclick="showBook('Seyyah', 'Çıktığım yollar, yaptığım seyahatler; ziyaret ettiğim bir çok şehirle içten bir bağ kurmama neden oldu. Bazı şehirlerin ruhu olduğuna inanan seyyahlardanım. <p></p> İstanbul, Saraybosna, Kahire, Gazze ve Kudüs gibi şehirler kendini size vermek için adeta can atar. Onları yüreğinizin en özel yerinde saklarsınız.')" style="position:absolute; left:173px; top:203px; width:88px; height:137px; z-index:13"><img src="images/seyyah.jpg" width=88 height=137></div>
 
-<div id="image2" class="book-clickable" onclick="showBook('Elhamdülillah Müslümanım', 'Dünya bizim için gurbettir. Rabbimiz bizi bu gurbet diyârına, âhiret yurdumuza hazırlanalım diye gönderdi. <p></p> Bu gerçeği bize önce Peygamber Efendimiz, sonra da onun mirasçısı olan âlimlerimiz hep hatırlattılar. Onlar kardeşlerini hem eserleriyle hem de sohbetleriyle diri tuttular.')" style="position:absolute; left:461px; top:203px; width:88px; height:137px; z-index:10"><img src="images/elhamdulillah.jpg" width=88 height=137></div>
+    <div id="image27" class="book-clickable" onclick="showBook('4811', 'Tarihin gizemli sayfalarında bir yolculuğa çıkmaya hazır mısınız? Bu eser, hakikat arayışındaki bir ruhun derin tefekkürlerini konu alıyor. <p></p> Her sayfasında yeni bir kapı aralayan sürükleyici anlatımıyla, okuyucuyu kalbin derinliklerine doğru bir yolculuğa davet ediyor.')" style="position:absolute; left:340px; top:203px; width:88px; height:137px; z-index:1"><img src="images/4811.jpg" width=88 height=137></div>
 
-<div id="image33" class="book-clickable" onclick="showBook('Esir Türkler', 'Bu kitap, Çin\'in propaganda imkanlarıyla gerçeği boğmaya çalıştığı bir dönemde; Doğu Türkistan\'da yaşanan zulmü haykırmak için yazıldı. <p></p> Doğu Türkistan\'da yaşananlar asla Filistin\'den veya Arakan\'dan daha aşağı değildir. Kitabı okudukça bu iddiayı daha iyi anlayacaksınız.')" style="position:absolute; left:582px; top:203px; width:88px; height:137px; z-index:2"><img src="images/esir_turkler.jpg" width=88 height=137></div>
+    <div id="image2" class="book-clickable" onclick="showBook('Elhamdülillah Müslümanım', 'Dünya bizim için gurbettir ve Rabbimiz bizi bu gurbet diyârına, âhiret yurdumuza hazırlanalım diye gönderdi. <p></p> Bu gerçeği önce Peygamberimiz, sonra da onun mirasçısı olan âlimlerimiz hep hatırlattılar. Onlar, kardeşlerini hem eserleriyle hem de sohbetleriyle diri tuttular.')" style="position:absolute; left:461px; top:203px; width:88px; height:137px; z-index:10"><img src="images/elhamdulillah.jpg" width=88 height=137></div>
 
-<div id="image34" class="book-clickable" onclick="showBook('Hayatımıza Yön Veren Hadisler', 'Müslüman\'ın günlük hayatını ahlak, inanç ve davranış açısından yönlendirecek hadisleri bir araya getiren bir eserdir. <p></p> Hem bir eğitim kitabı niteliğinde hem de devamlı başucunda tutulacak sadelik ve toplayıcılık özelliği göstermektedir.')" style="position:absolute; left:753px; top:203px; width:88px; height:137px; z-index:3"><img src="images/hayatimiza_yonveren.png" width=88 height=137></div>
+    <div id="image33" class="book-clickable" onclick="showBook('Esir Türkler', 'Bu kitap, Çin\'in propaganda imkanlarıyla gerçeği boğmaya çalıştığı bir dönemde; Doğu Türkistan\'da yaşanan zulmü haykırmak için yazıldı. <p></p> Doğu Türkistan\'da yaşananlar asla Filistin\'den veya Arakan\'dan daha aşağı değildir. Kitabı okudukça bu gerçeği daha net göreceksiniz.')" style="position:absolute; left:582px; top:203px; width:88px; height:137px; z-index:2"><img src="images/esir_turkler.jpg" width=88 height=137></div>
 
-<div id="image41" class="book-clickable" onclick="showBook('Huzur Sokağı', 'Satış rekorları kırmış, her yaştan insanın soluk almadan okuduğu efsane bir eserdir. <p></p> Hasretiyle kavrulduğumuz huzurlu bir cemiyetin, bir sokakta sembolleşmiş şeklidir. Özlenilen huzur için bir rehber niteliğindedir.')" style="position:absolute; left:868px; top:203px; width:88px; height:137px; z-index:4"><img src="images/huzur_sokagi.png" width=88 height=137></div>
+    <div id="image34" class="book-clickable" onclick="showBook('Hayatımıza Yön Veren Hadisler', 'Müslüman\'ın günlük hayatını ahlak ve inanç açısından yönlendirecek hadisleri bir araya getiren bir rehberdir. <p></p> İçeriğindeki sadelikle her an el altında tutulacak, hem bir eğitim kitabı hem de bir hayat pusulası niteliğindedir.')" style="position:absolute; left:753px; top:203px; width:88px; height:137px; z-index:3"><img src="images/hayatimiza_yonveren.png" width=88 height=137></div>
 
-<div id="image3" class="book-clickable" onclick="showBook('Peygamberin Sevdiği Müslüman', 'Allah ve Resulü bizden nasıl bir insan olmamızı bekler? Bu soruların cevapları, ayetlerden ve sahih hadislerden derlendi. <p></p> Hayatın bütün aşamalarını kuşatacak şekilde düzenlenen bu kitapta; Peygamberimin Sevdiği Müslüman ne yapardı? sorusunun cevabını bulacaksınız.')" style="position:absolute; left:55px; top:369px; width:88px; height:137px; z-index:11"><img src="images/peygamberin_sevdigi.jpg" width=88 height=137></div>
+    <div id="image41" class="book-clickable" onclick="showBook('Huzur Sokağı', 'Satış rekorları kırmış, her yaştan insanın soluk almadan okuduğu efsane bir eserdir. <p></p> Hasretiyle kavrulduğumuz huzurlu bir cemiyetin küçük bir sokakta sembolleşmiş şeklidir. Özlenilen huzur için bir rehber niteliğindedir.')" style="position:absolute; left:868px; top:203px; width:88px; height:137px; z-index:4"><img src="images/huzur_sokagi.png" width=88 height=137></div>
 
-<div id="image7" class="book-clickable" onclick="showBook('Zülfikarlar Bilendi', 'Zalimlere karşı direnişin romanı... Bu kitap işgal altında bulunan İslam coğrafyalarında yaşananlardan esinlenerek kaleme alınmıştır. <p></p> Müslümanların zulme asla boyun eğmediklerini, şanlı bir direnişle onurlarını koruduklarını ve cihadla izzetlerine kavuştuklarını gözler önüne sermektedir.')" style="position:absolute; left:173px; top:369px; width:88px; height:137px; z-index:15"><img src="images/zulfikarlar-bilendi.jpg" width=88 height=137></div>
+    <div id="image3" class="book-clickable" onclick="showBook('Peygamberin Sevdiği Müslüman', 'Allah ve Resulü bizden nasıl bir insan olmamızı bekler? Bu soruların cevapları, ayetlerden ve sahih hadislerden derlendi. <p></p> Peygamberimin Sevdiği Müslüman ne yapardı? diye düşündüğünüzde, hayatın her aşamasını kuşatan bu kitapta cevabı bulacaksınız.')" style="position:absolute; left:55px; top:369px; width:88px; height:137px; z-index:11"><img src="images/peygamberin_sevdigi.jpg" width=88 height=137></div>
 
-<div id="image13" class="book-clickable" onclick="showBook('İlklerin Annesi Hz. Hatice', 'Allah Resulü\'nün vefakâr eşi, ilk Müslüman ve Allah\'ın selam gönderdiği Müminlerin Annesi... <p></p> Onun üstün kişiliğini ve örnek hayatını okurken; İslam\'ın ilk günlerini ve Efendimiz\'i (a.s.m.) daha yakından tanıma imkânı bulacaksınız.')" style="position:absolute; left:340px; top:369px; width:88px; height:137px; z-index:21"><img src="images/hz_hatice.jpg" width=88 height=137></div>
+    <div id="image7" class="book-clickable" onclick="showBook('Zülfikarlar Bilendi', 'Zalimlere karşı direnişin romanı... Bu kitap işgal altındaki İslam coğrafyalarında yaşananlardan esinlenerek kurgulanmıştır. <p></p> Müslümanların zulme asla boyun eğmediklerini ve şanlı bir direnişle izzetlerine nasıl kavuştuklarını gözler önüne sermektedir.')" style="position:absolute; left:173px; top:369px; width:88px; height:137px; z-index:15"><img src="images/zulfikarlar-bilendi.jpg" width=88 height=137></div>
 
-<div id="image50" class="book-clickable" onclick="showBook('Kur\'an\'ın Kalbine Yolculuk', 'Kur\'an; Azîz ve Rahîm olan Allah\'ın indirdiği hikmet yüklü bir kitaptır. Bir hakikat çağrısı ve hidayet rehberidir. <p></p> İnsan Kur\'an\'la ne kadar iç içe girerse Allah\'ın sesini o kadar içinde hisseder. O soluk insanı pişirir ve olgunlaştırır.')" style="position:absolute; left:461px; top:369px; width:88px; height:137px; z-index:7"><img src="images/kuranin_kalbine.png" width=88 height=137></div>
+    <div id="image13" class="book-clickable" onclick="showBook('İlklerin Annesi Hz. Hatice', 'Vahyin ilk şahidi, ilk Müslüman ve Allah\'ın selam gönderdiği Müminlerin Annesi... <p></p> Onun örnek hayatını okurken; İslam\'ın ilk günlerini ve Efendimiz\'i (a.s.m.) daha yakından tanıma imkânı bulacaksınız.')" style="position:absolute; left:340px; top:369px; width:88px; height:137px; z-index:21"><img src="images/hz_hatice.jpg" width=88 height=137></div>
 
-<div id="image51" class="book-clickable" onclick="showBook('Müslüman Kadın', 'Hayatın yoğunluklarını adımlamaya yeni başlayanların hedeflere emin adımlarla yürümesi için bir başucu eseridir. <p></p> Sadece kadınlara değil, yoldaki engelleri tespit edip çözüm arayan herkese bir çare ve ışık sunmaktadır.')" style="position:absolute; left:582px; top:369px; width:88px; height:137px; z-index:8"><img src="images/musluman_kadin.jpg" width=88 height=137></div>
+    <div id="image50" class="book-clickable" onclick="showBook('Kur\'an\'ın Kalbine Yolculuk', 'Kur\'an; Azîz ve Rahîm olan Allah\'ın indirdiği hikmet yüklü bir kitaptır. Bir hidayet rehberidir. <p></p> İnsan Kur\'an\'la ne kadar iç içe girerse Allah\'ın sesini o kadar içinde hisseder. O soluk insanı pişirir ve olgunlaştırır.')" style="position:absolute; left:461px; top:369px; width:88px; height:137px; z-index:7"><img src="images/kuranin_kalbine.png" width=88 height=137></div>
 
-<div id="image45" class="book-clickable" onclick="showBook('İslâm İlmihali', 'İtikat, ibadet, helaller ve haramlar bölümlerinden oluşan bu eser; temel dini bilgileri içermektedir. <p></p> Müslümanların gündelik hayatında karşılaşabileceği dini sorulara fıkhi ve pratik cevaplar sunan bir başucu kaynağıdır.')" style="position:absolute; left:753px; top:369px; width:88px; height:137px; z-index:5"><img src="images/islam_ilmihali.jpg" width=88 height=137></div>
+    <div id="image51" class="book-clickable" onclick="showBook('Müslüman Kadın', 'Hayatın yoğunluklarını adımlamaya yeni başlayanlar için bir başucu eseridir. <p></p> Sadece kadınlara değil, yoldaki engelleri tespit edip çözüm arayan herkese bir çare ve ışık sunmaktadır.')" style="position:absolute; left:582px; top:369px; width:88px; height:137px; z-index:8"><img src="images/musluman_kadin.jpg" width=88 height=137></div>
 
-<div id="image46" class="book-clickable" onclick="showBook('Kalpten Hayata', 'Kişilik terbiyesinin çok boyutluluğu karşısında, kendimizi selin akışına bırakıvermek baştan kaybetmektir. <p></p> Yapılması gereken, rotayı kaybetmeden büyük bir dirayetle ilâhî rahmete nail olmak ve sahil-i selâmete erişebilmektir.')" style="position:absolute; left:868px; top:369px; width:88px; height:137px; z-index:6"><img src="images/kalpten-hayata.png" width=88 height=137></div>
+    <div id="image45" class="book-clickable" onclick="showBook('İslâm İlmihali', 'İtikat, ibadet, helaller ve haramlar bölümlerinden oluşan temel bir kaynaktır. <p></p> Müslümanların günlük hayatında karşılaşabileceği dini sorulara fıkhi ve pratik cevaplar sunan bir rehberdir.')" style="position:absolute; left:753px; top:369px; width:88px; height:137px; z-index:5"><img src="images/islam_ilmihali.jpg" width=88 height=137></div>
 
-<div id="image4" class="book-clickable" onclick="showBook('Riyâzü\'s-Sâlihîn', 'Peygamber Efendimizden günümüze ışık tutan en sahih hadisleri bir araya getiren ahlak hazinesidir. <p></p> Gönülleri aydınlatan bu nasihatler, insanın dünya ve ahiret saadetine giden yolu inşa etmektedir.')" style="position:absolute; left:55px; top:535px; width:88px; height:137px; z-index:12"><img src="images/riyazusalihin.jpg" width=88 height=137></div>
+    <div id="image46" class="book-clickable" onclick="showBook('Kalpten Hayata', 'Kişilik terbiyesi karşısında kendimizi selin akışına bırakmak baştan kaybetmektir. <p></p> Rotayı kaybetmeden büyük bir dirayetle ilâhî rahmete nail olmak ve sahil-i selâmete erişebilmek için bir rehberdir.')" style="position:absolute; left:868px; top:369px; width:88px; height:137px; z-index:6"><img src="images/kalpten-hayata.png" width=88 height=137></div>
 
-<div id="image6" class="book-clickable" onclick="showBook('Zamanın Zeynebi', 'Gözlüğüm kırıldığında gördüm gerçekleri, perdeler aralandı ve Rabbim kalbimi açtı. Tevbem kabul olmuş gibi hafifledim. <p></p> Gel, sevincime ortak ol ve artık uyan. Bu uyku seni yoruyor; yarın uyansan da belki çok geç olabilir. Haydi uyan!')" style="position:absolute; left:173px; top:535px; width:88px; height:137px; z-index:14"><img src="images/zamanin-zeynebi.png" width=88 height=137></div>
+    <div id="image4" class="book-clickable" onclick="showBook('Riyâzü\'s-Sâlihîn', 'Peygamber Efendimizden günümüze ışık tutan en sahih hadisleri bir araya getiren bir edep hazinesidir. <p></p> Gönülleri aydınlatan bu nasihatler, insanın dünya ve ahiret saadetine giden yolu inşa etmektedir.')" style="position:absolute; left:55px; top:535px; width:88px; height:137px; z-index:12"><img src="images/riyazusalihin.jpg" width=88 height=137></div>
 
-<div id="image8" class="book-clickable" onclick="showBook('40 Büyük İslam Alimi', 'Tâbiîn döneminden itibaren yaşamış kırk büyük âlimin biyografilerini ve hikmetli sözlerini içeren bir eserdir. <p></p> Âlimlerin fiziksel özellikleri ve zühd dolu yaşantıları zikredilerek, onlara yönelik sevginin artması amaçlanmıştır.')" style="position:absolute; left:340px; top:535px; width:88px; height:137px; z-index:16"><img src="images/40-buyuk-islam-alimi.jpeg" width=88 height=137></div>
+    <div id="image6" class="book-clickable" onclick="showBook('Zamanın Zeynebi', 'Gözlüğüm kırıldığında gördüm gerçekleri, perdeler aralandı ve Rabbim kalbimi açtı. <p></p> Tevbem kabul olmuş gibi hafifledim. Gel, sevincime ortak ol ve artık uyan. Bu uyku seni yoruyor!')" style="position:absolute; left:173px; top:535px; width:88px; height:137px; z-index:14"><img src="images/zamanin-zeynebi.png" width=88 height=137></div>
 
-<div id="image12" class="book-clickable" onclick="showBook('Mahremiyet Eğitimi', 'Çocuklara mahremiyet bilincinin nasıl kazandırılacağını uzman bir bakış açısıyla ele alan rehber bir kitaptır. <p></p> Sağlıklı bir nesil yetiştirmek için ebeveynlerin mutlaka okuması gereken pedagojik tavsiyeler içermektedir.')" style="position:absolute; left:461px; top:535px; width:88px; height:137px; z-index:19"><img src="images/mahremiyet-egitimi.jpg" width=88 height=137></div>
+    <div id="image8" class="book-clickable" onclick="showBook('40 Büyük İslam Alimi', 'Tâbiîn döneminden itibaren yaşamış kırk büyük âlimin biyografilerini ve hikmetli sözlerini içerir. <p></p> Âlimlerin zühd dolu yaşantıları zikredilerek, onlara yönelik sevginin artması amaçlanmıştır.')" style="position:absolute; left:340px; top:535px; width:88px; height:137px; z-index:16"><img src="images/40-buyuk-islam-alimi.jpeg" width=88 height=137></div>
 
-<div id="image11" class="book-clickable" onclick="showBook('Korkutarak Değil Sevdirerek Din Eğitimi', 'Çocuklara din sevgisini korkutmadan, sevgi ve şefkat yoluyla aşılamanın yöntemlerini anlatan bir eserdir. <p></p> Din eğitiminde yapılan hataları ve çözüm yollarını somut örneklerle ortaya koymaktadır.')" style="position:absolute; left:582px; top:535px; width:88px; height:137px; z-index:18"><img src="images/korkutarak-degil-sevdirerek-din-egitimi.jpg" width=88 height=137></div>
+    <div id="image12" class="book-clickable" onclick="showBook('Mahremiyet Eğitimi', 'Çocuklara mahremiyet bilincinin nasıl kazandırılacağını pedagojik bir dille anlatan rehber bir eserdir. <p></p> Sağlıklı bir nesil yetiştirmek isteyen ebeveynler için pratik tavsiyeler içermektedir.')" style="position:absolute; left:461px; top:535px; width:88px; height:137px; z-index:19"><img src="images/mahremiyet-egitimi.jpg" width=88 height=137></div>
 
-<div id="image9" class="book-clickable" onclick="showBook('Aile ile Bağlanma Aidiyet', 'İnsanın en karmaşık ihtiyacıdır aidiyet. Bir yandan özgürlüğe düşkündür, diğer yandan tutunacak bir dal arar. <p></p> Pedagog Dr. Adem Güneş, aidiyeti bozan durumları ve kırılmış aidiyetin yeniden onarılmasını ele alarak ebeveynlere yeni bir bakış sunuyor.')" style="position:absolute; left:753px; top:535px; width:88px; height:137px; z-index:17"><img src="images/aile-ile-baglanma-aidiyet.jpg" width=88 height=137></div>
+    <div id="image11" class="book-clickable" onclick="showBook('Korkutarak Değil Sevdirerek Din Eğitimi', 'Çocuklara din sevgisini şefkat yoluyla aşılamanın yöntemlerini anlatan bir eserdir. <p></p> Din eğitiminde yapılan hataları ve doğru yaklaşımları somut örneklerle ortaya koymaktadır.')" style="position:absolute; left:582px; top:535px; width:88px; height:137px; z-index:18"><img src="images/korkutarak-degil-sevdirerek-din-egitimi.jpg" width=88 height=137></div>
 
-<div id="image52" class="book-clickable" onclick="showBook('Mutlu Bir Yuva İçin', 'Yüce Rabbimiz, dünyadaki güzellikleri görüp şükretmemizi ve nesillerin devamı için evliliği emretmiştir. <p></p> Sağlıklı bir aile yapısı kurmak ve huzuru tesis etmek isteyenler için temel bir rehberdir.')" style="position:absolute; left:868px; top:535px; width:88px; height:137px; z-index:9"><img src="images/mutlu_yuva.png" width=88 height=137></div>
+    <div id="image9" class="book-clickable" onclick="showBook('Aile ile Bağlanma Aidiyet', 'İnsanın en karmaşık ihtiyacı aidiyettir. Bir yandan özgürlüğe düşkündür, diğer yandan tutunacak dal arar. <p></p> Aidiyeti bozan durumları ve kırılmış aidiyetin yeniden onarılmasını ele alan pedagojik bir kaynaktır.')" style="position:absolute; left:753px; top:535px; width:88px; height:137px; z-index:17"><img src="images/aile-ile-baglanma-aidiyet.jpg" width=88 height=137></div>
 
+    <div id="image52" class="book-clickable" onclick="showBook('Mutlu Bir Yuva İçin', 'Rabbimiz dünyadaki güzellikleri görüp şükretmemizi ve nesillerin devamı için evliliği emretmiştir. <p></p> Huzurlu bir aile yapısı kurmak ve bu saadeti korumak isteyenler için temel bir rehberdir.')" style="position:absolute; left:868px; top:535px; width:88px; height:137px; z-index:9"><img src="images/mutlu_yuva.png" width=88 height=137></div>
 </div>
 
 <script type="text/javascript">
@@ -90,4 +123,3 @@ window.onclick = function(event) {
 </script>
 </body>
 </html>
-
