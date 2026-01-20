@@ -14,35 +14,38 @@ div#container {
 }
 body {text-align:center;margin:0}
 
-/* BAŞLIK VE İMZA STİLLERİ */
+/* BAŞLIK STİLİ - Üstteki Tahta Üzerine */
 .main-title {
     position: absolute;
     left: 102px;
-    top: 75px; /* image49 üzerine gelecek şekilde */
+    top: 80px; 
     width: 773px;
     z-index: 100;
     text-align: center;
     font-family: "Georgia", serif;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
-    color: #4a2c1d; /* Ahşap tonuyla uyumlu koyu kahve */
-    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
-    pointer-events: none; /* Altındaki görsele tıklamayı engellemez */
+    color: #3d2416;
+    pointer-events: none;
 }
 
+/* İMZA STİLİ - En Alttaki Tahta Üzerine */
 .signature {
     position: absolute;
-    bottom: -40px; /* Dolabın en altına, dışarıya */
-    width: 100%;
+    left: 329px; /* image30'un başlangıcı */
+    top: 615px;  /* Alt tahtanın tam ortası */
+    width: 319px; /* Orta tahtanın genişliği */
+    z-index: 100;
     text-align: center;
     font-family: "Courier New", Courier, monospace;
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: bold;
     font-style: italic;
-    color: #5d4037;
-    z-index: 100;
+    color: #ffffff; /* Kahverengi tahta üzerinde beyaz daha iyi görünür */
+    pointer-events: none;
 }
 
-/* AÇIKLAMA KUTUSU STİLLERİ */
+/* AÇIKLAMA KUTUSU (MODAL) */
 .modal {
     display: none; 
     position: fixed; 
@@ -81,12 +84,13 @@ body {text-align:center;margin:0}
     <span class="close" onclick="closeModal()">&times;</span>
     <h2 id="bookTitle">Kitap Adı</h2>
     <hr>
-    <p id="bookDescription">Özet bölümü.</p>
+    <p id="bookDescription">Özet.</p>
   </div>
 </div>
 
 <div id="container">
     <div class="main-title">Dost Yurdu Kitaplığı</div>
+    <div class="signature">Seyyah</div>
 
     <div id="image44" style="position:absolute; overflow:hidden; left:101px; top:465px; width:58px; height:143px; z-index:0"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
     <div id="image42" style="position:absolute; overflow:hidden; left:271px; top:322px; width:58px; height:143px; z-index:1"><img src="images/FILE4933.PNG" border=0 width=58 height=143></div>
@@ -146,8 +150,6 @@ body {text-align:center;margin:0}
     <div id="image41" class="book-clickable" onclick="showBook('Kitap 14', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:542px; top:184px; width:85px; height:117px; z-index:54"><img src="images/FILE28167.JPG" border=0 width=85 height=117></div>
     <div id="image56" class="book-clickable" onclick="showBook('Kitap 15', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:356px; top:183px; width:81px; height:118px; z-index:55"><img src="images/FILE28184.JPG" border=0 width=81 height=118></div>
     <div id="image57" class="book-clickable" onclick="showBook('Kitap 16', 'Bu kitabın özetini buraya yazabilirsiniz.')" style="position:absolute; overflow:hidden; left:678px; top:327px; width:80px; height:117px; z-index:56"><img src="images/FILE28193.JPG" border=0 width=80 height=117></div>
-
-    <div class="signature">Seyyah</div>
 </div>
 
 <script type="text/javascript">
