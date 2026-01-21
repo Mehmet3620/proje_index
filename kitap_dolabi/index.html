@@ -4,10 +4,10 @@
 <title>Dost Yurdu Kütüphane Kitaplığı</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF8">
 <style type="text/css">
-    div#container { position:relative; width: 1250px; margin: 0 auto; text-align:left; }
+    div#container { position:relative; width: 1300px; margin: 0 auto; text-align:left; }
     body { text-align:center; margin:0; background-color: #FFCC99; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-    /* AHŞABA GÖMÜLÜ OYMA YAZI */
+    /* AHŞABA GÖMÜLÜ OYMA YAZI STİLİ */
     .gomulu-yazi {
         font-family: "Georgia", serif;
         font-weight: bold;
@@ -17,23 +17,34 @@
         z-index: 100;
     }
 
+    /* ANA KİTAPLIK BAŞLIKLARI */
     #ust-baslik { position: absolute; left: 0; top: 65px; width: 1000px; text-align: center; font-size: 36px; }
     #alt-imza { position: absolute; left: 0; top: 705px; width: 1000px; text-align: center; font-size: 20px; font-style: italic; }
 
-    /* ŞİİR VE GIF KÖŞESİ */
-    #siir-cerceve {
-        position: absolute; left: 1010px; top: 60px; width: 230px; height: 600px;
-        background: #fdf5e6; border: 4px solid #3d2416; border-radius: 12px;
-        box-shadow: 4px 4px 12px rgba(0,0,0,0.2); padding: 10px;
-        text-align: center; overflow: hidden;
+    /* ŞİİR DOLABI TASARIMI (700PX BOY) */
+    #siir-dolabi {
+        position: absolute; left: 1020px; top: 56px; width: 260px; height: 700px;
+        background: #3d2416; border: 10px solid #2a180f; border-radius: 10px;
+        box-shadow: 10px 10px 20px rgba(0,0,0,0.5); box-sizing: border-box;
     }
-    #siir-resim { width: 100%; border-radius: 5px; margin-bottom: 8px; border: 1px solid #c2b280; }
+    #siir-ust-baslik { position: absolute; top: 10px; width: 100%; text-align: center; font-size: 22px; }
+    #siir-alt-imza { position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 16px; }
+
+    /* İÇ KUTULAR */
+    .siir-ic-kutu {
+        position: absolute; left: 15px; width: 210px;
+        background: #fdf5e6; border: 3px solid #8b5a2b; border-radius: 5px; overflow: hidden;
+    }
+    #gif-kutusu { top: 55px; height: 160px; display: flex; align-items: center; justify-content: center; }
+    #metin-kutusu { top: 225px; height: 410px; padding: 5px; }
+
+    #siir-resim { width: 100%; height: 100%; object-fit: cover; }
     .siir-metin {
         font-family: 'Georgia', serif; font-style: italic; color: #4b2e1e;
-        font-size: 14px; line-height: 1.6;
+        font-size: 13px; line-height: 1.6; text-align: center;
     }
 
-    /* KİTAP VE HOVER KARTI */
+    /* KİTAPLAR VE DİĞER ÖZELLİKLER */
     .book-container { position: absolute; cursor: pointer; transition: transform 0.3s; z-index: 10; }
     .book-container:hover { transform: scale(1.1); z-index: 100; }
     .book-info-card {
@@ -44,17 +55,13 @@
     }
     .book-container:hover .book-info-card { display: block; }
 
-    /* MODAL */
     .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); }
     .modal-content { 
         background-color: #fff; margin: 3% auto; padding: 35px; border-radius: 20px; 
         width: 550px; text-align: center; border: 8px solid #3d2416; position: relative;
     }
     .close { color: #cc0000; position: absolute; right: 20px; top: 10px; font-size: 35px; font-weight: bold; cursor: pointer; }
-    #bookAuthor { color: #8b5a2b; font-style: italic; font-size: 18px; margin-bottom: 10px; }
-    #bookDescription { text-align:justify; color:#333; line-height:1.7; margin-top:20px; font-size: 15px; max-height: 450px; overflow-y: auto; padding-right: 15px; }
-
-    /* SES KONTROL */
+    
     #music-control {
         position: fixed; top: 20px; right: 20px; z-index: 1000;
         background: rgba(61, 36, 22, 0.8); color: white; border: 1px solid #8b5a2b;
@@ -77,60 +84,29 @@
 <div id="music-control" onclick="toggleMusic(event)">🎵</div>
 
 <div id="container">
-    <div id="siir-cerceve">
-        <img id="siir-resim" src="https://www.truvaedebiyatdergisi.com/files/uploads/news/default/20220813-susma-98132-dbb792a395e0d60bbbc4.gif" alt="Susma">
-        <marquee direction="up" scrollamount="2" class="siir-metin" height="420px">
-            Bugün babamı ziyarete gittim<br>
-            Baba dedim<br> 
-            Şöyle bir akşam dertleşemedik daha seninle<br>
-            Ne kadar da acelecisin işte<br> 
-            Daha gün batmadan<br> 
-            kapatın bütün perdeleri gidiyorsun<br> 
-            Çok mu yorgunsun çok mu kırgın sın söyle?<br>
-            Bu gitmeler niye?<br>
-            Konuş baba susma…<br><p></p>
-            Daha kaç gece katık edeceğim seni düşlerime<br> 
-            Uzun zamandır hep böyleyiz<br>
-            Ben konuşuyorum o susuyor<br>
-            Neden hiç cevap vermiyorsun?<br>
-            Yoksa küstün mü bana<br> 
-            Okuyorum bildiğim bütün duaları başında<br> 
-            Bugün yol çok uzandı geciktim biraz<br>
-            Benden önce abim gelmiş ziyaretine<br> 
-            Kıskandım…<br><p></p>
-            Hani bayram sabahında ilk ben öperdim elini<br> 
-            Bugün o almış yerimi<br> 
-            Yine de öptüm ellerini<br> 
-            Şeker de koydum başına<br> 
-            Boynunu bükme diye<br> 
-            Kolanya hiç sevmezdin<br> 
-            Koklardın saçlarımızı<br> 
-            Saçlarımı tutam tutam yoldum baba<br>
-            Süzüldü gözyaşlarım<br>
-            Toprağa düşerken kokun geldi burnuma<br> 
-            Nasıl da özlemişim kokunu<br><p></p>
-            Kırgınım sana baba kırgınım<br> 
-            Bu kahrolası gurbet çekilecek gibi değil artık<br> 
-            Yoksa her gün gelirim yanına<br>
-            Kurumaz o zaman ektiğim çiçekler de<br>
-            Seni özlediğimde<br>
-            Sızlamaz burnumun direği böyle<br> 
-            hasta olduğumda<br> 
-            Gözüm kapıda kalmazdı hani<br>
-            Şimdi çok hastayım baba<br>
-            Neden konuşmuyorsun<br> 
-            Ses ver ne olur<br> 
-            Yoksa küstün mü bana?<br>
-            Ne olur susma...
-            Şiir: Gül Kaçar - SUSMA
-        </marquee>
-    </div>
-
     <div id="ust-baslik" class="gomulu-yazi">Dost Yurdu Kitaplığı</div>
     <div id="alt-imza" class="gomulu-yazi">Seyyah</div>
-
     <div style="position:absolute; left:0px; top:56px; width:1000px; height:700px; z-index:0">
         <img src="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/dolap.png" width=1000 height=700>
+    </div>
+
+    <div id="siir-dolabi">
+        <div id="siir-ust-baslik" class="gomulu-yazi">Şiir: SUSMA</div>
+        
+        <div id="gif-kutusu" class="siir-ic-kutu">
+            <img id="siir-resim" src="https://www.truvaedebiyatdergisi.com/files/uploads/news/default/20220813-susma-98132-dbb792a395e0d60bbbc4.gif" alt="Susma">
+        </div>
+
+        <div id="metin-kutusu" class="siir-ic-kutu">
+            <marquee direction="up" scrollamount="2" class="siir-metin" height="100%">
+                Bugün babamı ziyarete gittim<br>Baba dedim<br>Şöyle bir akşam dertleşemedik<br>Ne kadar da acelecisin işte<br>Daha gün batmadan<br>kapatın bütün perdeleri<br>Çok mu yorgunsun<br>Çok mu kırgın sın söyle?<br>Bu gitmeler niye?<br>Konuş baba susma…<br><br>
+                Daha kaç gece katık edeceğim<br>seni düşlerime<br>Uzun zamandır hep böyleyiz<br>Ben konuşuyorum o susuyor<br>Neden hiç cevap vermiyorsun?<br>Yoksa küstün mü bana<br>Okuyorum bildiğim bütün duaları<br>Bugün yol çok uzandı geciktim<br>Benden önce abim gelmiş<br>Kıskandım…<br><br>
+                Hani bayram sabahında<br>ilk ben öperdim elini<br>Bugün o almış yerimi<br>Yine de öptüm ellerini<br>Şeker de koydum başına<br>Boynunu bükme diye<br>Kolanya hiç sevmezdin<br>Koklardın saçlarımızı<br>Saçlarımı tutam tutam yoldum<br>Süzüldü gözyaşlarım<br>Toprağa düşerken kokun geldi<br>Nasıl da özlemişim kokunu<br><br>
+                Kırgınım sana baba kırgınım<br>Bu kahrolası gurbet çekilecek gibi değil<br>Yoksa her gün gelirim yanına<br>Kurumaz o zaman ektiğim çiçekler<br>Seni özlediğimde sızlamaz burnumun direği<br>hasta olduğumda gözüm kapıda kalmazdı<br>Şimdi çok hastayım baba<br>Neden konuşmuyorsun<br>Ses ver ne olur<br>Yoksa küstün mü bana?<br>Ne olur susma...
+            </marquee>
+        </div>
+
+        <div id="siir-alt-imza" class="gomulu-yazi">Şair: Gül Kaçar</div>
     </div>
 
     <div id="shelf"></div>
@@ -154,44 +130,39 @@ let isPlaying = false;
 
 function startMusic() {
     if(!isPlaying) {
-        myAudio.play().catch(e => console.log("Müzik bekleniyor..."));
+        myAudio.play().catch(e => console.log("Müzik etkileşim bekliyor."));
         isPlaying = true;
     }
 }
 
 function toggleMusic(e) {
     e.stopPropagation();
-    if (myAudio.paused) {
-        myAudio.play();
-        document.getElementById("music-control").innerHTML = "🎵";
-    } else {
-        myAudio.pause();
-        document.getElementById("music-control").innerHTML = "🔇";
-    }
+    if (myAudio.paused) { myAudio.play(); document.getElementById("music-control").innerHTML = "🎵"; }
+    else { myAudio.pause(); document.getElementById("music-control").innerHTML = "🔇"; }
 }
 
 const kitaplar = [
-    {ad: 'Bir Destandır Çanakkale', yazar: 'Vehbi Vakkasoğlu', sol: 52, ust: 202, resim: 'bir-destandir-canakkalee.png', ozet: "Çanakkale; altı asır üç kıtaya hükmeden şanlı Osmanlının son zaferi ve İstiklal harbimizin habercisi... 'Yedi Düvel'in 'hasta adam' dedikleri Osmanlıya son darbeyi vurmak isterken kazdıkları kuyuya düştükleri yer... İki yüzelli bini aşkın şehidin kanıyla sulanan vatan toprağı... <p></p> Cenab-ı Hakkın (c.c.) inayetiyle, Hz. Peygamberin (a.s.m.) ruhaniyetiyle hazır bulunduğu, Allah ve Peygamber aşkıyla gözünü kırpmadan, korkusuzca düşmana karşı koyan Mehmetçiğin tarih yazdığı altın sayfa... Düşmanın dahi kahramanlığını, insanlığını övdüğü Mehmetçiğin yazdığı bir destan Çanakkale..."},
-    {ad: 'Seyyah', yazar: 'Adem Özköse', sol: 173, ust: 203, resim: 'seyyah.jpg', ozet: "Çıktığım yollar, yaptığım seyahatler; ziyaret ettiğim bir çok şehirle içten bir bağ kurmama neden oldu. Ben de seyyahların çoğu gibi bazı şehirlerin ruhu olduğuna inananlardanım. Bu şehirlerin sokaklarını adımlarken tatlı bir musiki takılır kulaklarınıza. <p></p> Şehir kendini size vermek için adeta can atar. Alırsınız ve yüreğinizin en özel yerinde saklarsınız bu şehirleri. Öyle bir sahiplenirsiniz ki onları, sanki sizin olurlar. İstanbul, Saraybosna, Kahire, Gazze, Isfahan, Bağdat, Şam-ı Şerif, Kudüs ..."},
-    {ad: '4811', yazar: 'İhsan Şenocak', sol: 340, ust: 203, resim: '4811.jpg', ozet: "Tarihin gizemli sayfalarında bir yolculuğa çıkmaya hazır mısınız? Bu eser, hakikat arayışındaki bir ruhun derin tefekkürlerini konu alıyor. <p></p> Her sayfasında yeni bir kapı aralayan sürükleyici anlatımıyla, okuyucuyu kalbin derinliklerine doğru bir yolculuğa davet ediyor."},
-    {ad: 'Elhamdülillah Müslümanım', yazar: 'Mehmet Yaşar Kandemir', sol: 461, ust: 203, resim: 'elhamdulillah.jpg', ozet: "Dünya bizim için gurbettir. Biz bu gurbete bile isteye gelmedik. Rabbimiz bizi bu gurbet diyârına, âhiret yurdumuza hazırlanalım diye gönderdi. <p></p> Bu gerçeği bize önce Peygamber Efendimiz, sonra da onun mirasçısı olan âlimlerimiz hep hatırlattılar. Kendilerini din kardeşlerine karşı sorumlu hissettiklerinden, onlara dinlerini öğretmek için çeşitli eserler verdiler. Âlimlerimiz, din kardeşlerini hem eserleriyle, hem de câmilerdeki sohbetleriyle diri tutmaya gayret ettiler."},
-    {ad: 'Esir Türkler', yazar: 'Adem Özköse', sol: 582, ust: 203, resim: 'esir_turkler.jpg', ozet: "Bu kitap, Çin'in elindeki tüm propaganda imkanlarını kullanarak gerçeğin boğulmaya çalışıldığı bir dönemde yazıldı. <p></p> Fakat ben inanıyorum ki Çin ne kadar güçlü olursa olsun dünyanın özgür ve vicdanlı insanları Çin'den de diğer zalimlerden de çok daha güçlüdür. Doğu Türkistan'da yaşananlar asla Filistin'den veya Arakan'dan daha aşağı değildir. Kitabı okudukça bu iddiamı daha iyi anlayacaksınız."},
-    {ad: 'Hayatımıza Yön Veren Hadisler', yazar: 'Mehmet Yaşar Kandemir', sol: 753, ust: 203, resim: 'hayatimiza_yonveren.png', ozet: "Müslüman'ın günlük hayatını ve ibadet dünyasını ahlak, inanç, davranış ve alışkanlıklar açısından yönlendirecek hadisleri bir araya getiren bu eser bir yönüyle eğitim kitabı olabilmekte... <p></p> Diğer yandan içeriğiyle devamlı başucunda tutulacak sadelik ve toplayıcılık özelliği göstermektedir."},
-    {ad: 'Huzur Sokağı', yazar: 'Şule Yüksel Şenler', sol: 868, ust: 203, resim: 'huzur_sokagi.png', ozet: "Huzur Sokağı, satış rekorları kırmış, her yaştan ve her kesimden insanımızın soluk almadan okuduğu, elden ele dolaşıp, adeta kapışılan bir eser olarak haklı şöhret kazanmıştır. <p></p> Birleşen yollar adıyla film yapılan Huzur Sokağı, bu filmle de halkımızın büyük ilgi ve teveccühünü kazanmıştır. Hasretiyle kavrulduğumuz huzurlu bir cemiyetin, bir çok ana hatlarıyla küçük bir sokakta sembolleşmiş şeklidir."},
-    {ad: 'Peygamberin Sevdiği Müslüman', yazar: 'Mehmet Yaşar Kandemir', sol: 55, ust: 369, resim: 'peygamberin_sevdigi.jpg', ozet: "İslamiyet nedir? Müslüman kimdir? Allah ve Resulü bizden nasıl bir insan olmamızı bekler? <p></p> Bu soruların cevapları, ayetlerden ve sahih hadislerden derlendi ve hayatın bütün aşamalarını kuşatacak şekilde düzenlendi. Peygamberimin Sevdiği Müslüman ne yapardı? diye düşünecek olduğunuzda, sorunuzun cevabını bu kitapta bulacaksınız."},
-    {ad: 'Zülfikarlar Bilendi', yazar: 'Ömer Saruhan', sol: 173, ust: 369, resim: 'zulfikarlar-bilendi.jpg', ozet: "Zalimlere karşı direnişin romanı... Bu kitap işgal altında bulunan İslam coğrafyalarında yaşananlardan esinlenerek kaleme alınmıştır. <p></p> Müslümanların küfre ve zulme asla boyun eğmediklerini, işgalcilerin bütün vahşi saldırılarına karşı şanlı bir direniş sergilediklerini ve cihadla izzetlerine kavuştuklarını gözler önüne sermektir. Müslümanların yeniden direniş ruhunu yakalaması ümidiyle..."},
-    {ad: 'İlklerin Annesi Hz. Hatice', yazar: 'Hilal Kara & Abdullah Kara', sol: 340, ust: 369, resim: 'hz_hatice.jpg', ozet: "Allah Resulü'nün (a.s.m.) vefakâr eşi, Vahyin inişinin ilk şahidi, İlk Müslüman, Allah'ın selam gönderdiği ve Cennetle müjdelediği hanım... <p></p> Onun hayatını tüm ayrıntılarıyla okurken, sadece onu değil, âlemlere rahmet olarak gönderilen Resulullah'ı (a.s.m.), ilk Müslümanları, İslam'ın ilk günlerini yakından tanıma imkânı bulacaksınız. 'İlklerin Annesi Hz. Hatice' size ibretlerle dolu bir yaşam sunuyor."},
-    {ad: 'Kur\'an\'ın Kalbine Yolculuk', yazar: 'Yasin Pişgin', sol: 461, ust: 369, resim: 'kuranin_kalbine.png', ozet: "Kur'an; Azîz olan izzet sahibi, Rahîm olan rahmet sahibi Allah'ın indirdiği hikmet yüklü bir kitaptır. <p></p> Kur'an; bir hakikat çağrısı, bir hidayet rehberidir. İnsan, Kur'an'la ne kadar iç içe girerse Allah'ın sesini o kadar içinde, iliklerinde hisseder. O soluk insanı pişirir; olgunlaştırır..."},
-    {ad: 'Müslüman Kadın', yazar: 'Bilge Arslan', sol: 582, ust: 369, resim: 'musluman_kadin.jpg', ozet: "Hayatın farklı yoğunluklarını adımlamaya henüz başlamamış olanların hedeflerine daha emin adımlarla yürümeleri, yoldaki olası engellerin tespiti ve çözümü... <p></p> Bu çalışma, genel vurgusu itibariyle sadece kadınlara değil herkese bir chare ve ışık olabilir. Sistemli ilerlemenin temini konularında bir başucu eseridir."},
-    {ad: 'İslâm İlmihali', yazar: 'Lütfi Şentürk-Seyfettin Yazıcı', sol: 753, ust: 369, resim: 'islam_ilmihali.jpg', ozet: "İslâm İlmihali kitabında itikat, ibadet, helaller ve haramlar, yapılması günah olan şeyler, ahlâk ve Peygamberimiz Hz. Muhammed bölümleri yer almaktadır. <p></p> Kitabın bölümlerinde, Müslümanların gündelik hayatında karşılaşabileceği dini sorulara cevaplar yer almaktadır."},
-    {ad: 'Kalpten Hayata', yazar: 'Dr Adem Ergül', sol: 868, ust: 369, resim: 'kalpten-hayata.png', ozet: "Kişilik terbiyesinin bu çok boyutluluğu karşısında, kendimizi ve neslimizi selin akışına bırakıvermek, daha baştan kaybetmektir. <p></p> Yapılması gereken, rotayı kaybetmeden, büyük bir dirayet, basiret ve ustalıkla ilâhî rahmete nail olmak ve sahil-i selâmete erişebilmektir."},
-    {ad: 'Riyâzü\'s-Sâlihîn', yazar: 'Mehmet Yaşar Kandemir', sol: 55, ust: 535, resim: 'riyazusalihin.jpg', ozet: "Peygamber Efendimizden günümüze ışık tutan en sahih hadisleri bir araya getiren bir edep hazinesidir. <p></p> Gönülleri aydınlatan bu nasihatler, insanın dünya ve ahiret saadetine giden yolu inşa etmektedir."},
-    {ad: 'Zamanın Zeynebi', yazar: 'Sabiha Ateş Alpat', sol: 173, ust: 535, resim: 'zamanin-zeynebi.png', ozet: "Kardeşim! Gözlüğüm kırıldığında gördüm gerçekleri. Rabbim kalbimi açmıştı. Özgür olmuştum. <p></p> Tevbem kabul olmuş gibi, tüy kadar hafifledim birden. Gel, sevincime ortak ol, sende uyan artık. Bu uyku seni yoruyor. Haydi uyan!"},
-    {ad: '40 Büyük İslam Alimi', yazar: 'Ahmed Ferid', sol: 340, ust: 535, resim: '40-buyuk-islam-alimi.jpeg', ozet: "Bu eserde, tâbiîn döneminden itibaren ilk asırlarda yaşamış kırk büyük âlimin biyografileri sunulmaktadır. <p></p> Okuyucunun okuma yaptığı esnada âlim ile sohbet etme atmosferine girerek âlime yönelik sevginin artması amaçlanmıştır."},
-    {ad: 'Mahremiyet Eğitimi', yazar: 'Adem Güneş', sol: 461, ust: 535, resim: 'mahremiyet-egitimi.jpg', ozet: "Çocuklara mahremiyet bilincinin nasıl kazandırılacağını pedagojik bir dille anlatan rehber bir eserdir. <p></p> Sağlıklı bir nesil yetiştirmek isteyen ebeveynler için pratik tavsiyeler içermektedir."},
-    {ad: 'Korkutarak Değil Sevdirerek Din Eğitimi', yazar: 'Hatice Kübra Tongar', sol: 582, ust: 535, resim: 'korkutarak-degil-sevdirerek-din-egitimi.jpg', ozet: "Çocuklara din sevgisini şefkat yoluyla aşılamanın yöntemlerini anlatan bir eserdir. <p></p> Din eğitiminde yapılan hataları ve doğru yaklaşımları somut örneklerle ortaya koymaktadır."},
-    {ad: 'Aile ile Bağlanma Aidiyet', yazar: 'Adem Güneş', sol: 753, ust: 535, resim: 'aile-ile-baglanma-aidiyet.jpg', ozet: "İnsanın en karmaşık ihtiyacıdır aidiyet. Bir yandan özgürlüğe düşkündür insan ruhu, diğer yandan tutunacak dal arar. <p></p> Pedagog Dr. Adem Güneş, çocukluk döneminden itibaren ait olma ihtiyacının duygusal oluşumunu adım adım ele alıyor."},
-    {ad: 'Mutlu Bir Yuva İçin', yazar: 'Mehmet Yaşar Kandemir', sol: 868, ust: 535, resim: 'mutlu_yuva.png', ozet: "Yüce Rabbim varlığının alameti olan dünyamızdaki güzellikleri görüp, sonsuz kudretini anlayıp şükretmemizi istemiş... <p></p> Bu sebeple de, yeni nesillerin üreyip çoğalması için insanlara evliliği emretmiştir."}
+    {ad: 'Bir Destandır Çanakkale', yazar: 'Vehbi Vakkasoğlu', sol: 52, ust: 202, resim: 'bir-destandir-canakkalee.png', ozet: "Çanakkale; altı asır üç kıtaya hükmeden şanlı Osmanlının son zaferi ve İstiklal harbimizin habercisi... <p></p> İki yüzelli bini aşkın şehidin kanıyla sulanan vatan toprağı..."},
+    {ad: 'Seyyah', yazar: 'Adem Özköse', sol: 173, ust: 203, resim: 'seyyah.jpg', ozet: "Ziyaret ettiğim birçok şehirle içten bir bağ kurmama neden oldu. <p></p> İstanbul, Saraybosna, Kahire, Gazze, Kudüs ..."},
+    {ad: '4811', yazar: 'İhsan Şenocak', sol: 340, ust: 203, resim: '4811.jpg', ozet: "Tarihin gizemli sayfalarında bir yolculuğa çıkmaya hazır mısınız? <p></p> Bu eser, hakikat arayışındaki bir ruhun derin tefekkürlerini konu alıyor."},
+    {ad: 'Elhamdülillah Müslümanım', yazar: 'Mehmet Yaşar Kandemir', sol: 461, ust: 203, resim: 'elhamdulillah.jpg', ozet: "Dünya bizim için gurbettir. Rabbimiz bizi bu gurbet diyârına hazırlanalım diye gönderdi. <p></p> Âlimlerimiz bizi diri tutmaya gayret ettiler."},
+    {ad: 'Esir Türkler', yazar: 'Adem Özköse', sol: 582, ust: 203, resim: 'esir_turkler.jpg', ozet: "Doğu Türkistan'da yaşananlar asla Filistin'den veya Arakan'dan daha aşağı değildir. <p></p> Gerçeğin boğulmaya çalışıldığı bir dönemi anlatır."},
+    {ad: 'Hayatımıza Yön Veren Hadisler', yazar: 'Mehmet Yaşar Kandemir', sol: 753, ust: 203, resim: 'hayatimiza_yonveren.png', ozet: "Hadisleri bir araya getiren bu eser devamlı başucunda tutulacak bir eğitim kitabı. <p></p> Sadelik ve toplayıcılık özelliği göstermektedir."},
+    {ad: 'Huzur Sokağı', yazar: 'Şule Yüksel Şenler', sol: 868, ust: 203, resim: 'huzur_sokagi.png', ozet: "Her yaştan insanımızın soluk almadan okuduğu bir başyapıt. <p></p> Hasretiyle kavrulduğumuz huzurlu bir cemiyetin sembolüdür."},
+    {ad: 'Peygamberin Sevdiği Müslüman', yazar: 'Mehmet Yaşar Kandemir', sol: 55, ust: 369, resim: 'peygamberin_sevdigi.jpg', ozet: "Allah ve Resulü bizden nasıl bir insan olmamızı bekler? <p></p> Sorunuzun cevabını bu kitapta bulacaksınız."},
+    {ad: 'Zülfikarlar Bilendi', yazar: 'Ömer Saruhan', sol: 173, ust: 369, resim: 'zulfikarlar-bilendi.jpg', ozet: "Zalimlere karşı direnişin romanı... <p></p> Müslümanların küfre ve zulme asla boyun eğmediklerini gözler önüne sermektedir."},
+    {ad: 'İlklerin Annesi Hz. Hatice', yazar: 'Hilal Kara & Abdullah Kara', sol: 340, ust: 369, resim: 'hz_hatice.jpg', ozet: "Allah Resulü'nün vefakâr eşi, Vahyin ilk şahidi... <p></p> Onun hayatını tüm ayrıntılarıyla tanıma imkânı bulacaksınız."},
+    {ad: 'Kur\'an\'ın Kalbine Yolculuk', yazar: 'Yasin Pişgin', sol: 461, ust: 369, resim: 'kuranin_kalbine.png', ozet: "Kur'an; Azîz ve Rahîm olan Allah'ın indirdiği hidayet rehberidir. <p></p> İnsan Kur'an'la ne kadar iç içe girerse huzuru o kadar hisseder."},
+    {ad: 'Müslüman Kadın', yazar: 'Bilge Arslan', sol: 582, ust: 369, resim: 'musluman_kadin.jpg', ozet: "Hedeflerine emin adımlarla yürümek isteyenler için bir başucu eseridir. <p></p> Sadece kadınlara değil herkese bir çare ve ışık olabilir."},
+    {ad: 'İslâm İlmihali', yazar: 'Lütfi Şentürk-Seyfettin Yazıcı', sol: 753, ust: 369, resim: 'islam_ilmihali.jpg', ozet: "İtikat, ibadet, ahlâk ve Peygamberimiz bölümlerinden oluşan temel eser. <p></p> Gündelik hayatta karşılaşılan dini sorulara cevaplar."},
+    {ad: 'Kalpten Hayata', yazar: 'Dr Adem Ergül', sol: 868, ust: 369, resim: 'kalpten-hayata.png', ozet: "Kişilik terbiyesinin çok boyutluluğu karşısında bir pusula. <p></p> Büyük bir dirayetle sahil-i selâmete erişebilmek için rehber."},
+    {ad: 'Riyâzü\'s-Sâlihîn', yazar: 'Mehmet Yaşar Kandemir', sol: 55, ust: 535, resim: 'riyazusalihin.jpg', ozet: "En sahih hadisleri bir araya getiren bir edep hazinesidir. <p></p> Dünya ve ahiret saadetine giden yolu inşa etmektedir."},
+    {ad: 'Zamanın Zeynebi', yazar: 'Sabiha Ateş Alpat', sol: 173, ust: 535, resim: 'zamanin-zeynebi.png', ozet: "Kardeşim! Gözlüğüm kırıldığında gördüm gerçekleri. <p></p> Tevbem kabul olmuş gibi hafifledim. Sende uyan artık!"},
+    {ad: '40 Büyük İslam Alimi', yazar: 'Ahmed Ferid', sol: 340, ust: 535, resim: '40-buyuk-islam-alimi.jpeg', ozet: "İlk asırlarda yaşamış kırk büyük âlimin biyografileri... <p></p> Âlim ile sohbet etme atmosferine girerek sevginin artması amaçlanmıştır."},
+    {ad: 'Mahremiyet Eğitimi', yazar: 'Adem Güneş', sol: 461, ust: 535, resim: 'mahremiyet-egitimi.jpg', ozet: "Mahremiyet bilincinin pedagojik bir dille anlatıldığı rehber eser. <p></p> Sağlıklı bir nesil yetiştirmek isteyen ebeveynler için pratik tavsiyeler."},
+    {ad: 'Korkutarak Değil Sevdirerek Din Eğitimi', yazar: 'Hatice Kübra Tongar', sol: 582, ust: 535, resim: 'korkutarak-degil-sevdirerek-din-egitimi.jpg', ozet: "Çocuklara din sevgisini şefkat yoluyla aşılamanın yöntemleri... <p></p> Din eğitiminde doğru yaklaşımları somut örneklerle ortaya koymaktadır."},
+    {ad: 'Aile ile Bağlanma Aidiyet', yazar: 'Adem Güneş', sol: 753, ust: 535, resim: 'aile-ile-baglanma-aidiyet.jpg', ozet: "İnsanın en karmaşık ihtiyacıdır aidiyet. <p></p> Ait olma ihtiyacının duygusal oluşumunu adım adım ele alıyor."},
+    {ad: 'Mutlu Bir Yuva İçin', yazar: 'Mehmet Yaşar Kandemir', sol: 868, ust: 535, resim: 'mutlu_yuva.png', ozet: "Yeni nesillerin üreyip çoğalması için evliliği emreden bir rehber. <p></p> Varlığının alameti olan dünyadaki güzellikleri anlama yolculuğu."}
 ];
 
 const shelf = document.getElementById('shelf');
@@ -201,10 +172,7 @@ kitaplar.forEach(kitap => {
     bookDiv.style.left = kitap.sol + 'px';
     bookDiv.style.top = kitap.ust + 'px';
     bookDiv.onclick = (e) => { e.stopPropagation(); showBook(kitap.ad, kitap.yazar, kitap.ozet); };
-    bookDiv.innerHTML = `
-        <div class="book-info-card"><strong>${kitap.ad}</strong><br><small>${kitap.yazar}</small></div>
-        <img src="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/${kitap.resim}" width=88 height=137>
-    `;
+    bookDiv.innerHTML = `<div class="book-info-card"><strong>${kitap.ad}</strong><br><small>${kitap.yazar}</small></div><img src="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/${kitap.resim}" width=88 height=137>`;
     shelf.appendChild(bookDiv);
 });
 
@@ -214,7 +182,6 @@ function showBook(title, author, desc) {
     document.getElementById("bookDescription").innerHTML = desc;
     document.getElementById("myModal").style.display = "block";
 }
-
 function closeModal() { document.getElementById("myModal").style.display = "none"; }
 function rastgeleTanit() {
     const r = Math.floor(Math.random() * kitaplar.length);
@@ -224,8 +191,3 @@ window.onclick = function(event) { if (event.target == document.getElementById("
 </script>
 </body>
 </html>
-
-
-
-
-
