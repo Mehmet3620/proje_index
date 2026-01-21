@@ -74,7 +74,7 @@
   <source src="https://ia601709.us.archive.org/0/items/farid_farjah_third/farid_farjah_third.mp3" type="audio/mpeg">
   </audio>
 
-<div id="music-control" onclick="toggleMusic(event)">🎵</div>
+<div id="music-toggle" onclick="toggleMusic()">🎵</div>
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
@@ -123,26 +123,26 @@ const kitaplar = [
     {ad: 'Mutlu Bir Yuva İçin', yazar: 'Mehmet Yaşar Kandemir', sol: 868, ust: 535, resim: 'mutlu_yuva.png', ozet: "Yüce Rabbim varlığının alameti olan dünyamızdaki güzellikleri görüp, sonsuz kudretini anlayıp şükretmemizi istemiş... <p></p> Bu sebeple de, yeni nesillerin üreyip çoğalması için insanlara evliliği emretmiştir."}
 ];
 
-const shelf = document.getElementById('shelf');
-const myAudio = document.getElementById("neySound");
-let isPlaying = false;
+const audio = document.getElementById("neyAudio");
+const musicBtn = document.getElementById("music-toggle");
+let firstClick = true;
 
-// Kütüphaneye tıklandığında müziği başlat (Tarayıcı kısıtlamaları için)
-function startMusic() {
-    if(!isPlaying) {
-        myAudio.play();
-        isPlaying = true;
+// Sayfanın herhangi bir yerine tıklandığında müziği başlat
+document.body.addEventListener('click', function() {
+    if (firstClick) {
+        audio.play().catch(e => console.log("Müzik başlatılamadı:", e));
+        firstClick = false;
+        musicBtn.innerHTML = "🎵";
     }
-}
+}, { once: false });
 
-function toggleMusic(e) {
-    e.stopPropagation(); // Sayfa tıklama olayını tetiklemesin
-    if (myAudio.paused) {
-        myAudio.play();
-        document.getElementById("music-control").innerHTML = "🎵";
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+        musicBtn.innerHTML = "🎵";
     } else {
-        myAudio.pause();
-        document.getElementById("music-control").innerHTML = "🔇";
+        audio.pause();
+        musicBtn.innerHTML = "🔇";
     }
 }
 
@@ -180,5 +180,6 @@ window.onclick = function(event) { if (event.target == document.getElementById("
 </script>
 </body>
 </html>
+
 
 
