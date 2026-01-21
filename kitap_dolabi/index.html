@@ -1,47 +1,62 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<title>Dost Yurdu Kütüphane Kitaplığı</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF8">
-<style>
+<style type="text/css">
     div#container { position:relative; width: 1000px; margin: 0 auto; text-align:left; }
-    body { text-align:center; margin:0; background-color: #FFCC99; }
-    
-    /* AHŞABA GÖMÜLÜ OYMA YAZI */
+    body { text-align:center; margin:0; background-color: #FFCC99; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    /* AHŞABA GÖMÜLÜ OYMA YAZI EFEKTİ */
     .gomulu-yazi {
         font-family: "Georgia", serif;
         font-weight: bold;
         color: #3d2416;
         text-shadow: -1px -1px 1px #1a100a, 1px 1px 1px #8b5a2b;
         pointer-events: none;
+        z-index: 100;
     }
 
-    #ust-baslik { position: absolute; left: 0; top: 75px; width: 1000px; text-align: center; font-size: 36px; z-index: 100; }
-    #alt-imza { position: absolute; left: 0; top: 705px; width: 1000px; text-align: center; font-size: 20px; font-style: italic; z-index: 100; }
+    #ust-baslik { position: absolute; left: 0; top: 65px; width: 1000px; text-align: center; font-size: 36px; }
+    #alt-imza { position: absolute; left: 0; top: 705px; width: 1000px; text-align: center; font-size: 20px; font-style: italic; }
 
-    /* TANITIM BUTONU */
-    .tanitim-btn {
-        position: absolute; left: 420px; top: 740px;
-        padding: 10px 20px; background: #3d2416; color: #fff;
-        border: none; border-radius: 5px; cursor: pointer; font-family: sans-serif;
+    /* KİTAP KONTEYNER VE ÖNİZLEME KARTI */
+    .book-container { position: absolute; cursor: pointer; transition: transform 0.3s; z-index: 10; }
+    .book-container:hover { transform: scale(1.1); z-index: 100; }
+    .book-info-card {
+        display: none; position: absolute; bottom: 105%; left: 50%; transform: translateX(-50%);
+        background: #3d2416; color: white; padding: 6px 12px; border-radius: 8px;
+        font-size: 11px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        border: 1px solid #8b5a2b;
     }
-    .tanitim-btn:hover { background: #5a3621; }
+    .book-container:hover .book-info-card { display: block; }
 
-    /* MODAL (BİLGİ PENCERESİ) */
-    .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
-    .modal-content { background-color: #fff; margin: 10% auto; padding: 30px; border-radius: 15px; width: 450px; text-align: center; line-height: 1.6; border: 5px solid #3d2416; }
-    .close { color: #cc0000; float: right; font-size: 30px; font-weight: bold; cursor: pointer; }
-    .book-clickable { cursor: pointer; transition: transform 0.2s; }
-    .book-clickable:hover { transform: scale(1.05); }
+    /* MODAL (TANITIM PENCERESİ) */
+    .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); }
+    .modal-content { 
+        background-color: #fff; margin: 5% auto; padding: 35px; border-radius: 20px; 
+        width: 480px; text-align: center; border: 8px solid #3d2416; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    }
+    .close { color: #cc0000; position: absolute; right: 20px; top: 10px; font-size: 35px; font-weight: bold; cursor: pointer; }
+    
+    /* ALT BUTON */
+    .btn-action { 
+        position: fixed; bottom: 25px; right: 25px; z-index: 1000;
+        padding: 12px 25px; background: #3d2416; color: #fff; 
+        border: 2px solid #8b5a2b; border-radius: 30px; cursor: pointer; 
+        font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .btn-action:hover { background: #5a3621; }
 </style>
 </head>
-<body>
+<body background="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/FILE49335.PNG">
 
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
-    <h2 id="bookTitle" style="color:#3d2416;"></h2>
-    <hr>
-    <div id="bookDescription" style="text-align:justify; color:#333;"></div>
+    <h2 id="bookTitle" style="color:#3d2416; margin-bottom:10px;"></h2>
+    <hr style="border: 1px solid #eee;">
+    <div id="bookDescription" style="text-align:justify; color:#333; line-height:1.8; margin-top:20px; font-size: 15px;"></div>
   </div>
 </div>
 
@@ -50,38 +65,75 @@
     <div id="alt-imza" class="gomulu-yazi">Seyyah</div>
 
     <div style="position:absolute; left:0px; top:56px; width:1000px; height:700px; z-index:0">
-        <img src="images/dolap.png" width=1000 height=700>
+        <img src="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/dolap.png" width=1000 height=700>
     </div>
 
-    <div class="book-clickable" onclick="showBook('Huzur Sokağı', 'Satış rekorları kırmış, her yaştan insanın okuduğu bir başyapıt... <p></p> Özlenilen huzur dolu cemiyetin bir sokakta sembolleşmiş halidir.')" style="position:absolute; left:868px; top:203px; width:88px; height:137px; z-index:20">
-        <img src="images/huzur_sokagi.png" width=88 height=137>
-    </div>
-
-    <button class="tanitim-btn" onclick="rastgeleTanit()">Bir Kitap Tanıt</button>
+    <div id="shelf"></div>
 </div>
 
-<script>
-// Kitap verilerini bir diziye alıyoruz (Başkaları kolayca eklesin diye)
+<button class="btn-action" onclick="rastgeleTanit()">✨ Bir Kitap Tanıt</button>
+
+<script type="text/javascript">
+// TÜM KİTAPLARIN MERKEZİ LİSTESİ
 const kitaplar = [
-    {ad: 'Huzur Sokağı', ozet: 'Hasretiyle kavrulduğumuz huzurlu bir cemiyetin sembolüdür. <p></p> Her kesimden insanın ilgiyle okuduğu bir eserdir.'},
-    {ad: 'Seyyah', ozet: 'Şehirlerin ruhuna yapılan içten bir yolculuk. <p></p> Kudüs\'ten İstanbul\'a uzanan manevi bir bağın hikayesi.'}
-    // Buraya diğer kitaplar eklenebilir
+    {ad: 'Bir Destandır Çanakkale', sol: 52, ust: 202, resim: 'bir-destandir-canakkalee.png', ozet: 'Çanakkale; şanlı Osmanlının son zaferi ve İstiklal harbimizin habercisi... <p></p> Allah ve Peygamber aşkıyla gözünü kırpmadan düşmana karşı koyan Mehmetçiğin tarih yazdığı altın sayfa...'},
+    {ad: 'Seyyah', sol: 173, ust: 203, resim: 'seyyah.jpg', ozet: 'Çıktığım yollar, ziyaret ettiğim birçok şehirle içten bir bağ kurmama neden oldu. <p></p> İstanbul, Saraybosna, Kahire ve Kudüs gibi şehirler kendini size vermek için adeta can atar.'},
+    {ad: '4811', sol: 340, ust: 203, resim: '4811.jpg', ozet: 'Tarihin gizemli sayfalarında bir yolculuğa çıkmaya hazır mısınız? <p></p> Bu eser, hakikat arayışındaki bir ruhun derin tefekkürlerini konu alıyor.'},
+    {ad: 'Elhamdülillah Müslümanım', sol: 461, ust: 203, resim: 'elhamdulillah.jpg', ozet: 'Dünya bizim için gurbettir ve Rabbimiz bizi bu gurbet diyârına hazırlanalım diye gönderdi. <p></p> Bu gerçeği önce Peygamberimiz, sonra da onun mirasçısı olan âlimlerimiz hep hatırlattılar.'},
+    {ad: 'Esir Türkler', sol: 582, ust: 203, resim: 'esir_turkler.jpg', ozet: 'Doğu Türkistan\'da yaşanan zulmü haykırmak için yazıldı. <p></p> Doğu Türkistan\'da yaşananlar asla Filistin\'den veya Arakan\'dan daha aşağı değildir.'},
+    {ad: 'Hayatımıza Yön Veren Hadisler', sol: 753, ust: 203, resim: 'hayatimiza_yonveren.png', ozet: 'Müslüman\'ın günlük hayatını ahlak ve inanç açısından yönlendirecek hadisler bir araya getirildi. <p></p> Her an el altında tutulacak bir hayat pusulası niteliğindedir.'},
+    {ad: 'Huzur Sokağı', sol: 868, ust: 203, resim: 'huzur_sokagi.png', ozet: 'Satış rekorları kırmış efsane bir eser. <p></p> Hasretiyle kavrulduğumuz huzurlu bir cemiyetin küçük bir sokakta sembolleşmiş şeklidir.'},
+    {ad: 'Peygamberin Sevdiği Müslüman', sol: 55, ust: 369, resim: 'peygamberin_sevdigi.jpg', ozet: 'Allah ve Resulü bizden nasıl bir insan olmamızı bekler? <p></p> Ayetlerden ve sahih hadislerden derlenen hayatın her aşamasını kuşatan bir rehber.'},
+    {ad: 'Zülfikarlar Bilendi', sol: 173, ust: 369, resim: 'zulfikarlar-bilendi.jpg', ozet: 'Zalimlere karşı direnişin romanı... <p></p> Müslümanların zulme asla boyun eğmediklerini ve şanlı bir direnişle izzetlerine kavuştuklarını anlatır.'},
+    {ad: 'İlklerin Annesi Hz. Hatice', sol: 340, ust: 369, resim: 'hz_hatice.jpg', ozet: 'Vahyin ilk şahidi, ilk Müslüman ve Müminlerin Annesi Hz. Hatice. <p></p> İslam\'ın ilk günlerini ve Efendimiz\'i (a.s.m.) daha yakından tanıma imkânı.'},
+    {ad: 'Kur\'an\'ın Kalbine Yolculuk', sol: 461, ust: 369, resim: 'kuranin_kalbine.png', ozet: 'Kur\'an; Azîz ve Rahîm olan Allah\'ın indirdiği hikmet yüklü bir kitaptır. <p></p> İnsan Kur\'an\'la ne kadar iç içe girerse Allah\'ın sesini o kadar içinde hisseder.'},
+    {ad: 'Müslüman Kadın', sol: 582, ust: 369, resim: 'musluman_kadin.jpg', ozet: 'Hayatın yoğunluklarını adımlamaya yeni başlayanlar için bir başucu eseridir. <p></p> Yoldaki engelleri tespit edip çözüm sunan bir çare ve ışık.'},
+    {ad: 'İslâm İlmihali', sol: 753, ust: 369, resim: 'islam_ilmihali.jpg', ozet: 'İtikat, ibadet, helaller ve haramlar bölümlerinden oluşan temel kaynak. <p></p> Günlük hayatta karşılaşabileceğiniz dini sorulara pratik cevaplar.'},
+    {ad: 'Kalpten Hayata', sol: 868, ust: 369, resim: 'kalpten-hayata.png', ozet: 'Kişilik terbiyesi karşısında kendimizi selin akışına bırakmak kaybetmektir. <p></p> Rotayı kaybetmeden ilâhî rahmete ve sahil-i selâmete erişebilmek için bir rehber.'},
+    {ad: 'Riyâzü\'s-Sâlihîn', sol: 55, ust: 535, resim: 'riyazusalihin.jpg', ozet: 'Peygamber Efendimizden günümüze ışık tutan en sahih hadisler. <p></p> İnsanın dünya ve ahiret saadetine giden yolu inşa eden edep hazinesi.'},
+    {ad: 'Zamanın Zeynebi', sol: 173, ust: 535, resim: 'zamanin-zeynebi.png', ozet: 'Gözlüğüm kırıldığında gördüm gerçekleri, perdeler aralandı. <p></p> Tevbem kabul olmuş gibi hafifledim. Gel, sevincime ortak ol ve artık uyan.'},
+    {ad: '40 Büyük İslam Alimi', sol: 340, ust: 535, resim: '40-buyuk-islam-alimi.jpeg', ozet: 'Tâbiîn döneminden itibaren yaşamış kırk büyük âlimin hayatı. <p></p> Onların zühd dolu yaşantılarıyla alimlere yönelik sevginin artması amaçlanmıştır.'},
+    {ad: 'Mahremiyet Eğitimi', sol: 461, ust: 535, resim: 'mahremiyet-egitimi.jpg', ozet: 'Çocuklara mahremiyet bilincinin pedagojik yollarla kazandırılması. <p></p> Sağlıklı bir nesil yetiştirmek isteyen ebeveynler için pratik tavsiyeler.'},
+    {ad: 'Korkutarak Değil Sevdirerek Din Eğitimi', sol: 582, ust: 535, resim: 'korkutarak-degil-sevdirerek-din-egitimi.jpg', ozet: 'Din sevgisini şefkat yoluyla aşılamanın yöntemleri. <p></p> Eğitimdeki hataları ve doğru yaklaşımları somut örneklerle ortaya koyar.'},
+    {ad: 'Aile ile Bağlanma Aidiyet', sol: 753, ust: 535, resim: 'aile-ile-baglanma-aidiyet.jpg', ozet: 'İnsanın en karmaşık ihtiyacı aidiyettir. <p></p> Aidiyeti bozan durumları ve kırılmış aidiyetin onarılmasını ele alan pedagojik kaynak.'},
+    {ad: 'Mutlu Bir Yuva İçin', sol: 868, ust: 535, resim: 'mutlu_yuva.png', ozet: 'Nesillerin devamı ve huzur için evlilik emredilmiştir. <p></p> Sağlıklı bir aile yapısı kurmak ve korumak isteyenler için temel rehber.'}
 ];
 
+const shelf = document.getElementById('shelf');
+
+// KİTAPLARI OTOMATİK DİZEN FONKSİYON
+kitaplar.forEach(kitap => {
+    const bookDiv = document.createElement('div');
+    bookDiv.className = 'book-container';
+    bookDiv.style.left = kitap.sol + 'px';
+    bookDiv.style.top = kitap.ust + 'px';
+    bookDiv.onclick = () => showBook(kitap.ad, kitap.ozet);
+    
+    bookDiv.innerHTML = `
+        <div class="book-info-card">${kitap.ad} <br> <small>Tanıtımı Gör</small></div>
+        <img src="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/${kitap.resim}" width=88 height=137>
+    `;
+    shelf.appendChild(bookDiv);
+});
+
 function showBook(title, desc) {
-    document.getElementById("bookTitle").innerHTML = title;
+    document.getElementById("bookTitle").innerText = title;
     document.getElementById("bookDescription").innerHTML = desc;
     document.getElementById("myModal").style.display = "block";
 }
 
-function closeModal() { document.getElementById("myModal").style.display = "none"; }
-
-function rastgeleTanit() {
-    const r = Math.floor(Math.random() * kitaplar.length);
-    showBook(kitaplar[r].ad, kitaplar[r].ozet);
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
 }
 
-window.onclick = function(event) { if (event.target == document.getElementById("myModal")) closeModal(); }
+function rastgeleTanit() {
+    const secilen = kitaplar[Math.floor(Math.random() * kitaplar.length)];
+    showBook(secilen.ad, secilen.ozet);
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById("myModal")) closeModal();
+}
 </script>
 </body>
 </html>
