@@ -1,0 +1,346 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Seyyahın Şiir Defteri</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF8">
+<style type="text/css">
+    body {
+        background-color: #fdf5e6;
+        background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+        margin: 0;
+        font-family: 'Georgia', serif;
+        color: #3d2416;
+        text-align: center;
+    }
+
+    #header {
+        padding: 50px 0;
+        background: linear-gradient(to bottom, #3d2416, #5d3a24);
+        color: #fdf5e6;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        margin-bottom: 40px;
+    }
+
+    #header h1 { font-size: 42px; margin: 0; letter-spacing: 2px; text-shadow: 2px 2px 4px #000; }
+
+    .container {
+        width: 1150px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        padding-bottom: 50px;
+    }
+
+    .siir-kart {
+        background: #fff;
+        border: 1px solid #d2b48c;
+        padding: 15px;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 5px;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .siir-kart:hover { transform: translateY(-5px); box-shadow: 5px 5px 20px rgba(0,0,0,0.2); }
+    .siir-kart img { width: 100%; height: 200px; object-fit: cover; border-radius: 3px; margin-bottom: 10px; }
+    .siir-kart h3 { margin: 10px 0; font-size: 20px; color: #5d3a24; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    .on-izleme { font-size: 14px; color: #666; font-style: italic; line-height: 1.4; height: 40px; overflow: hidden; }
+    .shair-name { display: block; margin-top: 10px; font-weight: bold; color: #8b4513; font-size: 13px; }
+
+    /* Modal (Şiir Detayı) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0; top: 0; width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+        background-color: #fdf5e6;
+        margin: 5% auto;
+        padding: 30px;
+        width: 60%;
+        max-height: 80%;
+        overflow-y: auto;
+        border-radius: 10px;
+        position: relative;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    }
+
+    .close { color: #b22222; position: absolute; right: 25px; top: 15px; font-size: 45px; font-weight: bold; cursor: pointer; }
+    #modal-siir-metin { white-space: pre-line; text-align: center; font-size: 19px; line-height: 1.9; color: #1a0f0a; margin-top: 25px; font-style: italic; }
+    #modal-resim { width: 100%; max-height: 350px; object-fit: cover; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 3px solid #fdf5e6; }
+    #modal-yazar { font-weight: bold; margin-top: 40px; font-size: 22px; color: #8b4513; border-top: 2px solid #3d2416; padding-top: 20px; letter-spacing: 1px; }
+
+    #music-btn {
+        position: fixed; top: 20px; right: 20px;
+        background: rgba(61, 36, 22, 0.9); color: white; border: 2px solid #d2b48c;
+        width: 50px; height: 50px; border-radius: 50%;
+        cursor: pointer; font-size: 22px; z-index: 10000;
+        display: flex; align-items: center; justify-content: center;
+    }
+	
+	#footer {
+    background: #3d2416;
+    color: #d2b48c;
+    padding: 30px 0;
+    margin-top: 50px;
+    border-top: 5px solid #5d3a24;
+    font-size: 14px;
+}
+
+.footer-content {
+    width: 1150px;
+    margin: 0 auto;
+}
+
+.copyright {
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.footer-note {
+    font-style: italic;
+    opacity: 0.8;
+}
+</style>
+</head>
+<body onclick="startMusic()">
+
+<audio id="bgMusic" loop>
+  <source src="https://ia601709.us.archive.org/0/items/farid_farjah_third/farid_farjah_third.mp3" type="audio/mpeg">
+</audio>
+
+<button id="music-btn" onclick="toggleMusic(event)">🎵</button>
+
+<div id="header">
+    <h1>Seyyahın Şiir Defteri</h1>
+    <p>Gönülden Dökülen Mısralar</p>
+	<p>İnternetten Derlenen Şiir ve Resimlerden Oluşan Güzel Bir Şiir Bahçesi.</p>
+</div>
+
+<div class="container" id="siir-listesi">
+    </div>
+
+<div id="siirModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="modal-resim" src="" style="width:100%; max-height:400px; object-fit:cover; border-radius:5px;">
+        <h2 id="modal-baslik" style="color:#5d3a24; font-size:32px; margin:20px 0;"></h2>
+        <h4 id="modal-yazar" style="color:#8b4513; font-style:italic; margin-bottom:20px;"></h4>
+        <div id="modal-siir-metin"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+const myAudio = document.getElementById("bgMusic");
+let isPlaying = false;
+function startMusic() { if(!isPlaying) { myAudio.play(); isPlaying = true; } }
+function toggleMusic(e) { e.stopPropagation(); if (myAudio.paused) { myAudio.play(); document.getElementById("music-btn").innerHTML = "🎵"; } else { myAudio.pause(); document.getElementById("music-btn").innerHTML = "🔇"; } }
+
+
+const siirler = [
+    { 
+        baslik: "YAŞAMANIN NE ANLAMI VAR", 
+        yazar: "Celal İnci", 
+        resim: "images/yasamanin_ne_anlami_var.jpeg", 
+        ozet: "Sılaya hasretin bitmiyorsa, Akan yaşların dinmiyorsa...", 
+        tamMetin: "Sılaya hasretin bitmiyorsa\nAkan yaşların dinmiyorsa\nKimse derdini sormuyorsa\nYaşamanın ne anlamı var.\n\nYüreğin acı çekiyorsa.\nHiçbir melhem kar etmiyorsa\nFelek derde dert katıyorsa\nYaşamanın ne anlamı var\n\n<p>&nbsp;</p>\n\nYaz ayında kar yağıyorsa\nGündüzün gece oluyorsa\nZalim zehrini kusuyorsa\nYaşamanın ne anlamı var\n\nDostların seni satıyorsa\nSırtından hançer vuruyorsa\nArkandan kuyun kazıyorsa\nYaşamanın ne anlamı var\n\nBağında güller açmıyorsa\nGüneş üstüne doğmuyorsa\nBaharın kışa dönüyorsa\nYaşamanın ne anlamı var\n\nOcağın sönmüş tütmüyorsa\nFelek yakandan düşmüyorsa\nYüreğin yanıp duruyorsa\nYaşamanın ne anlamı var" 
+    },
+    { 
+        baslik: "ACIYI YUDUMLARKEN", 
+        yazar: "Fikret Subatan", 
+        resim: "images/aciyi-yudumlarken.jpg", 
+        ozet: "Acıyı yudumlarken, Yağmur henüz yağıyordu usta...", 
+        tamMetin: "Acıyı yudumlarken\nYağmur henüz yağıyordu usta.\nVe gözlerim dopdoluydu.\nO gece ve o gecenin sabahında\nHatta sonrasında da içmiştim.\nHenüz çiselemiyordu bile\nBardaktan boşalırcasına da değildi.\nGökyüzü de gürlemiyordu\nKi içimdekileri haykırarak boşalayım.\nDolu doluydu gözlerim,\nO gece ve gecenin sabahında.\nHatta sonrasında da içmiştim.\nDorukta sevda değil,\nÇile yazıldığında,\nÇok geçti artık.\nDolu doluydu artık.\nOnca yağmura rağmen\nTek damla bile yere düşmemişti.\nYolcu yolunda gerekti.\nDolu doluydu gözler,\nHep o yana bakarken." 
+    },
+    { 
+        baslik: "AYAZ OLDUN ESTİN AŞK DALLARIMA", 
+        yazar: "Turgay Kurtgün", 
+        resim: "images/ayaz_oldun.jpeg", 
+        ozet: "Ayaz oldun estin aşk dallarıma, Dalda gülüm soldu kokun yaymıyor...", 
+        tamMetin: "Ayaz oldun estin aşk dallarıma\nDalda gülüm soldu kokun yaymıyor\nTipi oldun yağdın sabahlarıma\nÇöle döndü gönlüm yağmur yağmıyor\n\nSevgimi kullandın düşürdün faka\nGözümde yaşlarım hep aka aka\nSevdanla kalbimi sen yaka yaka\nÇöle döndü gönlüm yağmur yağmıyor\n\nSen yoksun içimde kalbim üşüyor\nYaz günü gönlüme bir çığ düşüyor\nDuygular arzular bana küsüyor\nÇöle döndü gönlüm yağmur yağmıyor" 
+    },
+    { 
+    baslik: "GECELER", 
+    yazar: "Şevki Dinçal", 
+    resim: "images/geceler.jpg", 
+    ozet: "Bilmem ki dilini nerde yitirdi, Ben ağlarken neden sustu geceler...", 
+    tamMetin: "Bilmem ki dilini nerde yitirdi\nBen ağlarken neden sustu geceler\nHer gelen gün yeni yokluk getirdi\nBilmem bu yüzden mi küstü geceler\n\nKalbimin acıyla attığı yerde\nUmudun kaşını çattığı yerde\nAkşam güneşinin battığı yerde\nElemdi kederdi yastı geceler\n\nGün aşk defterine bir şey yazarken\nHayaller başımda üzgün gezerken\nYıldızlar telaşla beni süzerken\nRuhumu göklere astı geceler\n\nHayatın yüzüne bir maske takıp\nYaşlı gözlerime uzaktan bakıp\nYokluğun kalbine sır gibi akıp\nYel olup başımda esti geceler\n\nGiderken gözüme bakan yollara\nDüşsüz sabahlara çıkan yollara\nSonsuzluğa doğru akan yollara\nKaranlık ayakla bastı geceler\n\nIşığından yoksun günler ağlarken\nUmut kollarını aşkla bağlarken\nSuskun yüreğimi hasret dağlarken\nHer yandan yolumu kesti geceler" 
+   },
+   { 
+    baslik: "GÖNÜL KALEMİM", 
+    yazar: "Mine Borazan", 
+    resim: "images/gonul-kalemim.jpg", 
+    ozet: "Tamamlanmamış kelimeler arasında, Kaybolmuş gibi gönül kalemim...", 
+    tamMetin: "Tamamlanmamış kelimeler arasında\nKaybolmuş gibi gönül kalemim\nBir türlü bitmiyor yarım kalan hikâyem\nAnlaşamıyorlar mürekkeple\nOysa ne heyecanla başlamıştı\nGiriş bölümüne\nBirden dağıldı benim gibi\nGelişme bölümünde\nSonuç mu tam bir fiyasko\nO vurucu cümle çıkmıyor bir türlü ortaya\nAşkı yazıyor\nMutluluk cümleleri had safhada\nUçuşuyor kelebekler gibi beyaz sayfada\nİşin içine ayrılık girdi mi\nKüsüyor gönül kalemim mısralara\nİstemiyor yazmak\nAyrılık acısını\nYalnızlık sancısını\nYitip giden onca yılın seromonisini\nÖyle büküyor boynunu\nHissedermiş gibi\nKalbimin feryadı figanını\nAşkımızın üzerinden günler geçti\nAylar geçti\nYıllar geçti\nOnca mevsimler geçti\nKırık bir hikâyenin hüzzam makamı gibi\nGüller boynunu büktü\nSerçeler terki diyar etti\nŞarkılar son deminde\nBen küskünüm feleğe\nHer gece dertleşirim sallanan koltuğumda\nGönül kalemimle\n\nDiyorum yaz içinden geldiği gibi\nAnlat şu küskün çiçeğin yalnızlığını\nBen yanındayım deyip\nSon noktayı koyuyor\nAhh benim vefalı gönüldaşım\nHayatımın yarım kalan hikâyesini\nBir sonuca bağlamıyor\n\nEvrenle sözleşmiş gibi\nBekle diyor üzgün kelebeğim\nDaha seni bekleyen güzel günlerin\nHenüz yaşanmadı diyor\nUmudunu hiç kaybetme\nSıkıca tut avuçlarında\nMucizeler çiçek açsın kalbinde\n\nBirlikte başaracağız seninle\nMutlu bitireceğiz bu hikâyeyi\nOlabildiğince ruhun gibi mavice" 
+    },
+    { 
+    baslik: "SOĞUK ŞEHİR", 
+    yazar: "Emin Barut", 
+    resim: "images/soguk_sehir.jpg", 
+    ozet: "Şehrim beyaz kefenini kuşanıyor. Sokakları soğuk...", 
+    tamMetin: "Şehrim beyaz kefenini kuşanıyor.\nSokakları soğuk,\nCaddeler ayak izlerini vurmuş sırtına,\nÖlümün hamallığını yapıyor...\nSisi çöken karanlığın,\nDizleri kırılıyor buzulların çağında.\nŞehrin kuşları kayboluyor,\nGöğsümün kanatlarında.\nSırtı kanamalı, ağır aksak gece.\nTökezleniyor yamalı sabahlarıma.\nCaddelerde siren sesleri,\nEşkalim kimliksiz,\nAdı kulağına fısıldanan bir yalnızlık emziriyor sığınaklarımı.\nBelirsiz bir suret geçer sıratımdan.\nVe ben;\nSoğuk bir iklime soyunurum,\nGiysilerimden.\nKanamalı şarap renginde kızıllık,\nVurur şehrimin bakir kalabalığına.\nÜşürüm uçurumun kenarında\nBekleyen çocukluğuma..." 
+    },
+    { 
+    baslik: "UNUTMA", 
+    yazar: "Şevki Dinçal", 
+    resim: "images/unutma.jpeg", 
+    ozet: "Tüm ömrünce uğraş bulut yok ise, Gökte şimşek çakmaz unutma dostum...", 
+    tamMetin: "Tüm ömrünce uğraş bulut yok ise\nGökte şimşek çakmaz unutma dostum\nOcaklar aşk ile yüzüne gülse\nKülü seni yakmaz unutma dostum\n\nDoğru bildiğini kimseye sorma\nYanlışın yalanın üstünde durma\nOlmayan şeylere hayaller kurma\nSıfırdan bir çıkmaz unutma dostum\n\nEl ele dolaşır neşeyle keder\nBiri diğerine yoldaşlık eder\n\n<p>&nbsp;</p>\n\nKim kendinden öte bir yere gider\nYol ardına bakmaz unutma dostum\n\nYalanla doğruyu çürütemezsin\nHayalle gemiler yürütemezsin\nBakarak karları eritemezsin\nGerçek peçe takmaz unutma dostum\n\nYaşadığın günün geçmişi dündür\nElinde var olan yalnız bu gündür\nHer insan kendinden biraz sürgündür\nGün tersine akmaz unutma dostum\n\nKibirden uzak dur övünmekten kaç\nTohumdu bir zaman en büyük ağaç\nSevgi istiyorsan yüreğini aç\nGönül aşktan bıkmaz unutma dostum" 
+    },
+    { 
+    baslik: "VARSA BİR ÇAYIN İÇERİM", 
+    yazar: "Uğur Baş", 
+    resim: "images/varsa_bir_cayiniicerim.jpeg", 
+    ozet: "Selam olsun sana selam, Varsa bir çayın içerim...", 
+    tamMetin: "Selam olsun sana selam\nVarsa bir çayın içerim\nGel edelim iki kelam\nVarsa bir çayın içerim\n\nÇay demini almış ise\nDem dibine salmış ise\nTavşan kanı olmuş ise\nVarsa bir çayın içerim\nDumanlıdır garip başım\nBugün bana ol sırdaşım\nDoldur bardağı gardaşım\nVarsa bir çayın içerim\n\nDerdimiz olmuş tecelli\nÇay olsun bize teselli\nKüçük bardak ince belli\nVarsa bir çayın içerim\n\nMollaoğlu değil dertsiz\nOturalım sessiz sessiz\nBiraz demli ve şekersiz\nVarsa bir çayın içerim" 
+    },
+    { 
+    baslik: "YAĞMURDA YALNIZLIĞIM", 
+    yazar: "Asiye Yaşargün", 
+    resim: "images/yagmurda_yanlizligim.jpg", 
+    ozet: "Gökyüzü toz bulutu, Dokunsan ha yağdı ha yağacak...", 
+    tamMetin: "Gökyüzü toz bulutu,\nDokunsan ha yağdı ha yağacak.\nBugün de yağmur yağacak.\nYağar yağmur,\nyapraklar dalda titreşir.\nSu içer serçeler,\nçamurda oynaşır.\nSokakların eteklerinde kar,\npıtır pıtır damlalar\nsessizce akar kaldırımlardan\ncaddelere.\nEllerim, kış soğuğu\nsaçlarımda gezinir.\nYağmur damlaları,\nilmik ilmik dökülür\nsineme.\nŞemsiyeni almadan gel,\nBen sensiz üşüyorum,\nkaldırımlar yapayalnız." 
+    },
+    { 
+    baslik: "GURBETLİK SENİN NEYİNE", 
+    yazar: "Mehmet Aydoğan", 
+    resim: "images/grbetlik_senin_neyine.jpeg", 
+    ozet: "Gurbetlik senin neyine, Ölüp gideceksin burada...", 
+    tamMetin: "Gurbetlik senin neyine,\nÖlüp gideceksin burada,\nAl çantanı dön köyüne,\nYem olmadan kuşa kurda\n\nGözyaşların akar durmaz.\nKimseler hâlini sormaz.\nÖlsen bile duyan olmaz.\nAl çantanı dön köyüne.\nÖlüp gideceksin burada.\nGözlerin hep yolda kalır.\nÖlmeden bedenin çürür.\nHey gardaşım etme gurur.\nAl çantanı dön köyüne.\nGurbetlik senin neyine.\n\nHasret kalırsın anaya,\nAk kuzuya mor danaya,\nNe olursun dön sılaya.\nAl çantanı dön köyüne.\nGurbetlik senin neyine." 
+    },
+    { 
+    baslik: "NERDESİN HANİ", 
+    yazar: "Şükran Şimşek Akadur", 
+    resim: "images/nerdesin_hani.jpeg", 
+    ozet: "Ömür kısa, zaman çabuk geçiyor. Kaçıp giden gençlik, neredesin hani?...", 
+    tamMetin: "Ömür kısa, zaman çabuk geçiyor.\nKaçıp giden gençlik, neredesin hani?\nGünler ayı, aylar yılı biçiyor.\nUçup giden gençlik, neredesin hani?\n\nYıpranmış duygular, tükenmiş sözler.\nAynalara küsmüş o gülen yüzler.\nYürümekten aciz ayaklar, dizler.\nGeçip giden gençlik, neredesin hani?\n\nHep çocuk kalsaydık kederden uzak.\nKarlar da kaysaydık leğenden kızak.\nSöküntü iplerden örülmüş kazak.\nSeçip giden gençlik neredesin hani?\nBüyüdük, başımız göğe mi erdi?\nMevla'm dur dedikçe bir çile verdi,\nBaşımıza hergün bin çeşit derdi,\nAçıp giden gençlik, neredesin hani?\n\nBazen bir yel vurur, götürür beni.\nToz dumana katar, yitirir beni.\nMaziye daldırır, bitirir beni.\nSaçıp giden gençlik, neredesin hani?\n\nŞükran der; ezilmek Hakk'ın emri mi?\nDünya benim sanan kıtmir cimri mi?\nTersine çevirdi güzel ömrümü,\nBiçip giden gençlik, nerdesin hani?" 
+    },
+    { 
+    baslik: "SEVDALAR İÇİN", 
+    yazar: "Ahmet Beyaz", 
+    resim: "images/sevdalar_için.jpg", 
+    ozet: "Sevdalar için rüzgârlar biriktiriyorum. Şöyle deli dolu esen...", 
+    tamMetin: "Sevdalar için\nRüzgârlar biriktiriyorum.\nŞöyle deli dolu esen.\nDerdi, kederi,\nAyrılıkları alıp götüren.\nKayın ormanlar için\nKuşlar büyütüyorum,\nMavi gökyüzünde.\nHer mevsim\nÖzgürce uçabilen.\nYarınlar için\nYağmurlar biriktiriyorum.\nKışın ardından,\nŞöyle denizler kadar.\nBaharda yeniden çiçekler,\nKardelenler yeşersin umuduyla.\nVe yüreğimin kapısını hep açık tutuyorum.\nOlur da bir gün gelirsen\nHemen içeri gir diye\nBeklemeden..." 
+    },
+    { 
+    baslik: "ANLADIM GÖNLÜNE ULAŞMASI ZOR", 
+    yazar: "Ertürk Demirci", 
+    resim: "images/anladim_gonlune.jpeg", 
+    ozet: "Yıllardır peşinden koştum, yoruldum. Anladım, gönlüne ulaşması zor...", 
+    tamMetin: "Yıllardır peşinden koştum, yoruldum.\nAnladım, gönlüne ulaşması zor.\nCoşkun derya idim sustum, duruldum.\nAnladım, gönlüne ulaşması zor.\n\nYâr dedim, çöllere düştüm, olmadı.\nFerhat'tım, dağları deştim, olmadı.\nYandım ateşinle, piştim olmadı.\nAnladım, gönlüne ulaşması zor.\nGündüz hayal ettim, gece düşledim.\nYâr adını mendilime işledim.\nSevda dedim, hep yeniden başladım.\nAnladım, gönlüne ulaşması zor.\n\nAy dedim, yıldızlar küstüler bana.\nGoncalar boynunu astılar bana.\nDostlarım selamı kestiler bana.\nAnladım, gönlüne ulaşması zor.\n\nRabatlı her sabah sen diye doğar.\nSen de Kerem gibi yan diye doğar.\nGün bacayı aşar, dön diye doğar.\nAnladım, gönlüne ulaşması zor." 
+    },
+    { 
+    baslik: "BEKLEYİŞ", 
+    yazar: "Zafer Direniş", 
+    resim: "images/bekleyis.jpg", 
+    ozet: "Bekliyorum, özlem biriktirdiğim garda. Vagonlar bugün de bomboş...", 
+    tamMetin: "Bekliyorum, özlem biriktirdiğim garda.\nVagonlar bugün de bomboş.\nNe gelen var ne de\n’’Ben geldim aşkım!’’ diyenim.\nDaha kaç mevsim bekleyeceğim,\nUmudumu gömdüğüm raylar arasında?\n\nHer seferinde yağmur olup aktı\nGözyaşlarım,\nSelâmsız uzaklara giden kara trenlere.\nAcı çığlıkları arasında,\nBakakalırım boynu bükük.\nAy endamın ufuklarda gülerken\nGün yine kararır içimde.\nSu gibi akıp giden zamana yanarım.\n\nBugün de güneş doğdu,\nYalnızlığıma umut olmaya.\nEllerim, ayaklarım üşüse de\nNefesini hatırladıkça içim kıpır kıpır.\nTemmuz sıcağındayım sanki meltem rüzgârı tenimi okşarcasına,\nIlık mı ılık gönül viranem.\nİçime mi doğdu ne?\nBelki de\nKim bilir..." 
+    },
+    { 
+    baslik: "BENİ HATIRLA", 
+    yazar: "Gülhan Gürbüz", 
+    resim: "images/beni_hatirla.jpeg", 
+    ozet: "Kalakalmak nedir bilir misin sen? Gecenin karanlığında...", 
+    tamMetin: "Kalakalmak nedir bilir misin sen?\nGecenin karanlığında,\nBir yangının orta yerinde,\nBedenini yakarken yüreğin,\nKapılar yüzüne kapandığında...\n\nNedir bilir misin kalakalmak?\nYargısız infaz sehpasında,\nElinde bir kalem, bir kâğıt \nDilinde ağıt,\nSon dileğin bile sorulmadığında...\n\nGünlerce yağmalanmış,\nViraneye dönen yüreğinle,\nKalakalmak nedir bilir misin sen?\nDilin lâl,\nYüreğinde sükût-u hayal,\nEllerin semada,\nKelimeler boğazında,\nHıçkırıkların arşa ulaştığında...\n\nBilir misin nedir kalakalmak?\nYüreğinin ayazında,\nYalnızlığın koynunda,\nBir rüyanın en güzel yerinde uyandığında,\nYüreğinin sesini susturamadığında...\n\nİçinde fırtınalar kopar gibi,\nKalbine bir şarjör boşalır gibi,\nAldığın nefese düşman, \nYaşadığına pişman gibi...\n\nSen de öylece yarım ve yaralı,\nBir sese, bir nefese,\nBir teselliye hasret kaldığında,\nO arafta, beni hatırla!" 
+    },
+    { 
+    baslik: "DUANIN UMUDU", 
+    yazar: "Dilek Avcıoğlu", 
+    resim: "images/duanin-umudu.jpg", 
+    ozet: "Ey aklımın yetmediği sırların sahibi… Ey kudret, ey rahmet, ey hikmet…", 
+    tamMetin: "Ey aklımın yetmediği sırların sahibi…\nEy kudret, ey rahmet, ey hikmet…\nUmudumu aldım, senin kapına bıraktım....\n\nYorgunum Allah’ım…\nKalbim ateşle sınanıyor.\nKorkuyorum dertlerimden ama\nBiliyorum, sen her derde devasın...\n\nBu tutsak can, bu garip gönül\nKapına geldi işte.\nEllerim bomboş belki,\nAma kalbim sana dolu…\nNe olur, geri çevirme beni...\n\nGönlüm feryat, gözlerim yaş,\nİçimde dinmeyen bir yangın var.\nAcizliğimi bilen kudretine\nDiz çöktüm, teslim oldum...\n\nGünahlarım için af diliyorum,\nVarsa iyiliklerim, hepsini sana emanet ediyorum.\nDuamı gurbet etme Allah’ım,\nNe ateşte bırak beni\nNe de yalnızlıkta…\n\nGörmez mi sanırsın kör olan gözler?\nBu yerin, bu göğün, bu yıldızların\nBir hikmeti var.\nBir nefeslik ömrün içindeyiz\nVe o nefes bile sensiz bomboş...\n\nİçimde bir ses yükseliyor,\nArşı titreten bir yakarış gibi…\n“Geç olmadan dön” diyor,\nDuayı avuçlarında sakla\n\nVe Hakk’a yönel...\n\nHakkı batıldan ayıran gökyüzü şahittir.\nBen de herkes gibi sana geldim.\nYüreğimle, korkularımla,\nUmudumla…\nDuamı kabul et Allah’ım…" 
+    },
+    { 
+    baslik: "ERZURUM AKŞAMLARI", 
+    yazar: "Fikret Okur", 
+    resim: "images/erzurum-aksamlari.jpeg", 
+    ozet: "Sokak başı köşede kestane satan, Cumhuriyet Caddesi'nde tur atan...", 
+    tamMetin: "Sokak başı köşede kestane satan\nCumhuriyet Caddesi'nde tur atan\nKış gecelerinde sahlebi içerken\nNe hoş olur Erzurum akşamları\n\nPalandöken yaslar mağrur başını\nDadaşım dökmez hiç gözün yaşını\nSoğuk vursa bile ekmek aşını\nNe hoş olur Erzurum akşamları\n\nÇifte Minare’de tarih seslenir\nGönüllere huzur orada beslenir\nBu şehir beyaz örtü giyer süslenir\nNe hoş olur Erzurum akşamları\n\nSemaverde çaylar neşe saçar \nLimonu içine ince ince atar\nKıtlama tadıyla keyfine bakar\nNe hoş olur Erzurum akşamları\n\nCadde sokaklar dadaşı ile coşar\nEski hatıralar zihinde koşar \nHavada tane tane karlar yağar \nNe hoş olur Erzurum akşamları\n\nOltu taşı parlar her bir parmakta\nErzurum sevdası vardır her kalpte\nAyrı bir lezzet var her bir durakta\nNe hoş olur Erzurum akşamları\n\nDostluklar sıcak hava buz kesse\nMuhabbet tükenmez rüzgâr esse\nŞükür dilden düşmez her nefeste\nNe hoş olur Erzurum akşamları" 
+    },
+    { 
+    baslik: "İSTANBUL'DA ÂŞIK OLAMADIK", 
+    yazar: "Fikret Subatan", 
+    resim: "images/istanbulda_ask.jpg", 
+    ozet: "İstanbul’da âşık olamadık, İstanbul bana çok uzak. İçimdeki mevsim Ankara...", 
+    tamMetin: "İstanbul’da âşık olamadık,\nİstanbul bana çok uzak.\nİçimdeki mevsim Ankara,\nO da çok başka,\nAyazı kesiyor nefesi.\nAkdeniz?\nAkdeniz?\nAkdeniz mi!\nO hepten kaçırır aklı!...\nAkşamları gibi,\nSabahları içlenirken.\nToroslar,\nAh çeker Amanos.\nŞark uzak sevda da.\nKaradeniz?\nKaradeniz de sevmek zor,\nAcısı horon teptirirken,\nMaya dağdan kazlar kalkınca,\nBozlağın sesi duyulur bozkırdan.\nİçemedik işte Köroğlu gibi\nÜç tas suyu.\nBir Karacaoğlan olup,\nDadaloğlu gibi söyleyemedik,\nBir aşık Veysel gibi olamadık…\nYüzyıl ozanı,\nHoyratın bozlağın bağırları deldiği yerde,\nBir uzun hava olamadık.\nTurnalar uçup giderken,\nHasret dimağda,\nBir değil, bin güle feryat etsekte,\nNe maviliğe yakıştık,\nNe gökyüzüne sığabildik.\nKuşlar telaklarıyla merhaba derken,\nGerçekte biz aşkı hiç tanımadık…\n\nİçimizi yangın yerine çevirirken,\nKapıda bir postacı,\nBir şair,\nBir talih kuşu,\nYalvarırken sana,\nAdını duvarlara yazamadık.\nAğaçlar baş eğmezken,\nYuvalanırken kuşlar,\nBir gölgeyim,\nUzayıp giden bilinmezde…" 
+    },
+    { 
+    baslik: "NOKTA", 
+    yazar: "Ahmet Göçer", 
+    resim: "images/nokta.png", 
+    ozet: "Anladım imlanın kralı nokta, Bitirmiş sözü, Zaman sessizliği bulunca...", 
+    tamMetin: "Anladım imlanın kralı nokta\nBitirmiş sözü\nZaman sessizliği bulunca\nVirgül arsız\nBir daha\nPeşi sıra\nAnladım aşka yakışan\nHasretle barışan nokta nokta nokta\n\nNoktalar acıtır aslında\nİçinde sözler kalmışsa\nYetmemişse harfler\nYüreğin kanamışsa\nÜnlemdir susuşlar\nGecedir\nÜşümüş\nSırtında çengeliyle saplanmışsa sorular\n\nTutmamışsan sevdiğinin ellerini\nDüşmediyse saçları omzuna\nÜst üste iki nokta\nDeğmemiş birbirine\nSoğuk raylar gibi çaresiz\nBaşlamak için sözler tükenir konuşmaya\nHer söz ahrazdır biraz\nHer harf korkak\nSesin siner barikatlar yıkarken yüreğin\n\nBelki başıdır özlemin tırnak işareti\nTek söz\n\"Özledim\"\nBelki biçilmiş otlar altında bir papatya\nFesleğendir gece koklanmamış\nDüştür üşümüş\nBitmiş sigara\nTükenmiş ömür\nUzamış cümledir yalnızlıkta\n\nDedim ya \nDeğil mi ki sözün sonu nokta\ Yeni bir cümlenin başlangıcı aslında\nDokunmak yüreğine\nDamlamışsa ateş hasrete\nYalnızlık yangınına yağmur\nHele yüreğinden yağmışsa\nGecedir üst üste yalnızlık\nHerkes kendi hikâyesini okur noktadan sonra" 
+    },
+    { 
+    baslik: "YARIN VAR OLMALI", 
+    yazar: "Zekine Karaköçek", 
+    resim: "images/yarinlar_varolmali.jpg", 
+    ozet: "Yazmıyor bu günlerde kalemim, Yüreğimin demine tav oldu...", 
+    tamMetin: "Yazmıyor bu günlerde kalemim\nYüreğimin demine tav oldu \nKışı bitmez ömrüm \nKara kışa teslim \nVe \nÜşüyorum \nHiç \nÜşümediğim kadar \nSavaşırdı benim yüreğim \nPes etmeyi sevmezdi \nYenilgiyi öyle hemen kabullenmezdi \nNe çabuk vaz geçti \nNe çabuk pes dedi \nİnancını \nUmudunu başka baharlarda arardı \nToplardı tasını tarağını \nKoşardı denizin kenarına\nBir de terkedilmiş liman olsa\nUmut kapısı olurdu\nMartı çığlıkları arasında denizden \nUmut tohumları arardı \nBahara ekmek için \nRengarenk çiçekler açmalıydı \nKuş çocuk sesi yankılanmalıydı \nUmut hep var olmalıydı \nBir tebessüm toprağa düşen cemre gibi \nCan suyu olacak biliyorum \nYeşerecek umut\nDal verecek sevgi\nDirenmeliyiz\nBırakalım\nKış geçsin\nYükseklerden doğacak güneşe biliyorum \nVe bahar kapıda \nİnan bana\nHava ekmek su tuz misali\nDört mevsim\nYaşanmalı\nYeni doğan bir bebeğin\nKalp atışında \nUmut var olmalı\nYarın var olmalı" 
+    },
+	{ 
+    baslik: "DUVAR", 
+    yazar: "Taylan Koç", 
+    resim: "images/duvarlar.jpeg", 
+    ozet: "Bir atımlık kelimeydi, Dudağında ayrılık. İlkin beni sövdürdü...", 
+    tamMetin: "Bir atımlık kelimeydi\nDudağında ayrılık\nİlkin beni sövdürdü\nAğız dolusu\nÖzleme\n\nSığdıramadım aklıma\nİçimdeki\nDenizlerin öfkesini\nSuları dalga kırdı\nGünlerce\nDudağımın kıyılarında\n\nK/andım öfkenin adına\n\nSonra\nÇekildim kendime\nAyıklayıp\nDalga sesinden rüzgârı \nNefesimi\nDuvara astım\nDeniz döküldü g/sözlerimden\n\nYoktu\nİnan\nÖzleminden başka\nBir sırrım\nOlsaydı\nOnu da\nSöylerdim\nUmutsuz\nKaranlıktan korkmadan" 
+    }
+];
+
+const hedefSayi = Math.ceil(siirler.length / 4) * 4;
+while (siirler.length < hedefSayi) {
+    siirler.push({ 
+        baslik: "YAKINDA", 
+        yazar: "Yeni Şiir", 
+        resim: "images/yakinda.jpeg", 
+        ozet: "Yeni mısralar yakında burada olacak...", 
+        tamMetin: "Bu bölüm yeni şiirleriniz için ayrılmıştır." 
+    });
+}
+
+const liste = document.getElementById('siir-listesi');
+siirler.forEach(siir => {
+    const kart = document.createElement('div');
+    kart.className = 'siir-kart';
+    kart.onclick = () => showSiir(siir);
+    kart.innerHTML = `
+        <img src="${siir.resim}" onerror="this.src='https://via.placeholder.com/300x200?text=Siir+Resmi'">
+        <h3>${siir.baslik}</h3>
+        <p class="on-izleme">${siir.ozet}</p>
+        <span class="shair-name">${siir.yazar}</span>
+    `;
+    liste.appendChild(kart);
+});
+
+function showSiir(siir) {
+    document.getElementById("modal-resim").src = siir.resim;
+    document.getElementById("modal-baslik").innerText = siir.baslik;
+    document.getElementById("modal-yazar").innerText = "Yazar: " + siir.yazar;
+    document.getElementById("modal-siir-metin").innerHTML = siir.tamMetin;
+    document.getElementById("siirModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("siirModal").style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById("siirModal")) {
+        closeModal();
+    }
+}
+</script>
+<div id="footer">
+    <div class="footer-content">
+        <p class="copyright">© 2026 Seyyahın Şiir Defteri | Tüm Hakları Saklıdır</p>
+        <p class="footer-note">User ID: Mehmet3620 tarafından sevgiyle hazırlandı.</p>
+		<p class="footer-note">Şiirlerin Kaynağı:truvaedebiyatdergisi.com.</p>
+    </div>
+</div>
+</body>
+</html>
