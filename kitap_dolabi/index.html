@@ -4,7 +4,7 @@
 <title>Dost Yurdu Kütüphane Kitaplığı</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF8">
 <style type="text/css">
-    div#container { position:relative; width: 1000px; margin: 0 auto; text-align:left; }
+    div#container { position:relative; width: 1250px; margin: 0 auto; text-align:left; }
     body { text-align:center; margin:0; background-color: #FFCC99; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
     /* AHŞABA GÖMÜLÜ OYMA YAZI */
@@ -20,6 +20,19 @@
     #ust-baslik { position: absolute; left: 0; top: 65px; width: 1000px; text-align: center; font-size: 36px; }
     #alt-imza { position: absolute; left: 0; top: 705px; width: 1000px; text-align: center; font-size: 20px; font-style: italic; }
 
+    /* ŞİİR VE GIF KÖŞESİ */
+    #siir-cerceve {
+        position: absolute; left: 1010px; top: 60px; width: 230px; height: 600px;
+        background: #fdf5e6; border: 4px solid #3d2416; border-radius: 12px;
+        box-shadow: 4px 4px 12px rgba(0,0,0,0.2); padding: 10px;
+        text-align: center; overflow: hidden;
+    }
+    #siir-resim { width: 100%; border-radius: 5px; margin-bottom: 8px; border: 1px solid #c2b280; }
+    .siir-metin {
+        font-family: 'Georgia', serif; font-style: italic; color: #4b2e1e;
+        font-size: 14px; line-height: 1.6;
+    }
+
     /* KİTAP VE HOVER KARTI */
     .book-container { position: absolute; cursor: pointer; transition: transform 0.3s; z-index: 10; }
     .book-container:hover { transform: scale(1.1); z-index: 100; }
@@ -31,62 +44,87 @@
     }
     .book-container:hover .book-info-card { display: block; }
 
-    /* MODAL (TAM TANITIM PENCERESİ) */
+    /* MODAL */
     .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); }
     .modal-content { 
         background-color: #fff; margin: 3% auto; padding: 35px; border-radius: 20px; 
         width: 550px; text-align: center; border: 8px solid #3d2416; position: relative;
     }
     .close { color: #cc0000; position: absolute; right: 20px; top: 10px; font-size: 35px; font-weight: bold; cursor: pointer; }
-    
     #bookAuthor { color: #8b5a2b; font-style: italic; font-size: 18px; margin-bottom: 10px; }
-    #bookDescription { 
-        text-align:justify; color:#333; line-height:1.7; margin-top:20px; font-size: 15px;
-        max-height: 450px; overflow-y: auto; padding-right: 15px;
-    }
+    #bookDescription { text-align:justify; color:#333; line-height:1.7; margin-top:20px; font-size: 15px; max-height: 450px; overflow-y: auto; padding-right: 15px; }
 
-    /* ALT BUTON */
-    .btn-action { 
-        position: fixed; bottom: 25px; right: 25px; z-index: 1000;
-        padding: 12px 25px; background: #3d2416; color: #fff; 
-        border: 2px solid #8b5a2b; border-radius: 30px; cursor: pointer; 
-        font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-
-    /* SES VE AKSİYON BUTONLARI */
-    .btn-action { 
-        position: fixed; bottom: 25px; right: 25px; z-index: 1000;
-        padding: 12px 25px; background: #3d2416; color: #fff; 
-        border: 2px solid #8b5a2b; border-radius: 30px; cursor: pointer; 
-        font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
+    /* SES KONTROL */
     #music-control {
         position: fixed; top: 20px; right: 20px; z-index: 1000;
         background: rgba(61, 36, 22, 0.8); color: white; border: 1px solid #8b5a2b;
-        padding: 10px; border-radius: 50%; cursor: pointer; width: 45px; height: 45px;
+        width: 45px; height: 45px; border-radius: 50%; cursor: pointer;
         display: flex; align-items: center; justify-content: center; font-size: 20px;
     }
+    .btn-action { 
+        position: fixed; bottom: 25px; right: 25px; z-index: 1000;
+        padding: 12px 25px; background: #3d2416; color: #fff; 
+        border: 2px solid #8b5a2b; border-radius: 30px; cursor: pointer; font-weight: bold;
+    }
 </style>
-    
 </head>
 <body background="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/FILE49335.PNG" onclick="startMusic()">
+
 <audio id="neySound" loop>
   <source src="https://ia601709.us.archive.org/0/items/farid_farjah_third/farid_farjah_third.mp3" type="audio/mpeg">
-  </audio>
+</audio>
 
 <div id="music-control" onclick="toggleMusic(event)">🎵</div>
-    
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h2 id="bookTitle" style="color:#3d2416; margin-bottom:5px;"></h2>
-    <div id="bookAuthor"></div>
-    <hr style="border: 1px solid #eee;">
-    <div id="bookDescription"></div>
-  </div>
-</div>
 
 <div id="container">
+    <div id="siir-cerceve">
+        <img id="siir-resim" src="https://www.truvaedebiyatdergisi.com/files/uploads/news/default/20220813-susma-98132-dbb792a395e0d60bbbc4.gif" alt="Susma">
+        <marquee direction="up" scrollamount="2" class="siir-metin" height="420px">
+            Bugün babamı ziyarete gittim<br>
+            Baba dedim<br> 
+            Şöyle bir akşam dertleşemedik daha seninle<br>
+            Ne kadar da acelecisin işte<br> 
+            Daha gün batmadan<br> 
+            kapatın bütün perdeleri gidiyorsun<br> 
+            Çok mu yorgunsun çok mu kırgın sın söyle?<br>
+            Bu gitmeler niye?<br>
+            Konuş baba susma…<br><p></p>
+            Daha kaç gece katık edeceğim seni düşlerime<br> 
+            Uzun zamandır hep böyleyiz<br>
+            Ben konuşuyorum o susuyor<br>
+            Neden hiç cevap vermiyorsun?<br>
+            Yoksa küstün mü bana<br> 
+            Okuyorum bildiğim bütün duaları başında<br> 
+            Bugün yol çok uzandı geciktim biraz<br>
+            Benden önce abim gelmiş ziyaretine<br> 
+            Kıskandım…<br><p></p>
+            Hani bayram sabahında ilk ben öperdim elini<br> 
+            Bugün o almış yerimi<br> 
+            Yine de öptüm ellerini<br> 
+            Şeker de koydum başına<br> 
+            Boynunu bükme diye<br> 
+            Kolanya hiç sevmezdin<br> 
+            Koklardın saçlarımızı<br> 
+            Saçlarımı tutam tutam yoldum baba<br>
+            Süzüldü gözyaşlarım<br>
+            Toprağa düşerken kokun geldi burnuma<br> 
+            Nasıl da özlemişim kokunu<br><p></p>
+            Kırgınım sana baba kırgınım<br> 
+            Bu kahrolası gurbet çekilecek gibi değil artık<br> 
+            Yoksa her gün gelirim yanına<br>
+            Kurumaz o zaman ektiğim çiçekler de<br>
+            Seni özlediğimde<br>
+            Sızlamaz burnumun direği böyle<br> 
+            hasta olduğumda<br> 
+            Gözüm kapıda kalmazdı hani<br>
+            Şimdi çok hastayım baba<br>
+            Neden konuşmuyorsun<br> 
+            Ses ver ne olur<br> 
+            Yoksa küstün mü bana?<br>
+            Ne olur susma...
+        </marquee>
+    </div>
+
     <div id="ust-baslik" class="gomulu-yazi">Dost Yurdu Kitaplığı</div>
     <div id="alt-imza" class="gomulu-yazi">Seyyah</div>
 
@@ -97,12 +135,43 @@
     <div id="shelf"></div>
 </div>
 
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="bookTitle" style="color:#3d2416; margin-bottom:5px;"></h2>
+    <div id="bookAuthor"></div>
+    <hr style="border: 1px solid #eee;">
+    <div id="bookDescription"></div>
+  </div>
+</div>
+
 <button class="btn-action" onclick="rastgeleTanit()">✨ Bir Kitap Tanıt</button>
 
 <script type="text/javascript">
+const myAudio = document.getElementById("neySound");
+let isPlaying = false;
+
+function startMusic() {
+    if(!isPlaying) {
+        myAudio.play().catch(e => console.log("Müzik bekleniyor..."));
+        isPlaying = true;
+    }
+}
+
+function toggleMusic(e) {
+    e.stopPropagation();
+    if (myAudio.paused) {
+        myAudio.play();
+        document.getElementById("music-control").innerHTML = "🎵";
+    } else {
+        myAudio.pause();
+        document.getElementById("music-control").innerHTML = "🔇";
+    }
+}
+
 const kitaplar = [
     {ad: 'Bir Destandır Çanakkale', yazar: 'Vehbi Vakkasoğlu', sol: 52, ust: 202, resim: 'bir-destandir-canakkalee.png', ozet: "Çanakkale; altı asır üç kıtaya hükmeden şanlı Osmanlının son zaferi ve İstiklal harbimizin habercisi... 'Yedi Düvel'in 'hasta adam' dedikleri Osmanlıya son darbeyi vurmak isterken kazdıkları kuyuya düştükleri yer... İki yüzelli bini aşkın şehidin kanıyla sulanan vatan toprağı... <p></p> Cenab-ı Hakkın (c.c.) inayetiyle, Hz. Peygamberin (a.s.m.) ruhaniyetiyle hazır bulunduğu, Allah ve Peygamber aşkıyla gözünü kırpmadan, korkusuzca düşmana karşı koyan Mehmetçiğin tarih yazdığı altın sayfa... Düşmanın dahi kahramanlığını, insanlığını övdüğü Mehmetçiğin yazdığı bir destan Çanakkale..."},
-    {ad: 'Seyyah', yazar: 'Seyyah (Adem Özköse)', sol: 173, ust: 203, resim: 'seyyah.jpg', ozet: "Çıktığım yollar, yaptığım seyahatler; ziyaret ettiğim bir çok şehirle içten bir bağ kurmama neden oldu. Ben de seyyahların çoğu gibi bazı şehirlerin ruhu olduğuna inananlardanım. Bu şehirlerin sokaklarını adımlarken tatlı bir musiki takılır kulaklarınıza. <p></p> Şehir kendini size vermek için adeta can atar. Alırsınız ve yüreğinizin en özel yerinde saklarsınız bu şehirleri. Öyle bir sahiplenirsiniz ki onları, sanki sizin olurlar. İstanbul, Saraybosna, Kahire, Gazze, Isfahan, Bağdat, Şam-ı Şerif, Kudüs ..."},
+    {ad: 'Seyyah', yazar: 'Adem Özköse', sol: 173, ust: 203, resim: 'seyyah.jpg', ozet: "Çıktığım yollar, yaptığım seyahatler; ziyaret ettiğim bir çok şehirle içten bir bağ kurmama neden oldu. Ben de seyyahların çoğu gibi bazı şehirlerin ruhu olduğuna inananlardanım. Bu şehirlerin sokaklarını adımlarken tatlı bir musiki takılır kulaklarınıza. <p></p> Şehir kendini size vermek için adeta can atar. Alırsınız ve yüreğinizin en özel yerinde saklarsınız bu şehirleri. Öyle bir sahiplenirsiniz ki onları, sanki sizin olurlar. İstanbul, Saraybosna, Kahire, Gazze, Isfahan, Bağdat, Şam-ı Şerif, Kudüs ..."},
     {ad: '4811', yazar: 'İhsan Şenocak', sol: 340, ust: 203, resim: '4811.jpg', ozet: "Tarihin gizemli sayfalarında bir yolculuğa çıkmaya hazır mısınız? Bu eser, hakikat arayışındaki bir ruhun derin tefekkürlerini konu alıyor. <p></p> Her sayfasında yeni bir kapı aralayan sürükleyici anlatımıyla, okuyucuyu kalbin derinliklerine doğru bir yolculuğa davet ediyor."},
     {ad: 'Elhamdülillah Müslümanım', yazar: 'Mehmet Yaşar Kandemir', sol: 461, ust: 203, resim: 'elhamdulillah.jpg', ozet: "Dünya bizim için gurbettir. Biz bu gurbete bile isteye gelmedik. Rabbimiz bizi bu gurbet diyârına, âhiret yurdumuza hazırlanalım diye gönderdi. <p></p> Bu gerçeği bize önce Peygamber Efendimiz, sonra da onun mirasçısı olan âlimlerimiz hep hatırlattılar. Kendilerini din kardeşlerine karşı sorumlu hissettiklerinden, onlara dinlerini öğretmek için çeşitli eserler verdiler. Âlimlerimiz, din kardeşlerini hem eserleriyle, hem de câmilerdeki sohbetleriyle diri tutmaya gayret ettiler."},
     {ad: 'Esir Türkler', yazar: 'Adem Özköse', sol: 582, ust: 203, resim: 'esir_turkler.jpg', ozet: "Bu kitap, Çin'in elindeki tüm propaganda imkanlarını kullanarak gerçeğin boğulmaya çalışıldığı bir dönemde yazıldı. <p></p> Fakat ben inanıyorum ki Çin ne kadar güçlü olursa olsun dünyanın özgür ve vicdanlı insanları Çin'den de diğer zalimlerden de çok daha güçlüdür. Doğu Türkistan'da yaşananlar asla Filistin'den veya Arakan'dan daha aşağı değildir. Kitabı okudukça bu iddiamı daha iyi anlayacaksınız."},
@@ -112,7 +181,7 @@ const kitaplar = [
     {ad: 'Zülfikarlar Bilendi', yazar: 'Ömer Saruhan', sol: 173, ust: 369, resim: 'zulfikarlar-bilendi.jpg', ozet: "Zalimlere karşı direnişin romanı... Bu kitap işgal altında bulunan İslam coğrafyalarında yaşananlardan esinlenerek kaleme alınmıştır. <p></p> Müslümanların küfre ve zulme asla boyun eğmediklerini, işgalcilerin bütün vahşi saldırılarına karşı şanlı bir direniş sergilediklerini ve cihadla izzetlerine kavuştuklarını gözler önüne sermektir. Müslümanların yeniden direniş ruhunu yakalaması ümidiyle..."},
     {ad: 'İlklerin Annesi Hz. Hatice', yazar: 'Hilal Kara & Abdullah Kara', sol: 340, ust: 369, resim: 'hz_hatice.jpg', ozet: "Allah Resulü'nün (a.s.m.) vefakâr eşi, Vahyin inişinin ilk şahidi, İlk Müslüman, Allah'ın selam gönderdiği ve Cennetle müjdelediği hanım... <p></p> Onun hayatını tüm ayrıntılarıyla okurken, sadece onu değil, âlemlere rahmet olarak gönderilen Resulullah'ı (a.s.m.), ilk Müslümanları, İslam'ın ilk günlerini yakından tanıma imkânı bulacaksınız. 'İlklerin Annesi Hz. Hatice' size ibretlerle dolu bir yaşam sunuyor."},
     {ad: 'Kur\'an\'ın Kalbine Yolculuk', yazar: 'Yasin Pişgin', sol: 461, ust: 369, resim: 'kuranin_kalbine.png', ozet: "Kur'an; Azîz olan izzet sahibi, Rahîm olan rahmet sahibi Allah'ın indirdiği hikmet yüklü bir kitaptır. <p></p> Kur'an; bir hakikat çağrısı, bir hidayet rehberidir. İnsan, Kur'an'la ne kadar iç içe girerse Allah'ın sesini o kadar içinde, iliklerinde hisseder. O soluk insanı pişirir; olgunlaştırır..."},
-    {ad: 'Müslüman Kadın', yazar: 'Bilge Arslan', sol: 582, ust: 369, resim: 'musluman_kadin.jpg', ozet: "Hayatın farklı yoğunluklarını adımlamaya henüz başlamamış olanların hedeflerine daha emin adımlarla yürümeleri, yoldaki olası engellerin tespiti ve çözümü... <p></p> Bu çalışma, genel vurgusu itibariyle sadece kadınlara değil herkese bir çare ve ışık olabilir. Sistemli ilerlemenin temini konularında bir başucu eseridir."},
+    {ad: 'Müslüman Kadın', yazar: 'Bilge Arslan', sol: 582, ust: 369, resim: 'musluman_kadin.jpg', ozet: "Hayatın farklı yoğunluklarını adımlamaya henüz başlamamış olanların hedeflerine daha emin adımlarla yürümeleri, yoldaki olası engellerin tespiti ve çözümü... <p></p> Bu çalışma, genel vurgusu itibariyle sadece kadınlara değil herkese bir chare ve ışık olabilir. Sistemli ilerlemenin temini konularında bir başucu eseridir."},
     {ad: 'İslâm İlmihali', yazar: 'Lütfi Şentürk-Seyfettin Yazıcı', sol: 753, ust: 369, resim: 'islam_ilmihali.jpg', ozet: "İslâm İlmihali kitabında itikat, ibadet, helaller ve haramlar, yapılması günah olan şeyler, ahlâk ve Peygamberimiz Hz. Muhammed bölümleri yer almaktadır. <p></p> Kitabın bölümlerinde, Müslümanların gündelik hayatında karşılaşabileceği dini sorulara cevaplar yer almaktadır."},
     {ad: 'Kalpten Hayata', yazar: 'Dr Adem Ergül', sol: 868, ust: 369, resim: 'kalpten-hayata.png', ozet: "Kişilik terbiyesinin bu çok boyutluluğu karşısında, kendimizi ve neslimizi selin akışına bırakıvermek, daha baştan kaybetmektir. <p></p> Yapılması gereken, rotayı kaybetmeden, büyük bir dirayet, basiret ve ustalıkla ilâhî rahmete nail olmak ve sahil-i selâmete erişebilmektir."},
     {ad: 'Riyâzü\'s-Sâlihîn', yazar: 'Mehmet Yaşar Kandemir', sol: 55, ust: 535, resim: 'riyazusalihin.jpg', ozet: "Peygamber Efendimizden günümüze ışık tutan en sahih hadisleri bir araya getiren bir edep hazinesidir. <p></p> Gönülleri aydınlatan bu nasihatler, insanın dünya ve ahiret saadetine giden yolu inşa etmektedir."},
@@ -125,36 +194,12 @@ const kitaplar = [
 ];
 
 const shelf = document.getElementById('shelf');
-const myAudio = document.getElementById("neySound");
-let isPlaying = false;
-
-// Kütüphaneye tıklandığında müziği başlat (Tarayıcı kısıtlamaları için)
-function startMusic() {
-    if(!isPlaying) {
-        myAudio.play();
-        isPlaying = true;
-    }
-}
-
-function toggleMusic(e) {
-    e.stopPropagation(); // Sayfa tıklama olayını tetiklemesin
-    if (myAudio.paused) {
-        myAudio.play();
-        document.getElementById("music-control").innerHTML = "🎵";
-    } else {
-        myAudio.pause();
-        document.getElementById("music-control").innerHTML = "🔇";
-    }
-}
 kitaplar.forEach(kitap => {
     const bookDiv = document.createElement('div');
     bookDiv.className = 'book-container';
     bookDiv.style.left = kitap.sol + 'px';
     bookDiv.style.top = kitap.ust + 'px';
-    bookDiv.onclick = (e) => {
-        e.stopPropagation();
-        showBook(kitap.ad, kitap.yazar, kitap.ozet);
-    };
+    bookDiv.onclick = (e) => { e.stopPropagation(); showBook(kitap.ad, kitap.yazar, kitap.ozet); };
     bookDiv.innerHTML = `
         <div class="book-info-card"><strong>${kitap.ad}</strong><br><small>${kitap.yazar}</small></div>
         <img src="https://mehmet3620.github.io/proje_index/kitap_dolabi/images/${kitap.resim}" width=88 height=137>
@@ -170,18 +215,11 @@ function showBook(title, author, desc) {
 }
 
 function closeModal() { document.getElementById("myModal").style.display = "none"; }
-
 function rastgeleTanit() {
     const r = Math.floor(Math.random() * kitaplar.length);
     showBook(kitaplar[r].ad, kitaplar[r].yazar, kitaplar[r].ozet);
 }
-
 window.onclick = function(event) { if (event.target == document.getElementById("myModal")) closeModal(); }
 </script>
 </body>
 </html>
-
-
-
-
-
