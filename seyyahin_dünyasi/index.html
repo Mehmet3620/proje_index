@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seyyahın Dünyası | Mehmet3620</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    
+    <style>
+        :root {
+            --sayfa-bg: #e9eaed;
+            --ana-govde: #ffffff;
+            --mavi: #1877f2;
+            --mavi-hover: #166fe5;
+            --gri-metin: #606770;
+            --fb-border: #dddfe2;
+        }
+
+        body { margin: 0; padding: 0; background-color: var(--sayfa-bg); font-family: 'Segoe UI', Arial, sans-serif; }
+        .portal-cerceve { max-width: 1000px; margin: 0 auto; background: var(--ana-govde); box-shadow: 0 0 15px rgba(0,0,0,0.1); min-height: 100vh; }
+        .kapak-kutusu { width: 100%; height: 380px; overflow: hidden; background: #333; }
+        .kapak-kutusu img { width: 100%; height: 100%; object-fit: cover; }
+        .profil-katmani { display: flex; align-items: center; padding: 0 40px 30px; margin-top: -60px; gap: 25px; }
+        .profil-img { width: 160px; height: 160px; border-radius: 50%; border: 5px solid #fff; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); object-fit: cover; }
+        .isim-grubu { flex: 1; }
+        .isim-grubu h1 { margin: 0; font-size: 28px; color: #050505; }
+        
+        .admin-giris-btn { background: #f02849; color: white; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+
+        .m-kontrol-btn { background: #e4e6eb; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #606770; transition: background 0.2s; }
+        .m-kontrol-btn:hover { background: #d8dadf; }
+
+        .tab-bar { display: flex; justify-content: center; gap: 10px; border-top: 1px solid #ddd; padding-top: 20px; }
+        .tab-btn { padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; background: #e4e6eb; color: #606770; border: none; transition: 0.2s; }
+        .tab-btn:hover { background: #d8dadf; }
+        .tab-btn.aktif { background: var(--mavi); color: white; }
+
+        .galeri-izgara { padding: 30px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; align-items: start; }
+        .kart { background: #fff; border-radius: 8px; border: 1px solid #ddd; overflow: hidden; display: none; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .kart.aktif { display: block; }
+
+        .resim-kapsayici { width: 100%; height: 450px; position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
+        .blur-bg { position: absolute; width: 110%; height: 110%; object-fit: cover; filter: blur(20px) brightness(0.6); z-index: 1; }
+        .ana-resim { position: relative; z-index: 2; max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .video-kapsayici { width: 100%; height: 250px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .ana-video { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        .kart-yazi { padding: 20px; font-size: 16px; color: #1c1e21; text-align: center; line-height: 1.6; word-wrap: break-word; }
+        
+        .etkilesim-alani { border-top: 1px solid #cccccc; }
+        .etkilesim-bar { display: flex; padding: 5px 10px; border-bottom: 1px solid #cccccc; }
+        .etkilesim-btn { flex: 1; background: none; border: none; padding: 10px; border-radius: 4px; color: var(--gri-metin); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; transition: background 0.2s; }
+        .etkilesim-btn:hover { background: #cccccc; color: #1c1e21; }
+
+        .yorum-sergileme { padding: 10px 20px; background: #f0f2f5; font-size: 13px; max-height: 200px; overflow-y: auto; border-bottom: 1px solid #ddd; }
+        .tek-yorum { margin-bottom: 8px; background: #fff; padding: 8px; border-radius: 10px; border: 1px solid #e4e6eb; }
+
+        .yorum-kutusu { background: #fff; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .yorum-ust-satir { display: flex; gap: 8px; align-items: center; }
+        .yorum-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+        .isim-input { width: 100px; background: #f0f2f5; border: 1px solid #ddd; border-radius: 15px; padding: 5px 12px; font-size: 12px; outline: none; }
+        .yorum-input { flex: 1; background: #e5e5e5; border: none; border-radius: 20px; padding: 8px 15px; font-size: 14px; outline: none; transition: background 0.2s; }
+
+        .kart-alt { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #90949c; background: #f9f9f9; }
+        .etiket-red { background: #f02849; color: #fff; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+
+        footer { text-align: center; padding: 40px; background: #f0f2f5; color: var(--gri-metin); border-top: 1px solid #ddd; font-size: 13px; }
+        .footer-logo { font-size: 20px; font-weight: bold; color: var(--mavi); margin-bottom: 10px; }
+        .footer-soz { font-style: italic; margin-bottom: 20px; }
+        
+        .haber-bandi { background: #f0f2f5; margin: 15px 40px; border-radius: 8px; display: flex; align-items: center; overflow: hidden; border: 1px solid #ddd; height: 40px; }
+        .band-baslik { background: #f02849; color: white; padding: 0 15px; height: 100%; display: flex; align-items: center; font-weight: bold; font-size: 13px; z-index: 5; }
+        .kayan-yazi { flex: 1; display: flex; overflow: hidden; }
+        .marquee-icerik { display: flex; white-space: nowrap; animation: sonsuzDongu 90s linear infinite; }
+        .marquee-icerik span { display: inline-flex; align-items: center; padding: 0 40px; font-size: 14px; font-weight: 500; color: #1c1e21; }
+        @keyframes sonsuzDongu { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        #yukari-cik { position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px; background-color: var(--mavi); color: white; border: none; border-radius: 50%; cursor: pointer; display: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
+        #admin-panel { display: none; margin: 20px 40px; padding: 20px; border: 2px solid var(--mavi); border-radius: 8px; background: white; }
+        .admin-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop><source src="images/farid_farjah_third.mp3" type="audio/mpeg"></audio>
+
+    <div class="portal-cerceve">
+        <div class="kapak-kutusu">
+            <a href="index.html"><img src="images/kapak/kapak.jpg" style="cursor: pointer;" title="Ana Sayfaya Dön"></a>
+        </div>
+        <div class="profil-katmani">
+            <img src="images/kapak/profil.jpg" class="profil-img">
+            <div class="isim-grubu"><h1>SEYYAHIN DÜNYASI</h1></div>
+            
+            <button class="admin-giris-btn" onclick="adminAc()">
+                <i class="fas fa-user-shield"></i> YÖNETİM
+            </button>
+            
+            <button class="m-kontrol-btn" onclick="toggleM()"><i id="mI" class="fas fa-play"></i></button>
+        </div>
+
+        <div id="admin-panel">
+            <h3 style="color:var(--mavi)">Yeni İçerik Ekle (Mehmet3620)</h3>
+            <select id="a-tip" class="admin-input"><option value="resim">Şiir (Resim)</option><option value="video">Video</option></select>
+            <input type="text" id="a-yazi" class="admin-input" placeholder="Şiir/Yazı Metni">
+            <input type="text" id="a-link" class="admin-input" placeholder="Dosya adı (34.jpg) veya Video Linki">
+            <button onclick="adminKaydet()" class="tab-btn aktif" style="width:100%">SİTEYE EKLE</button>
+        </div>
+
+        <div class="haber-bandi">
+            <div class="band-baslik">GÜNCEL</div>
+            <div class="kayan-yazi" id="bant-kapsayici"></div>
+        </div>
+        <div class="tab-bar">
+            <button id="btn-resim" class="tab-btn aktif" onclick="sekmeGoster('resim', this)">Şiirler (16)</button>
+            <button id="btn-video" class="tab-btn" onclick="sekmeGoster('video', this)">Videolar (10)</button>
+        </div>
+
+        <div class="galeri-izgara" id="ana-galeri"></div>
+
+        <footer>
+            <div class="footer-icerik">
+                <div class="footer-logo">SEYYAHIN DÜNYASI</div>
+                <p class="footer-soz">"Bir heybemiz vardı; içinde umut, yolumuzda şiir, gönlümüzde dostluk biriktirdik."</p>
+                <p class="footer-soz" style="font-size: 12px; margin-top:-10px">"İnsan 'YÜREĞİNDE' taşıdığını unutabilir mi hiç...?? Bir bardak çay, biraz müzik kırıntısı, biraz hüzün... İşte benim bütün hikayem."</p>
+                <div class="footer-alt">
+                    <span>&copy; 2026 Mehmet3620</span> | <span id="v-sayac">Yükleniyor...</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <button id="yukari-cik" onclick="window.scrollTo({top:0, behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5q0UT8SCZow2z5_nJnlmSRQi1xFMbOzM",
+            authDomain: "seyyahin-dunyasi.firebaseapp.com",
+            databaseURL: "https://seyyahin-dunyasi-default-rtdb.firebaseio.com",
+            projectId: "seyyahin-dunyasi",
+            storageBucket: "seyyahin-dunyasi.firebasestorage.app",
+            messagingSenderId: "265266525229",
+            appId: "1:265266525229:web:e73855455cb408b04174a4"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function adminAc() { 
+            const girilenID = prompt("Yönetici ID Giriniz:");
+            if(girilenID !== "Seyyah1453") { alert("Hatalı ID!"); return; }
+            const girilenSifre = prompt("Erişim Şifresini Giriniz:");
+            db.ref('Seyyah1453').once('value').then(s => {
+                if(girilenSifre === s.val()) {
+                    document.getElementById('admin-panel').style.display = "block";
+                    document.getElementById('admin-panel').scrollIntoView({behavior:'smooth'});
+                } else { alert("Şifre Yanlış!"); }
+            });
+        }
+
+        function adminKaydet() {
+            const data = {tip: document.getElementById('a-tip').value, yazi: document.getElementById('a-yazi').value, link: document.getElementById('a-link').value, yil: "2026", sanatci: "Mehmet Can"};
+            db.ref('ekstralar').push(data).then(() => { alert("Başarıyla eklendi!"); location.reload(); });
+        }
+
+        // --- ŞİİRLER LİSTESİ (20 ADET) ---
+        const siirler = [
+		    {img: "151663751269325.jpg", yazi: "Sevmek naif gönüllerin işidir..! Kimi bir gülü koklamak için, Dalını kırar can acıtır, Kimi de güle kıyamaz dikeninden tutar, Kendi canını acıtır..!", yil: "2026"},
+		    {img: "50727341362966.jpg", yazi: "Ne kadar umutsuz yada mutsuz olduğunu düşünsen de Yine de vazgeçemezsin hayattan.. Çünkü Sana karşılıksız verilen tek şeydir hayat. Düşüp kalksan da, tökezlesen de bazen, Seni yaşama bağlayan iki şeyden biri hep vardır : Biri mutlu olmak, Biri de umutlu olmak ...", yil: "2026"},
+            {img: "150726334696400.jpg", yazi: "Hüzünlüdür gün batımları Ama iyi de hissettirir Yeniden hatırlatır insana Her şeyin bir sonu olduğu, ve her sonun da aslında yeni bir başlangıca gebe olduğunu...", yil: "2026"},
+            {img: "150722524696781.jpg", yazi: "Öyle demişti şair:  En uzun yoldur insanın içi.  Ne kadar doğru değil mi? Yürüyünce yüzleşecek, barışacak, kabullenecek, affedilecek ne çok şey var. Görmek isteyene... Sizi unutan insanları hatırlamak yerine, sizi seven insanlarla mutlu olmayı deneyin.", yil: "2026"},
+            {img: "148673424901691.jpg", yazi: "SEVGİ NEYDİ !! Sevgi neydi, Sevgi iyilikti, dostluktu… Sevgi emekti. Sevgi neydi? Sevgi dostça uzanan insan eliydi. Sevgi neydi ? Sevgi sahip çıkan o sıcacık insan eliydi sevgi iyilikti…. SEVGİ bence özveriydi, empatiydi, emekti, saygıydı, dürüstlüktü, iyilikti, saflıktı ve SEVGİ beden değil yürekti, dostluktu arkadaşlıktı...", yil: "2026"},
+            {img: "166189346483432.jpg", yazi: "Bir gün gelir, Açmaz dediğin çiçekler açar... Gitmez dediğin dertler gider... Bitmez dediğin zaman geçer... Hayat öyle bir sır ki ; Önce Şükür, Sonra Sabır, Sonra da inanmak gerek...", yil: "2026"},
+            {img: "363392921847.jpg", yazi: "Dilimi yaktı diye, Çaya küsecek değilim Yine kaynatır, Yine içerim... Hiç aşık mâşuğundan, Yandım diye vazgeçer mi...", yil: "2023"},
+            {img: "34765191616.jpg", yazi: "Senin Okuyabileceğin Güzel Bir Söz Bulabilmek İçin Kırk Sayfa Dolaşıyorsam Bulamayınca, Oturup Kendim Yazıyorsam Sana Verdiğim Değerden Sana Olan Sevgimdendir... Bil İstedim...", yil: "2023"},
+            {img: "347238567.jpg", yazi: "Kimlerin Nasıl Güldüğünü Bilemem Ama Sen Gülünce Gönlümdeki Güller Açıyor...", yil: "2023"},
+            {img: "358703378.jpg", yazi: "Sevgilim olsun istemiyorum Sevdiğim olsun istiyorum Her gün “görmek” değil her an “hissetmek” istiyorum...", yil: "2023"},
+            {img: "347253546.jpg", yazi: "Bazı insanlar sevmeyi öğretir.. Bazıları da sevmekten vazgeçmeyi...", yil: "2023"},
+            {img: "347383387.jpg", yazi: "Kimsenin saçına ak olmayın. Kimsenin gönlüne yük olmayın. Kimsenin gözüne yaş olmayın. Kısacası; Kimsenin ahını almayın...", yil: "2023"},
+            {img: "347580112.jpg", yazi: "Yaşadığını sanıyorsun..! Sonra bir şarkı çalıyor, ya yaşayamadıkların geliyor aklına ya da artık hiç yaşayamayacakların...", yil: "2023"},
+            {img: "3633434247.jpg", yazi: "Bir bardak ''ÇAY,'' Biraz müzik kırıntısı, Biraz ''HÜZÜN.'' İşte benim bütün hikayem...", yil: "2023"},
+            {img: "3474389035.jpg", yazi: "Neydi mutluluk ? Biraz tebessüm... Biraz ilgi... Biraz empati... Biraz hatırlanmak... Biraz önemsenmek... Biraz güzellikleri paylaşabilmek... Biraz sevgileri çoğaltabilmek... Biraz kalplere dokunabilmek...", yil: "2023"},
+            {img: "347425657_14549.jpg", yazi: "Ah Be Yüreğim Susmanın Yürek Yaralarına İyi Geleceğini mi Sanıyorsun...", yil: "2023"},
+            {img: "348299999137.jpg", yazi: "Sensin İçimi sevgiyle dolduran Hayaliyle çevremi saran Sensin damarlarda dolaşan Canıma can olan Büyük sevgiyle bağlayan...", yil: "2023"},
+            {img: "347567033_2.jpg", yazi: "İnsan \"YÜREĞİNDE\" taşıdığını Unutabilir mi hiç...??", yil: "2023"},
+            {img: "3475580946.jpg", yazi: "Umut hep vardır sevdasını bir çiçek gibi yakasında taşıyanlara...", yil: "2023"},
+            {img: "347552733_45.jpg", yazi: "Bilmezsin Ama; \"Sen Gülünce Bizim Buralara Bahar Gelir\" Buram Buram Çiçek Kokuları Yayılır Etrafa...", yil: "2023"},
+            {img: "34960068729.jpg", yazi: "Sonra Dedim Kendime Güneş Doğmuş Çiçekler Açmış Leylekler de Dönmüş Sen Yoksan Kimin Umurunda...", yil: "2023"},
+            {img: "347557655_5193.jpg", yazi: "Tanıdığımı sandığım insanlarla ilgili yaşadığım hayal kırıklıklarını sığdırabileceğim bir heybem yok.. Ve işte bu yüzden yüreğim tıklım tıklım yorgunluk..", yil: "2023"}
+        ];
+        const videolar = [{src: "https://ia800506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/352237030_261501969794745_1411195793593479402_n_206668778938163.mp4", yazi: "Adını hasret koy, hasret kalayım. Adını gurbet koy, yollar alayım...", sanatci: "Bülend Yasin"},{src: "https://ia600506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/354219182_6267233436694751_195674083164371558_n_169816615894756.mp4", yazi: "İçimdeki seni sana nasıl tarif etsem bilmem ki...", sanatci: "Hasan Dağ"},{src: "https://ia600506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/pPuAhUCKAJDORgLdnRzX3ByZXZpZXccF0BwfXCj1wo9GClkYXNoX2k0.mp4", yazi: "Ašktan yana söz duyunca, Ben hep seni düşünürüm...", sanatci: "Hasan Sağındık"},{src: "https://ia600506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/rhR64UfGClkYXNoX2k0bGl0ZWJhc2ljXzVzZWNnb3BfaHEyX2Zy0.mp4", yazi: "Hırpaladın sol yanımı, yıktın ev, bark, ocağımı...", sanatci: "Yol'a Düş"},{src: "https://ia600506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/354061487_929979491391257_4993429763579550643_n_2465375836950282.mp4", yazi: "Baktım gülüşünden güzel şiir olur, sevdim gitti...", sanatci: "Cemal Süreya"},{src: "https://ia600506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/354057786_1214454442578183_3072216014169893731_n_642438477766995.mp4", yazi: "Uzaktan seviyorum seni kokunu alamadan...", sanatci: "Cemal Süreya"},{src: "https://ia600506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/353417813_248841424424154_7905169305446074650_n_1441560073298876.mp4", yazi: "Hayatımda ilk kez birisi bana ” kendine çok dikkat et ” dedi...", sanatci: "Cemal Süreya"},{src: "https://ia800506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/352654022_596372995640416_781791075620559608_n_983199253034996.mp4", yazi: "Ahu gözlüm tut elimden, Vazgeçmeden emelimden...", sanatci: "M. Yıldızdoğan"},{src: "https://ia600506.us.archive.org/27/items/352237030-261501969794745-1411195793593479402-n-206668778938163/352283380_803318461362999_4073546688341067647_n_1012398983081419.mp4", yazi: "Derdinden verem oldum, tutuştum kerem oldum...", sanatci: "Halit Bilgiç"},{src: "https://ia600701.us.archive.org/18/items/ey-yarali-kalbim-kasim-6-2016/%2B%2BEy%20Yaral%C4%B1%20Kalbim%20Kas%C4%B1m%206%2C%202016.mp4", yazi: "Ey Yaralı Kalbim...", sanatci: "Mehmet Can"}];
+
+        function kartOlustur(liste, tip) {
+            liste.forEach((item) => {
+                const id = btoa(unescape(encodeURIComponent(item.yazi.substring(0, 15)))).replace(/[^a-zA-Z0-9]/g, "");
+                let medyaHtml = tip === 'resim' ? `<div class="resim-kapsayici"><img src="images/${item.img || item.link}" class="blur-bg"><img src="images/${item.img || item.link}" class="ana-resim"></div>` : `<div class="video-kapsayici"><video controls class="ana-video"><source src="${item.src || item.link}"></video></div>`;
+
+                document.getElementById('ana-galeri').innerHTML += `
+                <div class="kart ${tip}" id="kart-${id}">
+                    ${medyaHtml}
+                    <div class="kart-yazi">${item.yazi}</div>
+                    <div class="etkilesim-alani">
+                        <div class="etkilesim-bar">
+                            <button class="etkilesim-btn" onclick="db.ref('i/'+'${id}'+'/b').transaction(c=>(c||0)+1)"><i class="far fa-thumbs-up"></i> <span id="b-${id}">Beğen</span></button>
+                            <button class="etkilesim-btn" onclick="navigator.clipboard.writeText(window.location.href+'?v='+'${id}').then(()=>alert('Link kopyalandı!'))"><i class="far fa-share-square"></i> Paylaş</button>
+                        </div>
+                        <div class="yorum-sergileme" id="l-${id}"></div>
+                        <div class="yorum-kutusu">
+                            <div class="yorum-ust-satir">
+                                <img src="images/kapak/profil.jpg" class="yorum-avatar">
+                                <input type="text" class="isim-input" id="ad-${id}" value="Misafir" onfocus="if(this.value=='Misafir')this.value=''" onblur="if(this.value=='')this.value='Misafir'">
+                                <input type="text" class="yorum-input" id="in-${id}" placeholder="Yorum yaz..." onkeypress="if(event.key==='Enter') yYap('${id}')">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kart-alt"><span>${item.sanatci || 'Mehmet Can'}</span> <span class="etiket-red">${item.yil || (tip === 'resim' ? '2026' : 'VİDEO')}</span></div>
+                </div>`;
+                
+                db.ref('i/'+id+'/b').on('value', s => { if(document.getElementById('b-'+id)) document.getElementById('b-'+id).innerText = "Beğen ("+(s.val()||0)+")" });
+                db.ref('i/'+id+'/y').on('value', s => {
+                    const d = document.getElementById('l-'+id); if(d) { d.innerHTML = ""; s.forEach(c => d.innerHTML += `<div class="tek-yorum"><b>${c.val().i}:</b> ${c.val().m}</div>`); }
+                });
+            });
+        }
+
+        function yYap(id) {
+            const m = document.getElementById('in-'+id).value;
+            if(m) { db.ref('i/'+id+'/y').push({i: document.getElementById('ad-'+id).value, m: m}); document.getElementById('in-'+id).value=""; }
+        }
+
+        const a = document.getElementById('bg-audio'); const i = document.getElementById('mI');
+        function toggleM() { if (a.paused) { a.play(); i.className = "fas fa-pause"; } else { a.pause(); i.className = "fas fa-play"; } }
+        function sekmeGoster(tur, el) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('aktif')); el.classList.add('aktif');
+            document.querySelectorAll('.kart').forEach(k => k.style.display = k.classList.contains(tur) ? 'block' : 'none');
+        }
+
+        window.onload = function() {
+            let m = ""; siirler.forEach(s => m += `<span><i class="fas fa-pen-nib"></i> ${s.yazi.substring(0, 30)}...</span>`);
+            document.getElementById('bant-kapsayici').innerHTML = `<div class="marquee-icerik">${m + m}</div>`;
+            
+            kartOlustur(siirler, 'resim'); 
+            kartOlustur(videolar, 'video');
+
+            db.ref('ekstralar').on('child_added', s => { 
+                const v = s.val();
+                if(!document.getElementById('kart-'+btoa(unescape(encodeURIComponent(v.yazi.substring(0, 15)))).replace(/[^a-zA-Z0-9]/g, ""))) {
+                    kartOlustur([v], v.tip);
+                }
+                // Sayaçları Güncelle
+                const sCount = document.querySelectorAll('.kart.resim').length;
+                const vCount = document.querySelectorAll('.kart.video').length;
+                document.getElementById('btn-resim').innerText = `Şiirler (${sCount})`;
+                document.getElementById('btn-video').innerText = `Videolar (${vCount})`;
+            });
+
+            db.ref('ziyaret').transaction(c => (c || 0) + 1);
+            db.ref('ziyaret').on('value', s => document.getElementById('v-sayac').innerText = "Ziyaretçi: " + (s.val() || 0));
+            sekmeGoster('resim', document.getElementById('btn-resim'));
+        };
+        window.onscroll = () => document.getElementById("yukari-cik").style.display = (window.scrollY > 500) ? "block" : "none";
+    </script>
+</body>
+</html>
