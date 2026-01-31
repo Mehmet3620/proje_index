@@ -1,4 +1,4 @@
-﻿(function ($) {
+(function ($) {
     let $this = $(this),
         ino = 0,
         score = 0,
@@ -127,7 +127,7 @@
 
                 namVal = arr.join(' ');
                 $('.startup .logo').empty();
-                $('.startup .logo').append('<canvas id="canvas"></canvas><a href="#" id="download">Dost Yurdu Radyo</a>');
+                $('.startup .logo').append('<canvas id="canvas"></canvas><a href="#" id="download">Dost Yurdu</a>');
                 (function draw() {
                     let canvas = document.getElementById('canvas'),
                         ctx = canvas.getContext('2d'),
