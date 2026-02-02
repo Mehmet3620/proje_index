@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mehmet3620 Özel Galeri v2.4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-body: #f0f2f5;
+            --card-bg: #ffffff;
+            --primary-text: #1e272e;
+            --secondary-text: #485460;
+            --accent: #3498db;
+            --footer-bg: #2c3e50;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--primary-text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header-section {
+            background: #ffffff;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 2px solid #e1e1e1;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .content {
+            flex: 1;
+            max-width: 1200px; /* 3 kart için ideal genişlik */
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* YAN YANA 3'LÜ DÜZEN AYARI */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Yan yana tam 3 tane */
+            gap: 30px;
+        }
+
+        /* Tablet için 2'li düzen */
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Mobil için tekli düzen */
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .photo-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .img-container {
+            width: 100%;
+            height: 230px;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .photo-card:hover .img-container img {
+            transform: scale(1.08);
+        }
+
+        .info-container {
+            padding: 18px;
+            border-top: 1px solid #f1f1f1;
+        }
+
+        .info-container h4 { margin: 0 0 8px; font-size: 1.2rem; }
+        .info-container p { margin: 0; font-size: 0.9rem; color: var(--secondary-text); }
+
+        .site-footer {
+            background-color: var(--footer-bg);
+            color: #ecf0f1;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer-version { font-weight: bold; color: var(--accent); }
+
+        /* Modal Slayt Ayarları */
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.96);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal.active { display: flex; flex-direction: column; }
+
+        .modal-content {
+            position: relative;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .modal-content img {
+        width: 100%;
+        max-width: 900px;
+        height: 600px;
+        object-fit: cover;
+        border: 10px solid white;
+        border-radius: 8px;
+        box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        transition: all 0.3s ease;
+       }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            font-size: 2.5rem;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .prev { left: -80px; }
+        .next { right: -80px; }
+        
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+
+        .modal-text { color: white; margin-top: 20px; }
+		
+		/* Cep telefonu için boyutu biraz küçültelim ki ekrana sığsın */
+       @media (max-width: 768px) {
+      .modal-content img {
+        height: 350px; 
+      }
+     .prev { left: 10px; } /* Okları içeri çekelim mobilde */
+     .next { right: 10px; }
+    }
+    </style>
+</head>
+<body>
+
+    <header class="header-section">
+        <h1>FOTOĞRAF GALERİSİ</h1>
+        <p>Mehmet3620 Sunumuyla Özel Koleksiyon</p>
+    </header>
+
+    <div class="content">
+        <div class="gallery-grid" id="galleryGrid">
+            </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <button class="nav-btn prev" onclick="prevImg()"><i class="fas fa-angle-left"></i></button>
+            <button class="nav-btn next" onclick="nextImg()"><i class="fas fa-angle-right"></i></button>
+            <img id="displayImg" src="" alt="">
+            <div class="modal-text">
+                <h2 id="displayText"></h2>
+                <p id="displaySub"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2026 Tüm Hakları Saklıdır | <strong>Mehmet3620</strong> Galeri Sistemleri</p>
+            <p>Sürüm: <span class="footer-version">v2.1.0 Premium</span></p>
+        </div>
+    </footer>
+
+    <script>
+        
+        const imagesData = [
+            { src: './images/nature-1.jpg', title: 'DOĞA MANZARASI 1', desc: 'Sisli dağların ardında saklı, yeşilin her tonunu barındıran huzurlu bir vadi.' },
+            { src: './images/nature-2.jpeg', title: 'DOĞA MANZARASI 2', desc: 'Gün doğumu ve renkler.' },
+            { src: './images/nature-3.jpeg', title: 'DOĞA MANZARASI 3', desc: 'Kızıl ufkun huzuru.' },
+			{ src: './images/city-1.jpg', title: 'İSTANBUL: YEDİ TEPE', desc: 'Galata ve Haliç’in kucaklaştığı, tarihin gün batımıyla altın sarısına boyandığı eşsiz İstanbul silüeti.' },
+            { src: './images/city-2.jpeg', title: 'ŞEHİR HAYATI 1', desc: 'Modern yapılar.' },
+            { src: './images/city-3.jpeg', title: 'ŞEHİR HAYATI 2', desc: 'Gökdelen silüeti.' },
+            { src: './images/city-4.jpeg', title: 'ŞEHİR HAYATI 3', desc: 'Metropol ışıkları.' },
+            { src: './images/city-5.jpeg', title: 'ŞEHİR HAYATI 4', desc: 'Gece ve şehir.' },
+            { src: './images/cty-6.jpg', title: 'SULTANAHMET CAMİİ', desc: 'İstanbul\'un kalbinde, tarihin ve zarafetin gökyüzüyle buluştuğu eşsiz bir miras.' }
+        ];
+
+        const grid = document.getElementById('galleryGrid');
+        let currentIdx = 0;
+        let slideTimer;
+
+        imagesData.forEach((item, i) => {
+            const card = document.createElement('article');
+            card.className = 'photo-card';
+            card.onclick = () => openModal(i);
+            card.innerHTML = `
+                <div class="img-container">
+                    <img src="${item.src}" alt="${item.title}">
+                </div>
+                <div class="info-container">
+                    <h4>${item.title}</h4>
+                    <p>${item.desc}</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        const modal = document.getElementById('imageModal');
+        const displayImg = document.getElementById('displayImg');
+        const displayText = document.getElementById('displayText');
+        const displaySub = document.getElementById('displaySub');
+
+        function openModal(index) {
+            currentIdx = index;
+            updateModal();
+            modal.classList.add('active');
+            startSlide();
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            stopSlide();
+        }
+
+        function updateModal() {
+            const data = imagesData[currentIdx];
+            displayImg.src = data.src;
+            displayText.innerText = data.title;
+            displaySub.innerText = data.desc;
+        }
+
+        function nextImg() {
+            currentIdx = (currentIdx + 1) % imagesData.length;
+            updateModal();
+        }
+
+        function prevImg() {
+            currentIdx = (currentIdx - 1 + imagesData.length) % imagesData.length;
+            updateModal();
+        }
+
+        function startSlide() {
+            stopSlide();
+            slideTimer = setInterval(nextImg, 4000); 
+        }
+
+        function stopSlide() {
+            clearInterval(slideTimer);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'ArrowRight') nextImg();
+            if (e.key === 'ArrowLeft') prevImg();
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>

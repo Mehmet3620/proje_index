@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mehmet3620 Özel Galeri v2.4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Senin o sevdiğin koyu tema renkleri */
+        body {
+            background-color: #2b2b2b; /* Dış arka plan */
+            color: #ffffff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header-section {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #1a1a1a; /* Daha koyu başlık alanı */
+            border-bottom: 1px solid #444;
+        }
+
+        .content {
+            flex: 1;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* YAN YANA 3'LÜ DÜZEN */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* Şık Koyu Kartlar */
+        .photo-card {
+            background-color: #1a1a1a; /* Orta alan koyuluğu */
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            border-color: #555;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .img-container {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+
+        .photo-card:hover .img-container img {
+            transform: scale(1.05);
+        }
+
+        .info-container {
+            padding: 15px 5px 5px;
+        }
+
+        .info-container h4 {
+            margin: 0 0 5px;
+            font-size: 1rem;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .info-container p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* MODAL PANEL (SABİT VE KOYU) */
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal.active { display: flex; flex-direction: column; }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 550px; /* İstediğin o sabit ölçü */
+            object-fit: cover;
+            border: 10px solid #1a1a1a; /* Resim etrafına koyu çerçeve */
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0,0,0,1);
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border: none;
+            font-size: 3rem;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .prev { left: -100px; }
+        .next { right: -100px; }
+
+        .close-modal {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            color: #fff;
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        .modal-text { color: #fff; margin-top: 20px; }
+
+        /* Footer */
+        .site-footer {
+            background-color: #1a1a1a;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) { .prev { left: 10px; } .next { right: 10px; } }
+        @media (max-width: 992px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 700px) { 
+            .gallery-grid { grid-template-columns: 1fr; } 
+            .modal-content img { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-section">
+        <h1>FOTOĞRAF GALERİSİ</h1>
+        <p>Mehmet3620 Sunumuyla Özel Koleksiyon</p>
+    </header>
+
+    <div class="content">
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <button class="nav-btn prev" onclick="prevImg()"><i class="fas fa-angle-left"></i></button>
+            <button class="nav-btn next" onclick="nextImg()"><i class="fas fa-angle-right"></i></button>
+            <img id="displayImg" src="">
+            <div class="modal-text">
+                <h2 id="displayText"></h2>
+                <p id="displaySub" style="color: #aaa;"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2026 Tüm Hakları Saklıdır | <strong>Mehmet3620</strong> Galeri Sistemleri</p>
+            <p>Sürüm: <span class="footer-version">v2.1.0 Premium</span></p>
+        </div>
+    </footer>
+
+    <script>
+	
+        const imagesData = [
+            
+			{ src: './images/nature-1.jpg', title: 'DOĞA MANZARASI 1', desc: 'Sisli dağların ardında saklı, yeşilin her tonunu barındıran huzurlu bir vadi.' },
+            { src: './images/nature-2.jpeg', title: 'DOĞA MANZARASI 2', desc: 'Gün doğumu ve renkler.' },
+            { src: './images/nature-3.jpeg', title: 'DOĞA MANZARASI 3', desc: 'Kızıl ufkun huzuru.' },
+			{ src: './images/city-1.jpg', title: 'İSTANBUL: YEDİ TEPE', desc: 'Galata ve Haliç’in kucaklaştığı, tarihin gün batımıyla altın sarısına boyandığı eşsiz İstanbul silüeti.' },
+            { src: './images/city-2.jpeg', title: 'ŞEHİR HAYATI 1', desc: 'Modern yapılar.' },
+            { src: './images/city-3.jpeg', title: 'ŞEHİR HAYATI 2', desc: 'Gökdelen silüeti.' },
+            { src: './images/city-4.jpeg', title: 'ŞEHİR HAYATI 3', desc: 'Metropol ışıkları.' },
+            { src: './images/city-5.jpeg', title: 'ŞEHİR HAYATI 4', desc: 'Gece ve şehir.' },
+            { src: './images/cty-6.jpg', title: 'SULTANAHMET CAMİİ', desc: 'İstanbul\'un kalbinde, tarihin ve zarafetin gökyüzüyle buluştuğu eşsiz bir miras.' }
+        ];
+
+        const grid = document.getElementById('galleryGrid');
+        let currentIdx = 0;
+
+        imagesData.forEach((item, i) => {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.onclick = () => openModal(i);
+            card.innerHTML = `
+                <div class="img-container"><img src="${item.src}"></div>
+                <div class="info-container">
+                    <h4>${item.title}</h4>
+                    <p>${item.desc}</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        const modal = document.getElementById('imageModal');
+        const displayImg = document.getElementById('displayImg');
+        const displayText = document.getElementById('displayText');
+        const displaySub = document.getElementById('displaySub');
+
+        function openModal(index) {
+            currentIdx = index;
+            updateModal();
+            modal.classList.add('active');
+        }
+
+        function closeModal() { modal.classList.remove('active'); }
+
+        function updateModal() {
+            const data = imagesData[currentIdx];
+            displayImg.src = data.src;
+            displayText.innerText = data.title;
+            displaySub.innerText = data.desc;
+        }
+
+        function nextImg() { currentIdx = (currentIdx + 1) % imagesData.length; updateModal(); }
+        function prevImg() { currentIdx = (currentIdx - 1 + imagesData.length) % imagesData.length; updateModal(); }
+
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'ArrowRight') nextImg();
+            if (e.key === 'ArrowLeft') prevImg();
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
