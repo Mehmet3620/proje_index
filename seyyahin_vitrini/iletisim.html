@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>İletişim | VİTRİN | Projeler ve Referanslar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* GENEL STİLLER */
+        body { background-color: #A0A0A0; margin: 0; font-family: 'Segoe UI', Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        
+        /* SİYAH BANT VE SOSYAL SİMGELER (DÜZELTİLDİ) */
+        .top-black-bar { width: 100%; height: 45px; background-color: #000; display: flex; justify-content: center; align-items: center; color: #FFF; position: sticky; top: 0; z-index: 100; }
+        .top-content { width: 1000px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; }
+        .top-social-menu { display: flex; gap: 20px; align-items: center; }
+        .top-social-menu a { color: #BBB; text-decoration: none; font-size: 14px; transition: 0.3s; display: flex; align-items: center; }
+        .top-social-menu a:hover { color: #FFF; transform: scale(1.1); }
+        .top-social-menu i { font-size: 18px; transition: 0.3s; } /* Simgeler büyütüldü */
+        .top-social-menu .fa-facebook:hover { color: #1877F2; }
+        .top-social-menu .fa-twitter:hover { color: #1DA1F2; }
+        .top-social-menu .fa-instagram:hover { color: #E4405F; }
+
+        .container { width: 1000px; background-color: #FFFFFF; min-height: 100vh; display: flex; flex-direction: column; box-shadow: 0 0 30px rgba(0,0,0,0.4); }
+        .header-banner { width: 960px; height: 220px; margin: 20px auto; border: 1px solid #999; background: url('images/banner1.jpg') no-repeat center; background-size: cover; position: relative; overflow: hidden; }
+        .banner-text { position: absolute; bottom: 30px; left: 40px; color: white; font-size: 56px; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.7); }
+        
+        .content-wrapper { display: flex; padding: 20px; gap: 10px; }
+        
+        /* MENÜ AYARLARI */
+        nav { width: 220px; border-right: 1px solid #DDD; padding-right: 15px; }
+        .menu-title { color: #888; font-size: 14px; margin-bottom: 15px; padding-left: 10px; border-bottom: 2px solid #EEE; }
+        .menu-item { display: flex; align-items: center; padding: 12px; text-decoration: none; color: #555; border-bottom: 1px solid #F5F5F5; font-size: 14px; transition: 0.3s; }
+        .menu-item img { margin-right: 12px; width: 12px; transition: 0.3s; }
+
+        /* HOVER VE AKTİF DURUMU */
+        .menu-item:hover, .menu-item.active { background-color: #F0F7FF; color: #0080FF; padding-left: 20px; }
+        .menu-item:hover img, .menu-item.active img { transform: rotate(90deg); }
+        .menu-item.active { border-right: 3px solid #0080FF; font-weight: bold; }
+
+        /* İÇERİK ALANI */
+        main { flex: 1; padding-left: 10px; display: flex; flex-direction: column; gap: 20px; }
+        .contact-info { background-color: #F2F2F2; border: 1px solid #CCC; padding: 20px; border-radius: 4px; display: flex; gap: 30px; }
+        .info-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #333; }
+        .info-item i { color: #0080FF; font-size: 20px; }
+
+        .contact-form-box { background-color: #F9F9F9; border: 1px solid #DDD; padding: 20px; border-radius: 4px; }
+        .contact-form-box h3 { font-size: 18px; margin-top: 0; color: #333; border-bottom: 2px solid #0080FF; display: inline-block; margin-bottom: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #CCC; border-radius: 3px; font-family: inherit; box-sizing: border-box; }
+        .submit-btn { background-color: #0080FF; color: white; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .submit-btn:hover { background-color: #0056b3; transform: scale(1.05); }
+
+        .map-box { width: 100%; height: 300px; border: 1px solid #CCC; border-radius: 4px; overflow: hidden; }
+        .map-box iframe { width: 100%; height: 100%; border: none; }
+
+        footer { background-color: #000; color: #FFF; text-align: center; padding: 25px; font-size: 13px; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <div class="top-black-bar">
+        <div class="top-content">
+            <div>VİTRİN | Projeler ve Referanslar ...</div>
+            <div class="top-social-menu">
+                <a href="#">Forum</a>
+                <a href="#">Arşiv</a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header-banner">
+            <div class="banner-text">SEYYAHIN VİTRİNİ</div>
+        </div>
+
+        <div class="content-wrapper">
+            <nav>
+                <div class="menu-title">Menü</div>
+                <a href="index.html" class="menu-item"><img src="images/bullet001.gif"> Anasayfa</a>
+                <a href="hakkimizda.html" class="menu-item"><img src="images/bullet001.gif"> Hakkımızda</a>
+                <a href="misyon-vizyon.html" class="menu-item"><img src="images/bullet001.gif"> Misyon & Vizyon</a>
+                <a href="referanslar.html" class="menu-item"><img src="images/bullet001.gif"> Referanslar</a>
+                <a href="galeri.html" class="menu-item"><img src="images/bullet001.gif"> Galeri</a>
+                <a href="iletisim.html" class="menu-item active"><img src="images/bullet001.gif"> İletişim</a>
+            </nav>
+
+            <main>
+                <div class="contact-info">
+                    <div class="info-item"><i class="fa-solid fa-location-dot"></i> <span>Örnek Mahallesi, Bilgi Sokak No:36/20</span></div>
+                    <div class="info-item"><i class="fa-solid fa-phone"></i> <span>+90 (212) 123 00 00</span></div>
+                    <div class="info-item"><i class="fa-solid fa-envelope"></i> <span>bilgi@seyyahinvitrini.com</span></div>
+                </div>
+
+                <div class="contact-form-box">
+                    <h3>İletişim Kutusu</h3>
+                    <form action="#">
+                        <div class="form-group"><input type="text" placeholder="Adınız Soyadınız"></div>
+                        <div class="form-group"><input type="email" placeholder="E-Posta Adresiniz"></div>
+                        <div class="form-group"><textarea rows="5" placeholder="Mesajınız"></textarea></div>
+                        <button type="submit" class="submit-btn">Mesajı Gönder</button>
+                    </form>
+                </div>
+
+                <div class="map-box">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3149.3785265431!2d29.0838!3d37.7833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ3JzAwLjAiTiAyOcKwMDUnMDEuNyJF!5e0!3m2!1str!2str!4v1643965000000!5m2!1str!2str"></iframe>
+                </div>
+            </main>
+        </div>
+
+        <footer>Tüm Hakları Saklıdır © Seyyah20 | 2026</footer>
+    </div>
+
+</body>
+</html>
