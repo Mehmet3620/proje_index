@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denizli Genel Temizlik | Mehmet3620 Final</title>
+	<meta name="keywords" content="denizli temizlik, denizli temizlik şirketi, genel temizlik, temizlik firmaları, temizlik firması, Çivril temizlik şirketleri, burdur temizlik şirketleri, denizli de ev temizlik şirketleri, denizli ev temizlik şirketleri fiyatları, Denizli güvenilir temizlik, denizli inşaat temizlik şirketleri, denizlide en iyi temizlik şirketi, tavas temizlik şirketleri, denizli temizlik hizmeti">
+<meta name="description" content="Denizli'nin en iyi temizlik şirketi Mehmet3620 ile ev, ofis ve inşaat sonrası temizlikte profesyonel hizmet. Çivril, Tavas ve tüm bölgelerde kaliteli temizlik.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    /* 1. TEMEL AYARLAR & RENKLER */
+    :root { --ana: #0082c8; --vurgu: #d32f2f; --koyu: #1a1a1a; --beyaz: #ffffff; --gri: #f4f7f9; }
+    * { box-sizing: border-box; scroll-behavior: smooth; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background-color: var(--gri); color: #333; line-height: 1.6; }
+
+    /* 2. ÜST ALAN (HEADER & NAV) */
+    .top-bar { background: var(--ana); color: white; padding: 12px 0; font-size: 14px; }
+    .top-container, .header-main { width: 95%; max-width: 1400px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
+    .social-icons a { color: white; margin-left: 15px; font-size: 18px; text-decoration: none; }
+    header { background: var(--beyaz); width: 100%; box-shadow: 0 4px 25px rgba(0,0,0,0.1); position: sticky; padding-top: 10px; top: 0; z-index: 1000; }
+    .logo-text h1 { font-size: 24px; font-weight: 800; color: var(--ana); }
+    .search-box input { padding: 12px 25px; border: 2px solid #eee; border-radius: 50px; width: 300px; outline: none; }
+
+    nav { background: var(--beyaz); border-top: 1px solid #f0f0f0; border-bottom: 5px solid var(--ana); }
+    .nav-links { list-style: none; display: flex; justify-content: center; }
+    .nav-links li a { display: block; padding: 15px 20px; color: var(--koyu); text-decoration: none; font-weight: 800; font-size: 13px; position: relative; transition: all 0.3s ease; }
+    
+    /* ÜST MENÜ HOVER */
+    .nav-links li a:hover { color: var(--ana) !important; background: #f4f7f9; }
+    .nav-links li a::after { content: ''; position: absolute; width: 0; height: 4px; bottom: 0; left: 0; background-color: var(--vurgu); transition: width 0.3s ease; }
+    .nav-links li a:hover::after { width: 100%; }
+
+    /* 3. YAN MENÜ (SIDEBAR) & 3D BUTON */
+    .wrapper { width: 95%; max-width: 1400px; margin: 30px auto; display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
+    .sidebar { position: sticky; top: 220px; height: fit-content; }
+
+    /* TELEFON BUTONU - TAM 3D */
+    .call-btn { 
+        background: var(--vurgu); color: white; padding: 20px; border-radius: 12px; text-align: center; text-decoration: none; display: block; font-weight: 800; font-size: 19px; margin-bottom: 25px;
+        box-shadow: 0 8px 0 #900, 0 15px 20px rgba(0,0,0,0.3); transition: all 0.2s ease; position: relative; top: 0; 
+    }
+    .call-btn:hover { top: 3px; box-shadow: 0 5px 0 #900, 0 8px 15px rgba(0,0,0,0.2); background: #e53935; }
+    .call-btn:active { top: 8px; box-shadow: 0 0px 0 #900; }
+
+    .side-box { background: white; border-radius: 12px; border: 1px solid #ddd; overflow: hidden; margin-bottom: 20px; }
+    .side-box h3 { background: var(--ana); color: white; padding: 15px; font-size: 14px; text-align: center; }
+    .side-box li a { display: block; padding: 12px 15px; color: #444; text-decoration: none; border-bottom: 1px solid #eee; font-weight: 600; transition: all 0.4s ease; position: relative; }
+    .side-box li a:hover { background: #e1f5fe !important; color: var(--vurgu) !important; padding-left: 25px !important; }
+    .side-box li a:hover i { transform: rotate(360deg); transition: 0.5s; color: var(--ana); }
+
+    /* 4. ORTA ALAN & KARTLAR */
+    .main-content { background: white; border-radius: 15px; padding: 40px; box-shadow: 0 5px 25px rgba(0,0,0,0.05); }
+    .sec-title { border-left: 8px solid var(--vurgu); padding-left: 15px; color: var(--ana); margin: 30px 0 20px 0; font-size: 24px; font-weight: 800; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    
+    .card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; text-align: center; transition: all 0.4s ease; cursor: pointer; }
+    .card img { width: 100%; height: 150px; object-fit: cover; transition: all 0.5s ease; }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important; border-color: var(--ana) !important; }
+    .card:hover img { transform: scale(1.1); filter: brightness(1.1); }
+
+    /* REFERANSLAR ÖZEL (Siyah-Beyazdan Renkliye) */
+    #referanslar .card img { filter: grayscale(100%); opacity: 0.7; }
+    #referanslar .card:hover img { filter: grayscale(0%); opacity: 1; }
+
+    /* 5. İLETİŞİM & ALT ALAN */
+    .info-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
+    .info-item { background: var(--gri); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #eee; }
+    .info-item i { font-size: 24px; color: var(--ana); margin-bottom: 10px; }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
+    .contact-form { background: #f9f9f9; padding: 25px; border-radius: 12px; }
+    .contact-form input, .contact-form textarea { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+    .contact-form button { background: var(--ana); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .contact-form button:hover { background: var(--koyu); }
+    .map-box { min-height: 350px; border-radius: 12px; overflow: hidden; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; background: var(--ana); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 1000; transition: 0.3s; }
+    .back-to-top:hover { background: var(--vurgu); transform: scale(1.1); }
+    footer { background: var(--koyu); color: #bbb; padding: 30px 0; text-align: center; margin-top: 50px; }
+	
+	html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 120px; /* Menünün yüksekliği kadar boşluk bırakır */
+}
+
+   /* Eğer bölümler hala çok yakın geliyorsa, her bölüme tepeden görünmez bir boşluk verelim */
+   section {
+    padding-top: 20px;
+    margin-top: 40px;
+   }
+</style>
+</head>
+<body id="top">
+
+    <div class="top-bar">
+        <div class="top-container">
+            <div><i class="fa fa-phone"></i> 0544 740 74 06 | <i class="fa fa-map-marker-alt"></i> Denizli, Türkiye</div>
+            <div class="social-icons"><a href="#"><i class="fab fa-youtube"></i></a>
+			<a href="https://www.facebook.com/denizligeneltemizlik1/"><i class="fab fa-facebook"></i></a>
+			<a href="https://www.instagram.com/denizli_genel_temizlik/"><i class="fab fa-instagram"></i></a>
+			<a href="https://api.whatsapp.com/send/?phone=%2B905407407406&text&type=phone_number&app_absent=0"><i class="fab fa-whatsapp"></i></a></div>
+        </div>
+    </div>
+
+    <header>
+        <header style="padding-top: 15px;"> <div class="header-main container">
+        <div class="logo">
+            <a href="#top">
+                <img src="images/logo.png" alt="Denizli Genel Temizlik" style="height: 80px; width: auto;">
+            </a>
+        </div>
+        
+       <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Gitmek istediğiniz hizmeti yazın..." onkeyup="if(event.keyCode === 13) siteIciAra()">
+    <i class="fa fa-search" onclick="siteIciAra()" style="cursor: pointer;"></i>
+</div>
+    </div>
+        <nav>
+    <ul class="nav-links">
+        <li><a href="#top">ANASAYFA</a></li>
+        <li><a href="#hakkimizda">KURUMSAL</a></li>
+        <li><a href="#hizmetler">HİZMETLER</a></li>
+        <li><a href="#malzemeler">ÜRÜNLER</a></li>
+        <li><a href="#referanslar">REFERANSLAR</a></li>
+        <li><a href="#yorumlar">MÜŞTERİ YORUMLARI</a></li>
+        <li><a href="#iletisim">İLETİŞİM</a></li>
+    </ul>
+</nav>
+    </header>
+<div class="slider-container" style="width: 100%; height: 500px; overflow: hidden; position: relative; background: #000; border-bottom: 5px solid var(--ana);">
+    
+    <div class="slides" style="display: flex; width: 400%; height: 100%; animation: slideAnim 20s infinite ease-in-out;">
+        
+        <div style="width: 25%; height: 100%; position: relative; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070') center/cover;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; width: 80%;">
+                <h2 style="font-size: 45px; font-weight: 800; text-shadow: 2px 2px 10px #000;">DENİZLİ EV TEMİZLİĞİ</h2>
+                <p style="font-size: 20px; text-shadow: 1px 1px 5px #000;">Denizli Genel Temizlik İle Pırıl Pırıl Yuvalar</p>
+            </div>
+        </div>
+
+        <div style="width: 25%; height: 100%; position: relative; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069') center/cover;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; width: 80%;">
+                <h2 style="font-size: 45px; font-weight: 800; text-shadow: 2px 2px 10px #000;">OFİS & İŞYERİ HİJYENİ</h2>
+                <p style="font-size: 20px; text-shadow: 1px 1px 5px #000;">Profesyonel Alanlarda Kusursuz Temizlik</p>
+            </div>
+        </div>
+
+        <div style="width: 25%; height: 100%; position: relative; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1505798577917-a65157d3320a?q=80&w=2070') center/cover;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; width: 80%;">
+                <h2 style="font-size: 45px; font-weight: 800; text-shadow: 2px 2px 10px #000;">İNŞAAT SONRASI TEMİZLİK</h2>
+                <p style="font-size: 20px; text-shadow: 1px 1px 5px #000;">Zorlu Kalıntıları Biz Hallediyoruz</p>
+            </div>
+        </div>
+
+        <div style="width: 25%; height: 100%; position: relative; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=1974') center/cover;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; width: 80%;">
+                <h2 style="font-size: 45px; font-weight: 800; text-shadow: 2px 2px 10px #000;">DIŞ CEPHE CAM SİLİMİ</h2>
+                <p style="font-size: 20px; text-shadow: 1px 1px 5px #000;">Denizli'nin Her Noktasında Uzman Hizmet</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; gap: 15px;">
+        <a href="tel:05447407406" class="call-btn" style="margin-bottom: 0; padding: 15px 35px;">HEMEN ARA</a>
+        <a href="#iletisim" style="background: white; color: #1a1a1a; padding: 15px 35px; border-radius: 12px; text-decoration: none; font-weight: 800; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">TEKLİF AL</a>
+    </div>
+
+</div>
+
+<style>
+    @keyframes slideAnim {
+        0% { margin-left: 0%; }
+        20% { margin-left: 0%; }
+        25% { margin-left: -100%; }
+        45% { margin-left: -100%; }
+        50% { margin-left: -200%; }
+        70% { margin-left: -200%; }
+        75% { margin-left: -300%; }
+        95% { margin-left: -300%; }
+        100% { margin-left: 0%; }
+    }
+</style>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <a href="tel:05447407406" class="call-btn"><i class="fa fa-phone"></i> 0544 740 74 06</a>
+            <div class="side-box">
+                <h3>KATEGORİLER</h3>
+                <ul>
+				<li><a href="#">Daire Temizliği</a></li>
+				<li><a href="#">İnşaat Sonrası</a></li>
+				<li><a href="#">Ofis Hijyeni</a></li>
+				<li><a href="#">Koltuk Yıkama</a></li></ul>
+            </div>
+			
+			<div class="side-box" style="margin-top: 20px;">
+    <h3 style="background: var(--vurgu);">HİZMET BÖLGELERİMİZ</h3>
+    <ul style="list-style: none; padding: 0;">
+        <li><a href="#"><i class="fa fa-map-marker-alt"></i> Pamukkale</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt"></i> Merkezefendi</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt"></i> Bağbaşı / Kampüs</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt"></i> Karaman / Akkonak</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt"></i> Üçler / Servergazi</a></li>
+        <li><a href="#"><i class="fa fa-map-marker-alt"></i> Gümüşler / Sevindik</a></li>
+    </ul>
+</div>
+
+<div class="side-box" style="margin-top: 20px; border-left: 5px solid var(--ana);">
+    <h3 style="background: #333;">ÇALIŞMA SAATLERİ</h3>
+    <div style="padding: 15px; font-size: 13px; font-weight: 600; color: #555;">
+        <p style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>Pazartesi - Cmt:</span> <span>08:30 - 20:00</span>
+        </p>
+        <p style="display: flex; justify-content: space-between; color: var(--vurgu);">
+            <span>Pazar:</span> <span>7/24 Acil Hizmet</span>
+        </p>
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
+        <p style="text-align: center; font-size: 11px; color: #888;">Denizli'nin her yerine servisimiz vardır.</p>
+    </div>
+</div>
+        </aside>
+
+        <main class="main-content">
+            <section id="hakkimizda">
+    <section id="hakkimizda">
+    <h2 class="sec-title">1. HAKKIMIZDA</h2>
+    <div style="background: #ffffff; padding: 35px; border-radius: 15px; border: 1px solid #eee; box-shadow: 0 5px 25px rgba(0,0,0,0.05); margin-bottom: 30px; line-height: 1.8; color: #333;">
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
+            <div style="text-align: center; padding: 15px; background: var(--gri); border-radius: 10px; border-bottom: 3px solid var(--ana);">
+                <i class="fa fa-check-circle" style="color: var(--ana); font-size: 24px; margin-bottom: 10px;"></i>
+                <h5 style="font-size: 13px;">%100 Memnuniyet</h5>
+            </div>
+            <div style="text-align: center; padding: 15px; background: var(--gri); border-radius: 10px; border-bottom: 3px solid var(--vurgu);">
+                <i class="fa fa-shield-alt" style="color: var(--vurgu); font-size: 24px; margin-bottom: 10px;"></i>
+                <h5 style="font-size: 13px;">Güvenilir Hizmet</h5>
+            </div>
+            <div style="text-align: center; padding: 15px; background: var(--gri); border-radius: 10px; border-bottom: 3px solid #4CAF50;">
+                <i class="fa fa-leaf" style="color: #4CAF50; font-size: 24px; margin-bottom: 10px;"></i>
+                <h5 style="font-size: 13px;">Sağlıklı Ürünler</h5>
+            </div>
+        </div>
+
+        <p style="margin-bottom: 20px; font-size: 15px;">
+            <strong style="color: var(--ana);">Denizli Temizlik Şirketi</strong> olarak Denizli genelinde güvenilir, uygun fiyatlı ve profesyonel temizlik hizmetleri sunuyoruz. Bir temizlik hizmetine ihtiyacınız varsa yapmanız gereken tek şey tarih ve saati belirlemektir. Ayrıca, bir kerelik, haftalık ve aylık temizlik hizmeti seçebilir ve kredi kartı ya da banka kartı kullanarak çevrimiçi ödeme yapabilirsiniz.
+        </p>
+
+        <p style="margin-bottom: 20px; font-size: 15px; border-left: 5px solid var(--ana); padding-left: 20px; background: #fcfcfc; padding-top: 15px; padding-bottom: 15px;">
+            Denizli Temizlik Şirketi, olağanüstü müşteri hizmetlerine ve temizlik uygulamalarında insan sağlığına gösterdiği özenle temizlik hizmetlerinde daima kaliteli hizmeti hedeflemektedir. Denizli Temizlik Şirketi olarak; müşterimizin yaşamını çevreye en duyarlı şekilde değerli zaman ve enerji tasarrufu sağlayarak kolaylaştırmaktır.
+        </p>
+
+        <p style="margin-bottom: 20px; font-size: 15px;">
+            “Yapılacaklar” listenizden temizlik maddesini çıkartarak zamanınızı ailenize, arkadaşlarınıza ya da eğlenceye ayırmanıza olanak sağlayan Denizli Temizlik Şirketi, Denizli Avrupa ve Anadolu yakasında yer alan tüm ilçe, bölge, etap ve mahallelerde %100 memnuniyet garantisi ile Denizli temizlik şirketi olarak profesyonel temizlik hizmeti sunmaktadır. 
+        </p>
+		<p style="margin-bottom: 20px; font-size: 15px;">
+		Denizli Genel Temizlik, Denizli'de temizlik şirketleri arasında en profesyonel olan ve Denizli temizlik firmaları arasında en güvenilir olan firmadır.
+        </p> 
+        <div style="background: var(--ana); color: white; padding: 15px; border-radius: 8px; text-align: center; font-weight: 700; font-size: 16px;">
+            Denizli Temizlik Şirketi olarak yüzde yüz müşteri memnuniyeti ile birinci sınıf temizlik hizmeti sunduğumuz hizmetlerimiz şu şekildedir:
+        </div>
+        
+    </div>
+</section>
+
+<section id="hizmetler">
+    <h2 class="sec-title">2. PROFESYONEL HİZMETLERİMİZ</h2>
+    <div class="grid-3">
+        <div class="card"><img src="images/1.jpg"><h4>Ev Temizliği</h4></div>
+        <div class="card"><img src="images/12.jpg"><h4>Ofis Temizliği</h4></div>
+        <div class="card"><img src="images/10.jpg"><h4>İnşaat Sonrası</h4></div>
+        <div class="card"><img src="images/13.jpg"><h4>Dış Cephe</h4></div>
+        <div class="card"><img src="images/14.jpg"><h4>Koltuk Yıkama</h4></div>
+        <div class="card"><img src="images/15.jpg"><h4>Fabrika Temizliği</h4></div>
+        <div class="card"><img src="images/1.jpg"><h4>Okul & Kreş</h4></div>
+        <div class="card"><img src="images/4.jpg"><h4>Cami Temizliği</h4></div>
+        <div class="card"><img src="images/16.jpg"><h4>Hastane Hijyeni</h4></div>
+        <div class="card"><img src="images/17.jpg"><h4>Havuz Temizliği</h4></div>
+        <div class="card"><img src="images/8.jpg"><h4>Villa & Malikane</h4></div>
+        <div class="card"><img src="images/18.jpg"><h4>Banka Temizliği</h4></div>
+    </div>
+</section>
+
+<section id="neden-biz" style="margin-top:40px;">
+    <h2 class="sec-title">3. NEDEN BİZİ SEÇMELİSİNİZ?</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+        <div style="background: #f0faff; padding: 15px; border-radius: 10px; font-weight:600;"><i class="fa fa-check-circle"></i> %100 Hijyen Garantisi</div>
+        <div style="background: #f0faff; padding: 15px; border-radius: 10px; font-weight:600;"><i class="fa fa-check-circle"></i> Uzman ve Güvenilir Kadro</div>
+        <div style="background: #f0faff; padding: 15px; border-radius: 10px; font-weight:600;"><i class="fa fa-check-circle"></i> Bitkisel Temizlik Ürünleri</div>
+        <div style="background: #f0faff; padding: 15px; border-radius: 10px; font-weight:600;"><i class="fa fa-check-circle"></i> 7/24 Kesintisiz Hizmet</div>
+    </div>
+</section>
+
+<section id="referanslar">
+    <h2 class="sec-title">4. REFERANSLARIMIZ</h2>
+    <div style="background: #f9f9f9; padding: 30px; border-radius: 15px; border: 1px solid #eee; margin-bottom: 30px;">
+        <p style="text-align: center; margin-bottom: 25px; font-weight: 700; color: #666;">
+            Denizli Genel Temizlik Güvencesiyle Denizli'de Hizmet Verdiğimiz Bazı Kurumlar
+        </p>
+        
+        <div class="grid-3" style="grid-template-columns: repeat(4, 1fr); gap: 15px;">
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/borsa.jpg" alt="Ref 1" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Denizli İş Merkezi</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/colosse.png" alt="Ref 2" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Pamukkale Plaza</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/doruk.jpg" alt="Ref 3" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Merkezefendi AVM</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/elka1.jpg" alt="Ref 4" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Denizli Kamu Binası</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/elka2.jpg" alt="Ref 5" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Ege Tekstil Fab.</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/genel.jpg" alt="Ref 6" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Çınar İş Hanı</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/kigili.png" alt="Ref 7" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Denizli Bank Şube</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/unlu.png" alt="Ref 8" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Özel Denizli Koleji</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/zekamak.jpg" alt="Ref 9" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Lise Caddesi Ofisleri</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/borsa.jpg" alt="Ref 10" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Sarayköy Fabrikalar</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/borsa.jpg" alt="Ref 11" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Bayramyeri Esnafı</h5>
+            </div>
+            <div class="card" style="background: white; padding: 15px; text-align: center;">
+                <img src="images/referanslar/borsa.jpg" alt="Ref 12" style="height: 60px; object-fit: contain;">
+                <h5 style="font-size: 12px; margin-top: 10px;">Teras Park Mağaza</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="malzemeler" style="margin-top: 50px;">
+    <h2 class="sec-title">KALİTELİ EKİPMAN & HİJYENİK ÜRÜNLER</h2>
+    
+    <div style="background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+        <p style="text-align: center; color: #666; margin-bottom: 30px; font-weight: 600;">
+            Denizli Genel Temizlik olarak, sağlığınızı önemsiyor ve dünya standartlarında ekipmanlar kullanıyoruz.
+        </p>
+
+        <div class="grid-3">
+            <div class="card" style="padding: 20px; background: #fdfdfd;">
+                <i class="fa fa-leaf" style="font-size: 40px; color: #4CAF50; margin-bottom: 15px;"></i>
+                <h4 style="color: #333;">Bitkisel Deterjanlar</h4>
+                <p style="font-size: 13px; color: #777;">Alerji yapmayan, kimyasal kalıntı bırakmayan %100 bitkisel içerikli temizleyiciler.</p>
+            </div>
+
+            <div class="card" style="padding: 20px; background: #fdfdfd;">
+                <i class="fa fa-wind" style="font-size: 40px; color: var(--ana); margin-bottom: 15px;"></i>
+                <h4 style="color: #333;">Buharlı Temizleyiciler</h4>
+                <p style="font-size: 13px; color: #777;">180°C sıcak buhar ile bakteri ve maytları yok eden profesyonel makineler.</p>
+            </div>
+
+            <div class="card" style="padding: 20px; background: #fdfdfd;">
+                <i class="fa fa-shield-virus" style="font-size: 40px; color: var(--vurgu); margin-bottom: 15px;"></i>
+                <h4 style="color: #333;">Nano Dezenfektan</h4>
+                <p style="font-size: 13px; color: #777;">Uygulanan yüzeylerde uzun süre koruma sağlayan onaylı dezenfeksiyon ürünleri.</p>
+            </div>
+
+            <div class="card" style="padding: 20px; background: #fdfdfd;">
+                <i class="fa fa-broom" style="font-size: 40px; color: #ffa000; margin-bottom: 15px;"></i>
+                <h4 style="color: #333;">Mikrofiber Teknoloji</h4>
+                <p style="font-size: 13px; color: #777;">Yüzeyleri çizmeyen, toz hapsetme özelliği yüksek özel dokuma bezler.</p>
+            </div>
+
+            <div class="card" style="padding: 20px; background: #fdfdfd;">
+                <i class="fa fa-water" style="font-size: 40px; color: #00bcd4; margin-bottom: 15px;"></i>
+                <h4 style="color: #333;">Vakumlu Yıkama</h4>
+                <p style="font-size: 13px; color: #777;">Koltuk ve yataklarda derinlemesine temizlik sağlayan yüksek çekim gücüne sahip vakumlar.</p>
+            </div>
+
+            <div class="card" style="padding: 20px; background: #fdfdfd;">
+                <i class="fa fa-mask" style="font-size: 40px; color: #607d8b; margin-bottom: 15px;"></i>
+                <h4 style="color: #333;">Kişisel Koruma</h4>
+                <p style="font-size: 13px; color: #777;">Tam donanımlı, maske ve galoş kullanan profesyonel temizlik personeli.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="yorumlar" style="margin-top: 50px; padding-bottom: 50px;">
+    <h2 class="sec-title">MÜŞTERİLERİMİZİN GERÇEK YORUMLARI</h2>
+    
+    <div class="grid-3">
+        <div class="side-box" style="padding: 20px; background: #fff; border-top: 4px solid var(--ana); border-radius: 0 0 10px 10px;">
+            <div style="color: #ffc107; margin-bottom: 10px;">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+            </div>
+            <p style="font-style: italic; font-size: 14px; color: #555; min-height: 70px;">
+                "Son derece harika bir şirket herkese öneririm."
+            </p>
+            <h4 style="margin: 10px 0 0 0; color: #333; font-size: 15px;">Yunus Emre Aras</h4>
+            <span style="font-size: 11px; color: #aaa;">Google Yorumları • 6 ay önce</span>
+        </div>
+
+        <div class="side-box" style="padding: 20px; background: #fff; border-top: 4px solid var(--ana); border-radius: 0 0 10px 10px;">
+            <div style="color: #ffc107; margin-bottom: 10px;">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+            </div>
+            <p style="font-style: italic; font-size: 14px; color: #555; min-height: 70px;">
+                "Ev temizliği, inşaat sonrası temizlik ve çamaşırhane hizmeti verilmektedir. Tavsiye ederim."
+            </p>
+            <h4 style="margin: 10px 0 0 0; color: #333; font-size: 15px;">Yusuf Karcan</h4>
+            <span style="font-size: 11px; color: #aaa;">Google Yorumları • 5 ay önce</span>
+        </div>
+
+        <div class="side-box" style="padding: 20px; background: #fff; border-top: 4px solid var(--ana); border-radius: 0 0 10px 10px;">
+            <div style="color: #ffc107; margin-bottom: 10px;">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+            </div>
+            <p style="font-style: italic; font-size: 14px; color: #555; min-height: 70px;">
+                "Temizlik üzerine süper bir şirket, ilgi alaka süper. Şiddetle tavsiye ediyorum."
+            </p>
+            <h4 style="margin: 10px 0 0 0; color: #333; font-size: 15px;">Mustafa Erdoğan</h4>
+            <span style="font-size: 11px; color: #aaa;">Google Yorumları • 5 yıl önce</span>
+        </div>
+
+        <div class="side-box" style="padding: 20px; background: #fff; border-top: 4px solid var(--ana); border-radius: 0 0 10px 10px;">
+            <div style="color: #ffc107; margin-bottom: 10px;">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+            </div>
+            <p style="font-style: italic; font-size: 14px; color: #555; min-height: 70px;">
+                "Denizli temizlik firmaları içerisinde, profesyonel temizlik yapan bir firma. Çok memnun kaldık."
+            </p>
+            <h4 style="margin: 10px 0 0 0; color: #333; font-size: 15px;">Tarık Mengüç</h4>
+            <span style="font-size: 11px; color: #aaa;">Google Yorumları • 2 yıl önce</span>
+        </div>
+
+        <div class="side-box" style="padding: 20px; background: #fff; border-top: 4px solid var(--ana); border-radius: 0 0 10px 10px;">
+            <div style="color: #ffc107; margin-bottom: 10px;">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+            </div>
+            <p style="font-style: italic; font-size: 14px; color: #555; min-height: 70px;">
+                "Zamanında yapılması benim için önemliydi. Tam konuştuğumuz gibi vaktinde işim bitti."
+            </p>
+            <h4 style="margin: 10px 0 0 0; color: #333; font-size: 15px;">Kezban Gürbüz</h4>
+            <span style="font-size: 11px; color: #aaa;">Google Yorumları • 4 yıl önce</span>
+        </div>
+
+        <div class="side-box" style="padding: 20px; background: #fff; border-top: 4px solid var(--ana); border-radius: 0 0 10px 10px;">
+            <div style="color: #ffc107; margin-bottom: 10px;">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+            </div>
+            <p style="font-style: italic; font-size: 14px; color: #555; min-height: 70px;">
+                "Gayet güzel bir temizlik şirketi bizler 5 yıldır çalışıyoruz çok memnunuz."
+            </p>
+            <h4 style="margin: 10px 0 0 0; color: #333; font-size: 15px;">ALMAS YAPIM</h4>
+            <span style="font-size: 11px; color: #aaa;">Google Yorumları • 6 yıl önce</span>
+        </div>
+    </div>
+</section>
+
+<section id="istatistik">
+    <h2 class="sec-title">5. RAKAMLARLA BİZ</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; margin-bottom: 30px;">
+        <div style="background: #0082c8; color: white; padding: 15px; border-radius: 10px;"><h3>1500+</h3><small>Müşteri</small></div>
+        <div style="background: #0082c8; color: white; padding: 15px; border-radius: 10px;"><h3>15+</h3><small>Yıl</small></div>
+        <div style="background: #0082c8; color: white; padding: 15px; border-radius: 10px;"><h3>12</h3><small>Personel</small></div>
+        <div style="background: #0082c8; color: white; padding: 15px; border-radius: 10px;"><h3>5000+</h3><small>Proje</small></div>
+    </div>
+</section>
+<section id="galeri" style="padding-top: 50px;">
+    <h2 class="sec-title">ÇALIŞMALARIMIZDAN KARELER</h2>
+    <div class="grid-3">
+        <div class="side-box" style="padding:0; overflow:hidden;">
+            <img src="images/oncesi-sonrasi1.jpg" style="width:100%; display:block;" alt="Önce Sonra 1">
+            <p style="text-align:center; padding:10px; font-weight:bold;">Resmi Binalar</p>
+        </div>
+        <div class="side-box" style="padding:0; overflow:hidden;">
+            <img src="images/oncesi-sonrasi2.jpg" style="width:100%; display:block;" alt="Önce Sonra 2">
+            <p style="text-align:center; padding:10px; font-weight:bold;">Mermer Temizliği</p>
+        </div>
+        <div class="side-box" style="padding:0; overflow:hidden;">
+            <img src="images/oncesi-sonrasi3.jpg" style="width:100%; display:block;" alt="Önce Sonra 3">
+            <p style="text-align:center; padding:10px; font-weight:bold;">Dış Cephe Cam Silimi</p>
+        </div>
+    </div>
+</section>
+<section id="iletisim">
+    <h2 class="sec-title">6. İLETİŞİM BİLGİLERİ & ADRES</h2>
+    <div class="info-cards">
+        <div class="info-item"><i class="fa fa-map-marked-alt"></i><h5>Adres</h5><p>Anafartalar Mah. 2130 Sk. No:31/a, Pamukkale/Denizli</p></div>
+        <div class="info-item"><i class="fa fa-phone-alt"></i><h5>Telefon</h5><p>0544 740 74 06</p></div>
+        <div class="info-item"><i class="fa fa-envelope"></i><h5>E-Posta</h5><p>info@denizlitemizlik.com</p></div>
+    </div>
+
+    <div class="contact-layout">
+        <form class="contact-form">
+            <input type="text" placeholder="Adınız Soyadınız">
+            <input type="tel" placeholder="Telefonunuz">
+            <textarea rows="4" placeholder="Mesajınız..."></textarea>
+            <button type="submit">GÖNDER</button>
+        </form>
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.28730675896!2d29.101159676331008!3d37.78330611166793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c73f0db3bb7c97%3A0x6205a892d13964e9!2sDenizli%20Genel%20Temizlik!5e0!3m2!1str!2str!4v1770180739859!5m2!1str!2str" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+        </main>
+    </div>
+<section style="width: 95%; max-width: 1400px; margin: 20px auto; padding: 15px; background: #eee; border-radius: 8px; font-size: 11px; color: #888; line-height: 2;">
+    <strong>Hizmet Bölgelerimiz ve Etiketler:</strong> 
+    Denizli temizlik, Denizli temizlik şirketi, Genel temizlik, Temizlik firmaları, Temizlik firması, Temizlik şirketi, Çivril temizlik şirketleri, Çivrilin temizlik şirketleri, Burdur temizlik şirketleri, Denizli, Denizli bölgesi, Denizli de ev temizlik şirketleri, Denizli ev temizlik şirketleri, Denizli ev temizlik şirketleri fiyatları, Denizli güvenilir temizlik, Denizli genel temizlik şirketi, Denizli inşaat temizlik şirketleri, Denizli koruma temizlik anonim şirketi, Denizli temizlik firmaları, Denizli temizlik hizmeti, Denizli temizlik şirketleri fiyatları, Denizli temizlik şirketleri telefon numaraları, Denizlide en iyi temizlik şirketi, Denizlideki en iyi temizlik şirketleri, En iyi 10 temizlik şirketleri, Ev temizliği, Kaliteli temizlik, Seçkin temizlik, Tavas temizlik şirketleri, Türkiye temizlik şirketleri, Temizlik Denizli.
+</section>
+    <footer style="background: var(--koyu); color: #bbb; padding: 60px 0 20px 0; margin-top: 50px; border-top: 5px solid var(--ana);">
+    <div style="width: 95%; max-width: 1400px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 40px; text-align: left;">
+        
+        <div>
+            <h3 style="color: var(--beyaz); margin-bottom: 20px; font-size: 22px;">DENİZLİ GENEL TEMİZLİK</h3>
+            <p style="font-size: 14px; line-height: 1.8;">Denizli'nin hijyen mimarı Denizli Genel Temizlik olarak, 15 yıldır evden fabrikaya kadar her alanda profesyonel temizlik çözümleri sunuyoruz. Kalite tesadüf değildir.</p>
+            <div class="social-icons" style="margin-top: 20px; text-align: left;">
+                <a href="#" style="margin-left: 0; margin-right: 15px; color: var(--ana); font-size: 24px;"><i class="fab fa-facebook"></i></a>
+                <a href="#" style="margin-right: 15px; color: #E1306C; font-size: 24px;"><i class="fab fa-instagram"></i></a>
+                <a href="#" style="margin-right: 15px; color: #25D366; font-size: 24px;"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <div>
+            <h4 style="color: var(--beyaz); margin-bottom: 20px; border-bottom: 2px solid var(--ana); display: inline-block; padding-bottom: 5px;">HIZLI MENÜ</h4>
+            <ul style="list-style: none; font-size: 14px;">
+                <li style="margin-bottom: 10px;"><a href="#top" style="color: #bbb; text-decoration: none;">Anasayfa</a></li>
+                <li style="margin-bottom: 10px;"><a href="#hakkimizda" style="color: #bbb; text-decoration: none;">Kurumsal</a></li>
+                <li style="margin-bottom: 10px;"><a href="#hizmetler" style="color: #bbb; text-decoration: none;">Hizmetlerimiz</a></li>
+                <li style="margin-bottom: 10px;"><a href="#referanslar" style="color: #bbb; text-decoration: none;">Referanslarımız</a></li>
+                <li><a href="#iletisim" style="color: #bbb; text-decoration: none;">İletişim</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 style="color: var(--beyaz); margin-bottom: 20px; border-bottom: 2px solid var(--ana); display: inline-block; padding-bottom: 5px;">HİZMETLER</h4>
+            <ul style="list-style: none; font-size: 14px;">
+                <li style="margin-bottom: 10px;">İnşaat Sonrası Temizlik</li>
+                <li style="margin-bottom: 10px;">Ofis & İşyeri Hijyeni</li>
+                <li style="margin-bottom: 10px;">Dış Cephe Cam Silimi</li>
+                <li style="margin-bottom: 10px;">Koltuk & Yatak Yıkama</li>
+                <li>Fabrika & Depo Temizliği</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 style="color: var(--beyaz); margin-bottom: 20px; border-bottom: 2px solid var(--ana); display: inline-block; padding-bottom: 5px;">BİZE ULAŞIN</h4>
+            <p style="font-size: 14px; margin-bottom: 15px;"><i class="fa fa-map-marker-alt" style="color: var(--vurgu); margin-right: 10px;"></i> Anafartalar Mah. 2130 Sk. No:31/a, Pamukkale/Denizli</p>
+            <p style="font-size: 14px; margin-bottom: 15px;"><i class="fa fa-phone" style="color: var(--vurgu); margin-right: 10px;"></i> 0544 740 74 06</p>
+            <p style="font-size: 14px;"><i class="fa fa-envelope" style="color: var(--vurgu); margin-right: 10px;"></i> denizligeneltemizlik@hotmail.com</p>
+        </div>
+
+    </div>
+
+    <div style="border-top: 1px solid #333; margin-top: 40px; padding-top: 20px; font-size: 12px; text-align: center;">
+        <p>© 2026 Denizli Genel Temizlik | <span style="color: var(--ana);">Mehmet3620</span> Tarafından Denizli İçin Hazırlanmıştır.</p>
+    </div>
+</footer>
+<div class="all-fixed-buttons">
+    
+    <a href="javascript:void(0)" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="go-top-btn" id="yukariBtn">
+        <i class="fa fa-chevron-up"></i>
+    </a>
+
+    <a href="https://wa.me/905447407406" target="_blank" class="wa-btn-new">
+        <span class="wa-tooltip-new">Hemen Fiyat Al!</span>
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+</div>
+
+<style>
+/* Ana Taşıyıcı: Her şeyi sağ alt köşeye toplar */
+.all-fixed-buttons {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column; /* Üst üste dizer */
+    gap: 15px;             /* Aralarına net boşluk koyar */
+    align-items: center;
+    z-index: 99999;
+}
+
+/* WhatsApp Buton Tasarımı */
+.wa-btn-new {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    color: white !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* WhatsApp Yazısı (Tooltip) */
+.wa-tooltip-new {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    right: 75px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: #fff !important;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.wa-btn-new:hover .wa-tooltip-new {
+    visibility: visible;
+    opacity: 1;
+    right: 80px;
+}
+
+/* Yukarı Çık Buton Tasarımı */
+.go-top-btn {
+    width: 45px;
+    height: 45px;
+    background-color: #444; /* Şık bir gri/siyah */
+    color: white !important;
+    border-radius: 50%;
+    display: none; /* Başlangıçta gizli */
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.go-top-btn:hover {
+    background-color: #000;
+}
+</style>
+
+<script>
+// Sayfa kayınca "Yukarı Çık" butonunu gösteren kod
+window.onscroll = function() {
+    var upBtn = document.getElementById("yukariBtn");
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        upBtn.style.display = "flex";
+    } else {
+        upBtn.style.display = "none";
+    }
+};
+
+
+
+function siteIciAra() {
+    let input = document.getElementById('searchInput').value.toLowerCase().trim();
+    if (input === "") return; // Kutu boşsa bir şey yapma
+
+    // Sayfadaki tüm metin içeren alanları tara (p, h1, h2, h3, li, span vb.)
+    let elements = document.querySelectorAll('h1, h2, h3, li, .service-card, p');
+    let bulundu = false;
+
+    for (let el of elements) {
+        if (el.innerText.toLowerCase().includes(input)) {
+            // Aranan kelimeyi bulduğumuz an oraya kaydır
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Bulunan yeri geçici olarak sarı yap (Vurgula)
+            let eskiRenk = el.style.backgroundColor;
+            el.style.backgroundColor = "yellow";
+            setTimeout(() => { el.style.backgroundColor = eskiRenk; }, 2000);
+            
+            bulundu = true;
+            break; // İlk bulduğunda dur (Hepsine gitmesin)
+        }
+    }
+
+    if (!bulundu) {
+        alert("Aradığınız kelime sayfada bulunamadı.");
+    }
+}
+
+</script>
+</body>
+</html>
