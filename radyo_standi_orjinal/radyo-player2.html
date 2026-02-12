@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seyyah Player</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body { 
+      font-family: system-ui, sans-serif; 
+      background: #0f172a;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .main-container {
+      width: 1200px;
+      height: 900px;
+      margin: 20px auto;
+      background: #111827;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+    }
+    #header-bg {
+      background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)), 
+                  url('https://s1.directupload.eu/images/260212/hzgv26or.jpg') center/cover no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    .playing { background: #6366f1 !important; color: white !important; }
+    #nowTitle.playing-title { color: #6366f1 !important; font-weight: 900 !important; text-shadow: 0 0 10px rgba(99,102,241,0.5); }
+    #playlist::-webkit-scrollbar, #radioList::-webkit-scrollbar { width: 5px; }
+    #playlist::-webkit-scrollbar-track, #radioList::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
+    #playlist::-webkit-scrollbar-thumb, #radioList::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
+    #playlist::-webkit-scrollbar-thumb:hover, #radioList::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+    #shuffleBtn.active { background: #4f46e5; color: white !important; border-radius: 50%; padding: 10px; }
+    #repeatBtn.active-one { color: #10b981 !important; }
+    #repeatBtn.active-all { color: #6366f1 !important; }
+  </style>
+</head>
+<body>
+
+<div class="main-container">
+
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- Radyo sidebar – sadece radyo kaydet/yükle kaldı -->
+    <div class="w-72 bg-gray-900 border-r border-gray-800 flex flex-col">
+      <div class="p-5 border-b border-gray-800 font-medium text-gray-100 text-lg flex items-center gap-3">
+        <i class="fa-solid fa-radio text-indigo-400 text-xl"></i> Radyolar
+      </div>
+      <div id="radioList" class="flex-1 overflow-auto p-4 space-y-3 text-sm"></div>
+      
+      <div class="p-4 border-t border-gray-800 space-y-3 bg-gray-950">
+        <div class="flex gap-2">
+          <button onclick="exportRadios()" class="flex-1 bg-green-700 hover:bg-green-600 py-2 rounded text-sm text-white flex items-center justify-center gap-2">
+            <i class="fa-solid fa-download"></i> Radyo Kaydet
+          </button>
+          <label class="flex-1 bg-blue-700 hover:bg-blue-600 py-2 rounded cursor-pointer text-sm text-white flex items-center justify-center gap-2">
+            <i class="fa-solid fa-upload"></i> Radyo Yükle
+            <input type="file" id="importFile" accept=".json" class="hidden" onchange="importRadios(event)"/>
+          </label>
+        </div>
+        <input id="radioName" placeholder="Radyo ismi" class="w-full bg-gray-800 border border-gray-700 rounded px-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500"/>
+        <input id="radioUrl" placeholder="http://example.com/stream.mp3" class="w-full bg-gray-800 border border-gray-700 rounded px-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500"/>
+        <button onclick="addAndSaveRadio()" class="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded text-base font-medium text-white">Ekle</button>
+      </div>
+    </div>
+
+    <!-- Sağ taraf -->
+    <div class="flex-1 flex flex-col">
+
+      <!-- Header -->
+      <div id="header-bg" class="p-6 border-b border-gray-800 relative min-h-[240px] flex items-center justify-center">
+        <div id="datetime" class="absolute top-4 right-4 text-sm font-mono text-gray-300 bg-gray-900/70 px-4 py-2 rounded-md z-10"></div>
+
+        <div class="flex flex-col items-center gap-5 w-full max-w-4xl">
+          <div class="flex items-center gap-6 w-full justify-center">
+            <div class="w-20 h-20 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-5xl shadow-xl flex-shrink-0">
+              🎧
+            </div>
+            <div class="flex-1 min-w-0">
+              <h2 id="nowTitle" class="text-xl font-bold text-white truncate playing-title">Henüz bir şey yok</h2>
+              <p id="nowSubtitle" class="text-gray-300 text-base truncate mt-1">Radyo veya müzik bekliyor</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-8">
+            <button onclick="prevTrack()" class="text-3xl text-gray-300 hover:text-white"><i class="fa-solid fa-backward-step"></i></button>
+            <button id="playBtn" onclick="togglePlay()" class="w-16 h-16 bg-white text-gray-900 rounded-full flex items-center justify-center text-4xl shadow-xl hover:scale-105 transition">
+              <i class="fa-solid fa-play"></i>
+            </button>
+            <button onclick="nextTrack()" class="text-3xl text-gray-300 hover:text-white"><i class="fa-solid fa-forward-step"></i></button>
+            <button id="shuffleBtn" onclick="toggleShuffle()" class="text-3xl text-gray-300 hover:text-indigo-400" title="Rastgele sonraki">
+              <i class="fa-solid fa-shuffle"></i>
+            </button>
+            <button id="repeatBtn" onclick="toggleRepeat()" class="text-3xl text-gray-300" title="Tekrar: Kapalı">
+              <i class="fa-solid fa-repeat"></i>
+            </button>
+          </div>
+
+          <div class="w-full max-w-xl flex flex-col gap-2 mt-2">
+            <input type="range" id="progress" min="0" max="100" value="0" class="w-full accent-indigo-500 h-1.5 bg-gray-600 rounded-full cursor-pointer" oninput="seek(this.value)"/>
+            <div class="flex justify-between text-xs text-gray-300 px-2">
+              <span id="currentTime">0:00</span>
+              <span id="totalTime">0:00</span>
+            </div>
+            <div class="flex items-center justify-center gap-4 mt-2">
+              <i class="fa-solid fa-volume-low text-gray-300 text-lg"></i>
+              <input type="range" id="volume" min="0" max="100" value="80" class="w-48 accent-indigo-500 h-1.5 bg-gray-600 rounded-full" oninput="changeVolume(this.value)"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playlist -->
+      <div class="flex-1 flex flex-col min-h-0">
+        <div class="p-5 border-b border-gray-800 bg-gray-900 flex justify-between items-center">
+          <span class="font-medium text-gray-100 text-lg">Çalma Listesi</span>
+          <div class="flex gap-3">
+            <label class="bg-gray-800 hover:bg-gray-700 px-5 py-3 rounded cursor-pointer text-base flex items-center gap-2 text-gray-300">
+              <i class="fa-solid fa-plus"></i> Müzik Ekle
+              <input type="file" id="localFiles" multiple accept="audio/*" class="hidden" onchange="addLocalFiles()"/>
+            </label>
+            <button onclick="shufflePlaylist()" class="bg-purple-700 hover:bg-purple-600 px-5 py-3 rounded text-base text-white flex items-center gap-2">
+              <i class="fa-solid fa-random"></i> Karıştır
+            </button>
+            <button onclick="clearPlaylist()" class="text-red-400 hover:text-red-300 px-5 py-3 rounded text-base">Temizle</button>
+            <!-- Playlist Kaydet / Yükle – müzik ekle kısmında -->
+            <button onclick="exportPlaylist()" class="bg-green-700 hover:bg-green-600 px-5 py-3 rounded text-base text-white flex items-center gap-2">
+              <i class="fa-solid fa-download"></i> Kaydet
+            </button>
+            <label class="bg-blue-700 hover:bg-blue-600 px-5 py-3 rounded cursor-pointer text-base text-white flex items-center gap-2">
+              <i class="fa-solid fa-upload"></i> Yükle
+              <input type="file" id="importPlaylist" accept=".json" class="hidden" onchange="importPlaylist(event)"/>
+            </label>
+          </div>
+        </div>
+        <div id="playlist" class="flex-1 overflow-y-auto p-5 space-y-2 bg-gray-800/20 min-h-0"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-3 px-6 bg-gray-900 border-t border-gray-800 text-sm text-gray-400 flex items-center justify-between">
+    <div class="font-mono"><span id="datetime-footer"></span></div>
+    
+    <div class="text-center flex-1">
+      © 2025 Seyyah20 • Denizli, Türkiye
+    </div>
+
+    <div class="text-indigo-400 font-medium">Tam Sürüm v1.0</div>
+  </footer>
+
+</div>
+
+<audio id="audio" class="hidden"></audio>
+
+<script>
+const audio = document.getElementById('audio');
+let tracks = [];
+let currentIndex = -1;
+let savedRadios = JSON.parse(localStorage.getItem('savedRadios')) || [];
+let isShuffle = false;
+let repeatMode = 'none';
+
+window.addEventListener('load', () => {
+  const savedVolume = localStorage.getItem('playerVolume');
+  if (savedVolume !== null) {
+    audio.volume = parseFloat(savedVolume);
+    document.getElementById('volume').value = savedVolume * 100;
+  }
+});
+
+function updateDateTime() {
+  const now = new Date();
+  const str = now.toLocaleString('tr-TR', {weekday:'short', day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  document.getElementById('datetime').textContent = str;
+  document.getElementById('datetime-footer').textContent = str;
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+
+function toggleShuffle() {
+  isShuffle = !isShuffle;
+  document.getElementById('shuffleBtn').classList.toggle('active', isShuffle);
+}
+
+function toggleRepeat() {
+  if (repeatMode === 'none') {
+    repeatMode = 'one';
+    document.getElementById('repeatBtn').classList.add('active-one');
+    document.getElementById('repeatBtn').title = "Tek şarkı tekrarı";
+  } else if (repeatMode === 'one') {
+    repeatMode = 'all';
+    document.getElementById('repeatBtn').classList.remove('active-one');
+    document.getElementById('repeatBtn').classList.add('active-all');
+    document.getElementById('repeatBtn').title = "Tüm liste tekrarı";
+  } else {
+    repeatMode = 'none';
+    document.getElementById('repeatBtn').classList.remove('active-one', 'active-all');
+    document.getElementById('repeatBtn').title = "Tekrar kapalı";
+  }
+}
+
+function shufflePlaylist() {
+  if (tracks.length < 2) return alert("En az 2 şarkı olmalı!");
+  for (let i = tracks.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
+  }
+  currentIndex = 0;
+  playTrack(0);
+  renderPlaylist();
+}
+
+function getNextIndex(current) {
+  if (!isShuffle || tracks.length <= 1) return (current + 1) % tracks.length;
+  let next = Math.floor(Math.random() * tracks.length);
+  let tries = 0;
+  while (next === current && tries < 10) {
+    next = Math.floor(Math.random() * tracks.length);
+    tries++;
+  }
+  return next;
+}
+
+function addAndSaveRadio() {
+  const name = document.getElementById('radioName').value.trim() || 'Radyo';
+  const url = document.getElementById('radioUrl').value.trim();
+  if (!url) return alert('URL gir!');
+  savedRadios.push({name, url});
+  localStorage.setItem('savedRadios', JSON.stringify(savedRadios));
+  renderRadios();
+  addToPlaylist(name, url, 'stream');
+  document.getElementById('radioName').value = '';
+  document.getElementById('radioUrl').value = '';
+}
+
+function deleteRadio(i) {
+  if (!confirm('Sil?')) return;
+  savedRadios.splice(i, 1);
+  localStorage.setItem('savedRadios', JSON.stringify(savedRadios));
+  renderRadios();
+}
+
+function playRadio(i) {
+  const r = savedRadios[i];
+  addToPlaylist(r.name, r.url, 'stream');
+  playTrack(tracks.length - 1);
+}
+
+function renderRadios() {
+  const container = document.getElementById('radioList');
+  container.innerHTML = '';
+  savedRadios.forEach((r, i) => {
+    const div = document.createElement('div');
+    div.className = 'bg-gray-800 hover:bg-gray-700 rounded-lg px-4 py-3 cursor-pointer flex justify-between items-center text-gray-200';
+    div.innerHTML = `
+      <div class="flex-1 truncate">
+        <div class="font-medium">${r.name}</div>
+        <div class="text-xs text-gray-500 truncate">${r.url}</div>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="playRadio(${i}); event.stopPropagation()" class="text-green-400 hover:text-green-300 text-lg"><i class="fa-solid fa-play"></i></button>
+        <button onclick="deleteRadio(${i}); event.stopPropagation()" class="text-red-400 hover:text-red-300 text-lg"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    `;
+    div.onclick = () => playRadio(i);
+    container.appendChild(div);
+  });
+}
+
+function addLocalFiles() {
+  const files = document.getElementById('localFiles').files;
+  for (let file of files) {
+    const url = URL.createObjectURL(file);
+    addToPlaylist(file.name, url, 'local');
+  }
+  if (tracks.length > 0 && currentIndex === -1) playTrack(0);
+}
+
+function addToPlaylist(name, src, type) {
+  tracks.push({name, src, type});
+  renderPlaylist();
+}
+
+function renderPlaylist() {
+  const container = document.getElementById('playlist');
+  container.innerHTML = '';
+  tracks.forEach((t, i) => {
+    const div = document.createElement('div');
+    div.className = `flex justify-between items-center px-5 py-3 rounded-lg cursor-pointer text-gray-200 ${i === currentIndex ? 'playing' : 'bg-gray-800/50 hover:bg-gray-700'}`;
+    div.innerHTML = `
+      <div class="flex items-center gap-4 flex-1 min-w-0">
+        <span class="text-2xl flex-shrink-0">${t.type === 'stream' ? '📻' : '🎵'}</span>
+        <span class="truncate text-base">${t.name}</span>
+      </div>
+      <button onclick="removeTrack(${i}); event.stopPropagation()" class="text-gray-400 hover:text-red-400 text-lg">
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
+    `;
+    div.onclick = () => playTrack(i);
+    container.appendChild(div);
+  });
+}
+
+function playTrack(i) {
+  if (i < 0 || i >= tracks.length) return;
+  currentIndex = i;
+  const t = tracks[i];
+  document.getElementById('nowTitle').textContent = t.name;
+  document.getElementById('nowSubtitle').textContent = t.type === 'stream' ? 'Canlı Radyo' : 'Yerel Dosya';
+  document.getElementById('nowTitle').classList.add('playing-title');
+  audio.src = t.src;
+  audio.play().catch(e => console.log("Oynatma hatası:", e));
+  document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+  renderPlaylist();
+}
+
+function togglePlay() {
+  if (audio.paused) {
+    audio.play();
+    document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+  } else {
+    audio.pause();
+    document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+  }
+}
+
+function prevTrack() {
+  if (currentIndex <= 0) return;
+  playTrack(currentIndex - 1);
+}
+
+function nextTrack() {
+  if (currentIndex >= tracks.length - 1) return;
+  playTrack(getNextIndex(currentIndex));
+}
+
+function removeTrack(i) {
+  if (i === currentIndex) {
+    audio.pause();
+    currentIndex = -1;
+    document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+    document.getElementById('nowTitle').classList.remove('playing-title');
+  }
+  tracks.splice(i, 1);
+  if (currentIndex > i) currentIndex--;
+  renderPlaylist();
+}
+
+function clearPlaylist() {
+  if (!confirm('Tüm liste silinsin mi?')) return;
+  tracks = [];
+  currentIndex = -1;
+  audio.pause();
+  renderPlaylist();
+  document.getElementById('nowTitle').textContent = 'Henüz bir şey yok';
+  document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+  document.getElementById('nowTitle').classList.remove('playing-title');
+}
+
+function changeVolume(v) {
+  audio.volume = v / 100;
+  localStorage.setItem('playerVolume', audio.volume);
+}
+
+function seek(v) {
+  if (audio.duration) audio.currentTime = (v / 100) * audio.duration;
+}
+
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  document.getElementById('progress').value = (audio.currentTime / audio.duration) * 100;
+  document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+  document.getElementById('totalTime').textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('ended', () => {
+  if (repeatMode === 'one') {
+    audio.currentTime = 0;
+    audio.play();
+  } else if (repeatMode === 'all' || tracks.length > 0) {
+    nextTrack();
+  }
+});
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, '0')}`;
+}
+
+function exportRadios() {
+  if (savedRadios.length === 0) return alert("Kaydedilmiş radyo yok");
+  const blob = new Blob([JSON.stringify(savedRadios, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "seyah_radyolar.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importRadios(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (Array.isArray(data)) {
+        savedRadios = data;
+        localStorage.setItem('savedRadios', JSON.stringify(savedRadios));
+        renderRadios();
+        alert(`Yüklendi: ${savedRadios.length} radyo`);
+      } else {
+        alert("Geçersiz JSON");
+      }
+    } catch (err) {
+      alert("Dosya okunamadı: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// Playlist Kaydet / Yükle
+function exportPlaylist() {
+  if (tracks.length === 0) return alert("Playlist boş!");
+  const exportData = tracks.map(t => ({
+    name: t.name,
+    type: t.type,
+    src: t.type === 'stream' ? t.src : null
+  }));
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "seyah_playlist.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importPlaylist(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!Array.isArray(data)) throw new Error("Geçersiz format");
+      tracks = [];
+      data.forEach(item => {
+        if (item.type === 'stream' && item.src) {
+          addToPlaylist(item.name, item.src, 'stream');
+        } else {
+          addToPlaylist(item.name + " (yeniden seçilmeli)", "", 'local');
+        }
+      });
+      if (tracks.length > 0) playTrack(0);
+      alert(`Playlist yüklendi: ${tracks.length} öğe (yerel dosyaları tekrar seçmen gerekebilir)`);
+    } catch (err) {
+      alert("Dosya okunamadı: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// Başlangıç
+renderRadios();
+</script>
+</body>
+</html>
