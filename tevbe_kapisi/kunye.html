@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tevbe Kapısı - Manevi Huzura Açılan Kapı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --hardal: #b1964b;
+            --gri: #666666;
+            --petrol: #467a85;
+            --arka-plan: #f2f2f2;
+            --beyaz: #ffffff;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background-color: var(--arka-plan); color: #333; line-height: 1.6; }
+
+/* 1. ÜST BANT (TOP-BAR) - KOMPLE PETROL MAVİSİ VE HİZALAMA */
+.top-bar {
+    background-color: #004b61 !important; /* Petrol Mavisi */
+    color: #ffffff !important;
+    padding: 10px 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    border-bottom: 3px solid var(--hardal) !important; /* Altına sarı çizgi */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+    z-index: 1001;
+}
+
+/* İçerik Sınırlayıcı (1250px Hizası) */
+.top-bar-inner {
+    width: 1250px !important;
+    max-width: 1250px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 15px !important;
+    box-sizing: border-box !important;
+}
+
+/* LİNKLERİN DÜZELTİLMESİ */
+.top-links {
+    display: flex !important;
+    gap: 15px !important;
+}
+
+.top-links a, .top-bar a {
+    color: #ffffff !important;         /* Linkler bembeyaz */
+    text-decoration: none !important;  /* Alt çizgileri kaldırdık */
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    transition: 0.3s;
+}
+
+.top-links a:hover {
+    color: var(--hardal) !important;   /* Üstüne gelince sarı olsun */
+}
+
+/* HAVA DURUMU, SAAT VE TARİH GRUBU (DÜZENİ BOZMADAN SADECE RENKLENDİRME) */
+/* GENEL GRUP - TÜM ELEMANLARI YAN YANA TUTAR */
+.nav-clock-horizontal {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: max-content !important; /* İçerik ne kadar uzarsa o kadar genişle */
+    min-width: 800px !important;   /* Hicri sığsın diye alanı genişlettik */
+    flex-wrap: nowrap !important;
+}
+
+/* TARİHLERİN OLDUĞU İÇ GRUP */
+.tarih-yatay {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    white-space: nowrap !important; /* Yazıları asla alt satıra atma */
+    flex-shrink: 0 !important;      /* Bu alanın daralmasını engelle */
+}
+
+/* MILADI VE HICRI METİNLERİ */
+#miladi-tarih, #hicri-tarih {
+    color: #444444 !important; /* Koyu Gri */
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+}
+
+/* AYRAÇLAR VE SAAT */
+.ayrac, .divider {
+    color: #b1964b !important; /* Hardal Sarısı */
+    flex-shrink: 0 !important;
+}
+
+#miladi-saat {
+    color: #004b61 !important; /* Petrol Mavisi */
+    font-size: 18px !important;
+    font-weight: bold !important;
+    flex-shrink: 0 !important;
+}
+
+/* SAĞ GRUP (SOSYAL) - DOKUNMADIK SADECE RENK VERDİK */
+.top-right-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 15px !important;
+    flex-wrap: nowrap !important;
+}
+
+/* Sosyal medya ikonları beyaz zeminde görünsün */
+.social-icons i {
+    color: #004b61 !important;
+}
+
+/* ARAMA KUTUSU */
+.search-box {
+    display: flex !important;
+    align-items: center !important;
+    background: rgba(255,255,255,0.15) !important; 
+    padding: 5px 12px !important;
+    border-radius: 25px !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+}
+
+.search-box input {
+    border: none !important;
+    background: transparent !important;
+    color: #ffffff !important;         /* Yazı beyaz */
+    outline: none !important;
+    width: 110px !important;           /* Biraz daralttık ki sığsın */
+    font-size: 13px !important;
+}
+
+.search-box input::placeholder {
+    color: #dddddd !important;
+}
+
+.search-box i {
+    color: #ffffff !important;
+}
+
+/* SOSYAL MEDYA SİMGELERİ */
+.social-icons {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    flex-wrap: nowrap !important;
+}
+
+.social-icons i {
+    color: #ffffff !important;
+    font-size: 16px !important;
+    transition: 0.3s;
+}
+
+.social-icons i:hover {
+    color: var(--hardal) !important;
+}
+
+/* Hava durumu kutusu temizliği */
+.weather, .weather div {
+    background: transparent !important;
+    color: #ffffff !important;
+}
+       
+        /* 2. HEADER */
+      header {
+    max-width: 1250px !important; /* Container ile aynı yaptık */
+    margin: 0 auto !important;
+    padding: 15px 15px !important; /* Paddingleri eşitledik */
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area h1 { color: var(--petrol); margin: 0; font-size: 36px; font-family: 'Georgia', serif; }
+        .logo-area span { color: var(--hardal); font-weight: bold; display: block; margin-top: -5px; }
+        
+        .header-news-box {
+            width: 320px;
+            height: 80px;
+            background: #f9f9f9;
+            border: 1px dashed var(--hardal);
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+        .header-news-box:hover { background: #fff8e7; }
+        .header-news-box img { width: 70px; height: 70px; object-fit: cover; margin-right: 10px; border-radius: 3px; }
+
+
+        /* Sadece bu kısmı mevcut .container ile değiştir */
+.container { 
+    display: grid; 
+    grid-template-columns: 3fr 1fr; 
+    gap: 25px; 
+    padding: 25px 15px; 
+    max-width: 1250px !important; 
+    margin: 0 auto !important;
+}
+        /* ORTA ALAN */
+        .content-main section { background: white; margin-bottom: 30px; padding: 20px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .section-title { border-left: 5px solid var(--hardal); padding-left: 15px; margin-bottom: 20px; color: var(--petrol); text-transform: uppercase; font-weight: 800; }
+
+        /* Resimli Konular (150x200 yaklaşımı) */
+        .grid-posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;}
+        .post-item { display: flex; gap: 15px; transition: 0.3s; padding: 10px; border: 1px dashed var(--hardal);  }
+        .post-item:hover { background: #fdfdfd; transform: translateY(-3px); border-color: #eee; }
+        .post-item img { width: 150px; height: 110px; object-fit: cover; border-radius: 4px; }
+        .post-item h4 { margin: 0 0 5px 0; font-size: 16px; color: var(--petrol); }
+        .post-item p { margin: 0; font-size: 12px; color: #666; line-height: 1.4; }
+		
+		
+        /* Video Sırası */
+        .video-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .video-card { position: relative; cursor: pointer; overflow: hidden; border-radius: 4px; }
+        .video-card img { width: 100%; height: 160px; object-fit: cover; transition: 0.5s; }
+        .video-card:hover img { transform: scale(1.1); }
+        .video-card .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 40px; opacity: 0.9; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
+
+        /* ASIDE */
+        .aside-box { background: white; margin-bottom: 20px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .aside-header { padding: 12px; color: white; font-weight: bold; text-align: center; font-size: 14px; letter-spacing: 1px; }
+        .aside-content { padding: 15px; font-size: 14px; color: #555; }
+        .aside-content img { border-radius: 4px; transition: 0.3s; }
+        .aside-content img:hover { filter: sepia(0.5); }
+
+        /* FOOTER */
+        footer { background: #222; color: white; padding: 40px 5%; display: flex; justify-content: space-between; align-items: center; margin-top: 40px; }
+        .footer-logo h2 { color: var(--hardal); margin: 0; font-family: 'Georgia', serif; }
+        .up-btn { background: var(--hardal); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .up-btn:hover { background: var(--petrol); }
+		</style>
+ <style>
+    .aside-video-box {
+        background: white;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        border-bottom: 3px solid var(--petrol);
+    }
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        background: #000;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    .aside-video-footer {
+        padding: 10px;
+        background: #f9f9f9;
+        font-size: 13px;
+        color: var(--gri);
+        text-align: center;
+        font-weight: bold;
+    }
+    .aside-video-box:hover {
+        transform: scale(1.02);
+        transition: 0.3s;
+    }
+	
+	.aside-box:hover {
+        background-color: #fafafa;
+        transform: translateX(5px);
+    }
+</style>
+<style>
+    .last-added-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 15px;
+        border-bottom: 1px solid #f0f0f0;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+    
+    .last-added-item:last-child {
+        border-bottom: none;
+    }
+
+    .last-added-item:hover {
+        background-color: #fcfcfc;
+        padding-left: 20px; /* Hafif yana kayma efekti */
+    }
+
+    .last-added-item img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 3px;
+        border: 1px solid #eee;
+    }
+
+    .last-added-text {
+        overflow: hidden;
+    }
+
+    .last-added-text a {
+        display: block;
+        text-decoration: none;
+        color: var(--petrol);
+        font-size: 13px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .last-added-text a:hover {
+        color: var(--hardal);
+    }
+
+    .last-added-text p {
+        margin: 0;
+        font-size: 11px;
+        color: #888;
+        line-height: 1.2;
+    }
+</style>
+
+<style>
+/* 1. NAVBAR ANA GÖVDE VE HİZALAMA (GÜÇLÜ 3D KABARTMA) */
+.main-nav {
+    max-width: 1250px !important;
+    margin: 0 auto !important;
+    background: #ffffff;
+    /* Hatırlarsan alt çizgiyi ve gölgeyi burada kullanmıştık */
+    border-bottom: 5px solid var(--hardal) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+.nav-wrapper {
+    max-width: 100% !important;
+    padding: 0 15px !important;
+}
+
+.menu-group {
+    display: flex;
+    align-items: center;
+    gap: 2px; /* 1 milim boşluk */
+}
+
+/* 2. MENÜ VE DROPDOWN BUTONLARI */
+.menu-group a, .dropbtn {
+    padding: 15px 20px;
+    text-decoration: none;
+    color: white !important;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+/* RENK SINIFLARI */
+.n-gri { background: #666 !important; }
+.n-hardal { background: #b1964b !important; }
+.n-petrol { background: #2c3e50 !important; }
+
+/* 3. AÇILIR MENÜ (DROPDOWN) İÇİ */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #b1964b;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-bottom: 3px solid #b1964b;
+}
+
+.dropdown-content a {
+    color: #333 !important;
+    background: #b1964b !important;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #b1964b !important;
+    color: #b1964b !important;
+    padding-left: 20px !important;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 4. SAAT VE TARİH (SAĞA SABİT) */
+.nav-clock-horizontal {
+    margin-left: auto !important;
+	margin-right: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #444;
+    white-space: nowrap;
+}
+
+#miladi-saat { font-family: monospace; font-weight: bold; color: #2c3e50; font-size: 18px; }
+.divider { width: 1px; height: 25px; background: #eee; margin: 0 5px; }
+.tarih-yatay { display: flex; gap: 8px; font-size: 13px; color: #555; }
+#hicri-tarih { color: #b1964b; font-weight: bold; }
+
+.menu-group a:hover, .dropdown:hover .dropbtn {
+    filter: brightness(1.2); /* Rengi biraz parlatır */
+    letter-spacing: 0.5px; /* Yazıyı çok hafif açar, şık durur */
+    transition: 0.3s;
+    color: #fff !important; /* Yazının beyaz kalmasını garantiler */
+}
+
+/* Koyu renkli butonlar için özel hover (Tasavvuf, Yazarlar vb.) */
+.menu-group a[style*="background"]:hover {
+    filter: brightness(1.4); 
+}
+
+/* 1. Grubun en başındaki butonun sol köşelerini yuvarla */
+.menu-group > *:first-child, 
+.menu-group > *:first-child a {
+    border-top-left-radius: 12px !important;
+    border-bottom-left-radius: 12px !important;
+}
+
+/* 2. Grubun en sonundaki butonun (veya dropdown'un) sağ köşelerini yuvarla */
+.menu-group > *:last-child, 
+.menu-group > *:last-child a,
+.menu-group > *:last-child .dropbtn {
+    border-top-right-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+}
+
+/* 3. Menülerin arasındaki o gap (boşluk) değerini 0 yaparsan 
+   butonlar birbirine tam yapışır ve yuvarlama daha şık durur */
+.menu-group {
+    gap: 3px !important; 
+}
+</style>
+<style>
+/* --- HABER BANDI KESİN ÇÖZÜM --- */
+.ust-haber-akisi {
+    background-color: var(--petrol) !important;
+    height: 40px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    display: block !important; /* Grid çakışmasını önlemek için block yaptık */
+}
+
+.haber-icerik {
+    max-width: 1250px !important; /* Sayfayı daraltan ana ayar */
+    margin: 0 auto !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 15px !important;
+    box-sizing: border-box !important;
+}
+
+.haber-etiket {
+    background: var(--hardal) !important;
+    color: #ffffff !important;
+    padding: 0 15px !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    white-space: nowrap !important; /* Alt alta inmeyi engeller */
+    margin-right: 20px !important;
+    box-shadow: 5px 0 10px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+/* KAYMA EFEKTİ SİSTEMİ */
+.kayan-yazi-alani {
+    flex: 1 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    position: relative !important;
+}
+
+#otomatik-haber-bandi {
+    display: inline-block !important;
+    padding-left: 100% !important; /* Yazı sağdan başlasın */
+    animation: haber-kaydir 25s linear infinite !important; /* Kayma hızı */
+    color: #f5f5f5 !important;
+    font-size: 14px !important;
+}
+
+#otomatik-haber-bandi span {
+    margin-right: 50px !important; /* Konular arası boşluk */
+}
+
+@keyframes haber-kaydir {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+</style>
+<style>
+    /* LİNK TEMİZLİĞİ: Maviliği ve Çizgiyi Kesin Öldürür */
+    .irfan-link, 
+    .irfan-link:link, 
+    .irfan-link:visited, 
+    .irfan-link:hover, 
+    .irfan-link:active {
+        text-decoration: none !important; /* Alt çizgiyi her durumda kaldırır */
+        color: inherit !important;       /* Maviyi iptal eder, yazı rengini neyse o yapar */
+        outline: none !important;
+        border: none !important;
+		
+		
+		
+    }
+
+    /* Yazı Aralarını Daraltan Ayarlar */
+    .irfan-link h3 { 
+        margin: 0 0 2px 0 !important; 
+        line-height: 1.2 !important; 
+        text-decoration: none !important;
+    }
+
+    .irfan-link p { 
+        margin: 0 !important; 
+        line-height: 1.3 !important; 
+        text-decoration: none !important;
+    }
+
+    .irfan-kart-yazi {
+        flex: 0 1 calc(33.333% - 10px);
+        padding: 10px 15px;
+        background: #fdfdfd;
+        border: 1px dashed var(--hardal);
+        box-sizing: border-box;
+    }
+	
+	/* ÖRNEK: Eğer 'alıntı çubuğu' istersen böyle duracak */
+.irfan-kart-yazi {
+    border-left: 3px solid #eee; /* Normalde gri, hoverda renklenir */
+    transition: 0.4s;
+}
+
+.irfan-kart-yazi:hover {
+    border-left: 3px solid var(--hardal); /* Üzerine gelince parlar */
+    background: #fffef9; /* Hafif kağıt rengi */
+}
+</style>
+
+<style>
+/* --- MEHMET3620: KİBAR BAŞLIKLAR VE MAVİ SÖKÜCÜ --- */
+
+/* 1. ÜST KATEGORİ BAŞLIĞI (BEYAZ KUTU - SİYAH YAZI) */
+.block-wrapper .block-title { 
+    background: #ffffff !important; 
+    padding: 5px 12px; 
+    display: inline-block; 
+    margin-bottom: 12px;
+}
+.block-wrapper .block-title a { 
+    color: #333333 !important; 
+    font-size: 14px !important; 
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+/* 2. RESİM ÜZERİNDEKİ YAZI (BEYAZ VE SAYDAM BANT) */
+.block-wrapper .main-title-bg { 
+    position: absolute; 
+    bottom: 0; 
+	color: #f5f5f5 !important; /* Maviye son */
+    background: rgba(0, 0, 0, 0.4) !important; 
+    width: 100%; 
+    padding: 8px; 
+    z-index: 10;
+}
+.block-wrapper .main-title-bg a { 
+    color: #ffffff !important; 
+    font-size: 13px !important; 
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+/* 3. KÜÇÜK RESİM BAŞLIKLARI (KİBAR VE KÜÇÜK) */
+.block-wrapper .title-small a { 
+    color: #333333 !important; /* Maviye son */
+    font-size: 12px !important; /* BAŞLIKLARI KÜÇÜLTTÜK */
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    text-decoration: none !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 2 satırdan fazlasını gizler */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 4. HOVER EFEKTİ */
+.block-wrapper .title-small a:hover,
+.block-wrapper .main-title-bg a:hover,
+.block-wrapper .block-title a:hover { 
+    color: #ff9900 !important; /* Üzerine gelince renk değişir */
+}
+
+/* 5. GENEL DÜZEN VE RESİMLER */
+.block-wrapper { max-width: 1200px; margin: 20px auto; }
+.row-flex { display: flex; flex-wrap: wrap; margin: 0 -10px; }
+.col-blok { flex: 0 0 33.333%; max-width: 33.333%; padding: 0 10px; box-sizing: border-box; margin-bottom: 25px; }
+
+.post-overaly-style { position: relative; width: 100%; height: 180px; overflow: hidden; border-radius: 4px; }
+.post-overaly-style img { width: 100% !important; height: 100% !important; object-fit: cover; transition: transform 0.5s ease; }
+.post-overaly-style:hover img { transform: scale(1.1); }
+
+.ozet-yazi { font-size: 12px; color: #777 !important; margin: 8px 0; line-height: 1.4; height: 34px; overflow: hidden; }
+
+.list-post { list-style: none; padding: 0; margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 10px; }
+.post-block-style { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; height: 50px; overflow: hidden; }
+
+.post-thumb-small { width: 75px; height: 50px; flex-shrink: 0; overflow: hidden; border-radius: 3px; }
+.post-thumb-small img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 992px) { .col-blok { flex: 0 0 100%; max-width: 100%; } }
+</style>
+<style>
+.editor-item {
+    display: flex !important;
+    gap: 12px;
+    text-decoration: none !important;
+    padding: 10px 8px; /* Kenarlardan çok az pay verdik ki hover daha şık dursun */
+    border-bottom: 1px solid #eee;
+    align-items: center;
+    transition: all 0.3s ease; /* Yumuşak geçiş efekti */
+}
+
+.editor-item:last-child { border-bottom: none; }
+
+/* HOVER DURUMU: Kutu hafif renklenir ve sağa kayar */
+.editor-item:hover { 
+    background-color: #f7f9fa; 
+    padding-left: 12px; /* Hafif sağa kayma hareketi */
+}
+
+.editor-item img {
+    width: 75px !important;
+    height: 65px !important;
+    object-fit: cover !important;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+    transition: transform 0.3s ease;
+}
+
+/* Resim hoverda çok hafif büyür */
+.editor-item:hover img {
+    transform: scale(1.05);
+}
+
+.editor-info h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    font-weight: 700;
+    line-height: 1.2;
+    transition: color 0.3s ease;
+}
+
+/* YAZI HOVER: Başlık petrol mavisine döner */
+.editor-item:hover h4 {
+    color: #004b61 !important; /* Senin petrol rengin */
+}
+
+.editor-info p {
+    margin: 4px 0 0;
+    font-size: 11px;
+    color: #777;
+    line-height: 1.3;
+}
+</style>
+</head>
+<body>
+<div class="ust-haber-akisi">
+    <div class="haber-icerik">
+        <div class="haber-etiket">SON KONULAR:</div>
+        <div class="kayan-yazi-alani">
+            <div id="otomatik-haber-bandi">
+                Lütfen konuların yüklenmesini bekleyin...
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="top-bar">
+    <div class="top-bar-inner"> <div class="top-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="#">Kütüphane</a>
+            <a href="#">Soru-Cevap</a>
+            <a href="yazarlar.html">Tüm Yazarlar</a>
+            <a href="kose_yazilari.html">Köşe Yazıları</a>
+            <a href="iletisim.html">Bize Ulaşın</a>
+            <a href="uyelik.html">Üyelik İşlemleri</a>
+        </div>
+        
+        <div class="top-right-group">
+            <div class="search-box">
+                <input type="text" id="siteSearch" placeholder="Sitede ara..." onkeyup="siteIciAra()">
+                <i class="fa fa-search" onclick="siteIciAra()"></i>
+            </div>
+            <div class="social-icons">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-youtube"></i>
+                <i class="fab fa-whatsapp"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <header>
+        <div class="logo-area">
+            <i class="fa fa-mosque" style="font-size: 40px; color: var(--hardal);"></i>
+            <div>
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+        <h1 style="margin: 0;">TEVBE KAPISI</h1>
+    </a>
+                <span>"Hiç ölmeyecekmiş gibi dünya için, yarın ölecekmiş gibi ahiret için..."</span>
+            </div>
+        </div>
+        <div class="header-news-box">
+            <img src="https://www.islamveihsan.com/wp-content/uploads/2023/03/ramazan-ve-orucla-ilgili-kavramlar-190935.jpg?1740724140" alt="Haber">
+            <div>
+                <strong>Duyuru:</strong><br>
+                Ramazan Ayı hazırlıklarımız ve mukabele programımız yayınlandı.
+            </div>
+        </div>
+    </header>
+
+<nav class="main-nav">
+    <div class="nav-wrapper">
+        <div class="menu-group">
+    <a href="" class="n-gri">KUR'AN-I KERİM</a>
+    <a href="" class="n-hardal">HADİS-İ ŞERİF</a>
+    <a href="" class="n-petrol">İLMİHAL</a>
+    <a href="" style="background: #333;">TASAVVUF</a>
+
+    <div class="dropdown">
+        <a href="" class="dropbtn" style="background: #2c3e50;">İSLAM <i class="fa fa-caret-down"></i></a>
+        <div class="dropdown-content">
+            <a href="">Namaz</a>
+            <a href="">Oruç</a>
+            <a href="">Zekat</a>
+            <a href="">Hac</a>
+            <a href="">Fıkıh Bilgileri</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="" class="dropbtn" style="background: #1e8449;">MANEVİ HAYAT <i class="fa fa-caret-down"></i></a>
+        <div class="dropdown-content">
+            <a href="">Peygamberimiz (s.a.v)</a>
+            <a href="">Dualar ve Zikirler</a>
+            <a href="">Hayat Rehberi</a>
+            <a href="">Tefekkür Dünyası</a>
+        </div>
+    </div>
+     
+	 <div class="dropdown">
+    <a href="" class="dropbtn" style="background: #555;">İSLAMİ BİLGİLER <i class="fa fa-caret-down"></i></a>
+    <div class="dropdown-content">
+        <a href="#"><i class="fas fa-book-open"></i> Kur'an-ı Kerim</a>
+        <a href="#"><i class="fas fa-mosque"></i> Günlük Dualar</a>
+        <a href="#"><i class="fas fa-heart"></i> Hadis-i Şerifler</a>
+        <a href="#"><i class="fas fa-clock"></i> Namaz Vakitleri</a>
+        <a href="#"><i class="fas fa-star-and-crescent"></i> Dini Günler</a>
+    </div>
+</div>
+	 
+    <div class="dropdown">
+        <a href="" class="dropbtn" style="background: #444;">YAZARLARIMIZ <i class="fa fa-caret-down"></i></a>
+        <div class="dropdown-content">
+            <a href="yazarlar.html">Tüm Yazarlar</a>
+            <a href="kose_yazilari.html">Köşe Yazıları</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <a href="" class="dropbtn" style="background: #555;">KURUMSAL <i class="fa fa-caret-down"></i></a>
+        <div class="dropdown-content">
+            <a href="iletisim.html">Bize Ulaşın</a>
+            <a href="kunye.html">Künye Bilgileri</a>
+            <a href="gizlilik.html">Gizlilik Politikası</a>
+			<a href="vizyon_misyon.html">Vizyon /Misyon</a>
+            <a href="uyelik.html">Üyelik İşlemleri</a>
+        </div>
+    </div>
+	
+	
+</div>
+		
+</nav>
+</div>
+        
+	
+    <div class="container">
+        <div class="content-main">
+		
+		<div class="nav-clock-horizontal">
+		<div style="display: flex; align-items: center; font-family: sans-serif; margin-left: 30px; background: #ffffff; padding: 5px;">
+    <div class="weather" style="display: flex; align-items: center; gap: 12px; color: #004b61;">
+        
+        <div class="weathericon" style="display: flex; align-items: center;">
+            <img id="hava-resim" src="https://gulistandergisi.com/wp-content/themes/safirwebportal/images/weather/09n.svg" alt="Hava" style="width: 32px; height: 32px;">
+        </div>
+
+        <div style="display: flex; flex-direction: column; line-height: 1.1;">
+            <div style="font-weight: bold; font-size: 14px; color: #d32f2f; text-transform: uppercase;">
+                <span id="hava-derece" style="margin-left: 5px; color: #d32f2f; font-weight: 800;">İstanbul</span> <span id="hava-derece" style="margin-left: 5px; color: #d32f2f; font-weight: 800;">12 &deg;C</span>
+            </div>
+            <p id="hava-durum-metin" style="margin: 0; font-size: 12px; color: #666; text-transform: capitalize;">kısa süreli yağmur</p>
+        </div>
+
+        <div style="margin-left: 10px; border-left: 2px solid #eee; padding-left: 12px;">
+            <a href="https://gulistandergisi.com/hava-durumu" style="color: #004b61; text-decoration: none; font-size: 11px; font-weight: bold; border-bottom: 1px dashed #004b61;">
+                Diğer Şehirler &rarr;
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+// Canlı veri çekme fonksiyonu (Zemin beyaz, renkler koyu)
+async function updateWeather() {
+    try {
+        const response = await fetch('https://wttr.in/Istanbul?format=j1');
+        const data = await response.json();
+        
+        const temp = data.current_condition[0].temp_C;
+        const desc = data.current_condition[0].lang_tr ? data.current_condition[0].lang_tr[0].value : data.current_condition[0].weatherDesc[0].value;
+        
+        document.getElementById('hava-derece').innerHTML = temp + " &deg;C";
+        document.getElementById('hava-durum-metin').innerText = desc;
+    } catch (err) {
+        console.log("Hava durumu güncellenemedi.");
+    }
+}
+updateWeather();
+</script>    <span class="ayrac">|</span>
+            <div id="miladi-saat">00:00:00</div>
+            <div class="divider"></div>
+            <div class="tarih-yatay">
+			    <span class="ayrac">|</span>
+                <span id="miladi-tarih">Miladi Tarih: 7 Şubat 2026</span>
+                <span class="ayrac">|</span>
+                <span id="hicri-tarih">Hicri Tarih: 19 Şaban 1447</span>
+            </div>
+        </div>
+ 
+
+		
+ <div class="politika-konteynir" style="max-width: 800px; margin: 20px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); font-family: sans-serif;">
+    
+    <h1 style="color: var(--petrol); border-bottom: 2px solid var(--hardal); padding-bottom: 10px; margin-bottom: 30px; text-align: center;">KÜNYE</h1>
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <div style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; align-items: center;">
+            <span style="font-weight: bold; color: var(--petrol); text-transform: uppercase;">İmtiyaz Sahibi</span>
+            <span style="color: #444;">Seyyah20 / Tevbe Kapısı</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; align-items: center;">
+            <span style="font-weight: bold; color: var(--petrol); text-transform: uppercase;">Genel Yayın Yönetmeni</span>
+            <span style="color: #444;">İsim Soyisim</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; align-items: center;">
+            <span style="font-weight: bold; color: var(--petrol); text-transform: uppercase;">Editörler</span>
+            <span style="color: #444;">İsim Soyisim, İsim Soyisim</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; align-items: center;">
+            <span style="font-weight: bold; color: var(--petrol); text-transform: uppercase;">Tasarım ve Yazılım</span>
+            <span style="color: #444;">Mehmet3620</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; align-items: center;">
+            <span style="font-weight: bold; color: var(--petrol); text-transform: uppercase;">Hukuk Danışmanı</span>
+            <span style="color: #444;">Av. İsim Soyisim</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; align-items: center;">
+            <span style="font-weight: bold; color: var(--petrol); text-transform: uppercase;">Yer Sağlayıcı</span>
+            <span style="color: #444;">Hosting Firması Adı</span>
+        </div>
+
+    </div>
+
+    <div style="margin-top: 40px; padding: 20px; background: #f9f9f9; border-radius: 8px; font-size: 13px; color: #777; line-height: 1.6; border-top: 3px solid var(--hardal);">
+        <p style="margin: 0;">
+            <strong>Yasal Uyarı:</strong> Bu sitede yayınlanan tüm içerikler (yazı, görsel, video vb.), kaynak gösterilmeden veya izin alınmadan kopyalanamaz ve başka mecralarda yayınlanamaz. Sitemizdeki harici linklerin sorumluluğu ilgili sitelere aittir.
+        </p>
+    </div>
+
+</div>
+        
+
+<section style="background: #1a1a1a; padding: 20px; border-radius: 4px; font-family: sans-serif;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="color: #fff; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 18px;">🔍</span>
+            <strong style="text-transform: uppercase; letter-spacing: 1px;">GALERİLER</strong>
+        </div>
+        <div style="display: flex; gap: 8px; cursor: pointer;">
+            <span id="dot1" onclick="showGaleri(1)" style="width: 12px; height: 12px; background: #fff; border-radius: 50%; transition: 0.3s;"></span>
+            <span id="dot2" onclick="showGaleri(2)" style="width: 12px; height: 12px; background: #555; border-radius: 50%; transition: 0.3s;"></span>
+        </div>
+    </div>
+
+    <div id="galeri-sayfa-1" style="display: flex; gap: 15px;">
+        <a href="https://gulistandergisi.com/muhammed-ibn-i-semmak-k-sda/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2021/01/33aae171-91fb-4bbe-84fa-65ea4c75caf9.jpg">
+            <p>Muhammed İbn-i Semmâk –k.sda</p>
+        </a>
+        <a href="https://gulistandergisi.com/hicri-yilbasi-ve-omur-muhasebesi/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2019/10/44.jpg">
+            <p>Hicri Yılbaşı ve Ömür Muhasebesi</p>
+        </a>
+        <a href="https://gulistandergisi.com/evliyanin-buyuklerinden-cuneyd-i-bagdadi-hazretleri/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2019/09/54.jpg">
+            <p>Cüneyd-i Bağdadî Hazretleri</p>
+        </a>
+        <a href="https://gulistandergisi.com/hikmetli-sozler-3/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2019/06/17.jpg">
+            <p>Hikmetli Sözler</p>
+        </a>
+    </div>
+
+    <div id="galeri-sayfa-2" style="display: none; gap: 15px;">
+        <a href="https://gulistandergisi.com/muslumanin-zaman-disiplini/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2019/06/15.jpg">
+            <p>Müslümanın Zaman Disiplini</p>
+        </a>
+        <a href="https://gulistandergisi.com/buyuklerin-sozleri/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2019/02/ilim-amel-2.jpg">
+            <p>Büyüklerin Sözleri</p>
+        </a>
+        <a href="https://gulistandergisi.com/kerametler-yasayan-ekmekci-teyze/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2018/10/Sıradısı02aa.jpg">
+            <p>Kerametler yaşayan "Ekmekçi Teyze"</p>
+        </a>
+        <a href="https://gulistandergisi.com/ataullah-iskenderi-hazretleri-2/" class="gal-box">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2018/05/ade.jpg">
+            <p>Atâullah İskenderî Hazretleri</p>
+        </a>
+    </div>
+</section>
+
+<style>
+    .gal-box { flex: 1; text-align: center; text-decoration: none; display: block; }
+    .gal-box img { width: 100%; height: 130px; object-fit: cover; border: 3px solid #fff; transition: 0.3s; }
+    .gal-box:hover img { border-color: #c49a6c; transform: translateY(-5px); }
+    .gal-box p { color: #fff; font-size: 12px; font-weight: bold; margin-top: 10px; line-height: 1.3; height: 32px; overflow: hidden; }
+</style>
+
+<script>
+function showGaleri(page) {
+    const s1 = document.getElementById('galeri-sayfa-1');
+    const s2 = document.getElementById('galeri-sayfa-2');
+    const d1 = document.getElementById('dot1');
+    const d2 = document.getElementById('dot2');
+
+    if(page === 1) {
+        s1.style.display = 'flex';
+        s2.style.display = 'none';
+        d1.style.background = '#fff';
+        d2.style.background = '#555';
+    } else {
+        s1.style.display = 'none';
+        s2.style.display = 'flex';
+        d1.style.background = '#555';
+        d2.style.background = '#fff';
+    }
+}
+</script>
+        </div>
+
+        <aside>
+		
+		<div class="aside-box" style="padding: 0; background: transparent; box-shadow: none;">
+    <div class="banner-sidebar-wrapper" style="display: flex; flex-direction: column; gap: 15px;">
+        
+        <a target="_blank" href="https://www.kuranvemeali.com/?source=islamveihsan.com" style="display: block; overflow: hidden; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <img class="banner img-fluid" src="https://www.islamveihsan.com/wp-content/uploads/surmanset/kuranvemeali_sag.gif" alt="Kur'an ve Meali" style="width: 100%; display: block; transition: transform 0.3s;">
+        </a>
+
+        <a target="_blank" href="https://www.islamveihsan.com/her-muslumanin-bilmesi-gereken-dini-bilgiler.html" style="display: block; overflow: hidden; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <img class="banner img-fluid" src="https://www.islamveihsan.com/wp-content/uploads/surmanset/temeldinibilgiler.gif" alt="Dini Bilgiler" style="width: 100%; display: block; transition: transform 0.3s;">
+        </a>
+
+        <a target="_blank" href="https://www.islamveihsan.com/namaz-vakitleri" style="display: block; overflow: hidden; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <img class="banner img-fluid" src="https://www.islamveihsan.com/wp-content/uploads/surmanset/namazvakitleri.png" alt="Namaz Vakitleri" style="width: 100%; display: block; transition: transform 0.3s;">
+        </a>
+
+        <a target="_blank" href="https://www.islamveihsan.com/namaz-nasil-kilinir.html" style="display: block; overflow: hidden; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <img class="banner img-fluid" src="https://www.islamveihsan.com/wp-content/uploads/surmanset/namazinkilinisi.gif" alt="Namazın Kılınışı" style="width: 100%; display: block; transition: transform 0.3s;">
+        </a>
+
+    </div>
+</div>
+		
+            <div class="aside-box">			
+<div class="aside-box" style="border-top: 4px solid var(--hardal);">
+    <div class="aside-header" style="background:var(--hardal)">AYIN DERGİSİ</div>
+    <div class="aside-content" style="text-align: center; padding: 15px;">
+        <div style="width: 100%; background: #f9f9f9; padding: 5px; border-radius: 4px;">
+            <img src="https://gulistandergisi.com/wp-content/uploads/2026/02/300.jpg" 
+                 style="width: 100%; height: auto; max-height: 350px; object-fit: contain; display: block; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" 
+                 alt="Tevbe Kapısı Dergisi">
+        </div>
+        <h3 style="color: var(--petrol); margin: 15px 0 5px 0; font-size: 18px; font-family: 'Georgia', serif;">Vuslat Sayısı</h3>
+        <p style="font-size: 13px; color: #666; margin-bottom: 12px; line-height: 1.4;">"Kalb-i Selim" dosya konusuyla tüm bayilerde sizi bekliyor.</p>
+        <button style="background: var(--hardal); color: white; border: none; padding: 10px 15px; border-radius: 3px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s;" 
+                onmouseover="this.style.background='var(--petrol)'" 
+                onmouseout="this.style.background='var(--hardal)'">
+            SAYIYI İNCELE
+        </button>
+    </div>
+</div>
+
+<div class="aside-video-box">
+    <div class="aside-header" style="background:var(--petrol)">HAFTANIN SOHBETİ</div>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Haftanın Sohbeti" allowfullscreen></iframe>
+    </div>
+    <div class="aside-video-footer">
+        <i class="fa fa-play-circle"></i> Canlı Yayın Kaydı - 2026
+    </div>
+</div>
+
+<div class="aside-box" style="border-left: 5px solid var(--petrol); transition: 0.3s;">
+    <div class="aside-content" style="display: flex; gap: 12px; padding: 10px; height: 100px; align-items: center;">
+        <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=100&h=100&q=80" 
+             style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;" alt="Dua">
+        <div style="overflow: hidden;">
+            <h4 style="margin: 0; font-size: 14px; color: var(--petrol);">Günün Duası</h4>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #777; line-height: 1.3;">"Allah'ım, faydasız ilimden sana sığınırım..."</p>
+        </div>
+    </div>
+</div>
+
+<div class="aside-box" style="border-left: 5px solid var(--gri); transition: 0.3s;">
+    <div class="aside-content" style="display: flex; gap: 12px; padding: 10px; height: 100px; align-items: center;">
+        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=100&h=100&q=80" 
+             style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;" alt="Okuma">
+        <div style="overflow: hidden;">
+            <h4 style="margin: 0; font-size: 14px; color: var(--gri);">Haftalık Okuma</h4>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #777; line-height: 1.3;">İmam Gazali'den Kalplerin Keşfi üzerine notlar.</p>
+        </div>
+    </div>
+</div>
+<div class="aside-box" style="border-top: 3px solid var(--petrol);">
+    <div class="aside-header" style="background:var(--petrol); font-size: 13px;">SON EKLENENLER</div>
+    <div class="aside-content" style="padding: 10px 0;">
+        
+        <div class="last-added-item">
+            <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=30&h=30&q=80" alt="Konu">
+            <div class="last-added-text">
+                <a href="#">Tevbe Kapısı'nda Bu Hafta</a>
+                <p>Manevi bir arınma rehberi...</p>
+            </div>
+        </div>
+
+        <div class="last-added-item">
+            <img src="https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=30&h=30&q=80" alt="Konu">
+            <div class="last-added-text">
+                <a href="#">Duanın Kabul Vakitleri</a>
+                <p>İcabet saatleri üzerine notlar...</p>
+            </div>
+        </div>
+
+        <div class="last-added-item">
+            <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=30&h=30&q=80" alt="Konu">
+            <div class="last-added-text">
+                <a href="#">Hadislerle Edep</a>
+                <p>Güzel ahlakın esasları...</p>
+            </div>
+        </div>
+
+        <div class="last-added-item">
+            <img src="https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&w=30&h=30&q=80" alt="Konu">
+            <div class="last-added-text">
+                <a href="#">Cami ve Cemaat Ruhu</a>
+                <p>Birlik olmanın fazileti...</p>
+            </div>
+        </div>
+
+        <div class="last-added-item">
+            <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=30&h=30&q=80" alt="Konu">
+            <div class="last-added-text">
+                <a href="#">Sabır ve Tevekkül</a>
+                <p>Zorluklara karşı manevi zırh...</p>
+            </div>
+        </div>
+
+    </div>
+</div>			    
+            
+<div class="aside-box" style="margin-top: 20px;">
+    <div class="aside-header" style="background:var(--petrol); color:white; text-align:center; padding:10px; font-weight:bold;">
+        <a href="https://www.islamveihsan.com/kategori/editorun-sectikleri" style="color:white; text-decoration:none;">EDİTÖRÜN SEÇTİKLERİ</a>
+    </div>
+    <div class="aside-content" style="background: #fff; padding: 10px;">
+        
+        <a href="https://www.islamveihsan.com/insan-suresinin-tefsiri.html" class="editor-item">
+            <img src="https://www.islamveihsan.com/wp-content/uploads/2026/02/insan-suresinin-tefsiri-201598-110x96.jpg" alt="İnsan Sûresi">
+            <div class="editor-info">
+                <h4>İnsan Sûresinin Tefsiri</h4>
+                <p>Sure-i İnsan'ın derin manaları ve açıklaması.</p>
+            </div>
+        </a>
+
+        <a href="https://www.islamveihsan.com/rabbimizin-razi-olacagi-islam-nedir.html" class="editor-item">
+            <img src="https://www.islamveihsan.com/wp-content/uploads/2026/02/rabbimizin-razi-olacagi-islam-nedir-201579-110x96.jpg" alt="İslam Nedir">
+            <div class="editor-info">
+                <h4>Rabbimiz’in Razı Olacağı İslam Nedir?</h4>
+                <p>İslam'ın hakikati ve rıza makamı üzerine...</p>
+            </div>
+        </a>
+
+        <a href="https://www.islamveihsan.com/berat-gecesi-yapilacak-ibadetler.html" class="editor-item">
+            <img src="https://www.islamveihsan.com/wp-content/uploads/2026/02/berat-gecesi-yapilacak-ibadetler-31646-110x96.jpg" alt="Berat Gecesi">
+            <div class="editor-info">
+                <h4>Berat Gecesi Yapılacak İbadetler</h4>
+                <p>Mübarek geceyi ihya etmek için tavsiyeler.</p>
+            </div>
+        </a>
+
+        <a href="https://www.islamveihsan.com/berat-kandili-sohbeti.html" class="editor-item">
+            <img src="https://www.islamveihsan.com/wp-content/uploads/2024/02/berat-kandili-sohbeti-138976-110x96.jpg" alt="Kandil Sohbeti">
+            <div class="editor-info">
+                <h4>Berat Kandili Sohbeti</h4>
+                <p>Gönüllere şifa Berat Kandili özel sohbeti.</p>
+            </div>
+        </a>
+
+        <a href="https://www.islamveihsan.com/salavat-nasil-getirilir.html" class="editor-item">
+            <img src="https://www.islamveihsan.com/wp-content/uploads/2017/03/salavatnasilverilir-702x336-110x96.jpg" alt="Salavat">
+            <div class="editor-info">
+                <h4>Salavat Nedir, Nasıl Getirilir?</h4>
+                <p>Peygamber Efendimiz'e (s.a.v) en güzel selamlar.</p>
+            </div>
+        </a>
+
+    </div>
+</div>
+
+			<div class="aside-header" style="background:var(--hardal)">HİKMETLİ SÖZLER</div>
+                <div class="aside-content">
+                    <p style="font-style: italic; border-bottom: 1px solid #eee; padding-bottom: 10px;">"Sen O'na yönelirsen, O sana kapıları açar."</p>
+                    <p style="font-size: 12px; text-align: right;">- Hz. Mevlana</p>
+                </div>
+            </div>
+
+            <div class="aside-box">
+                <div class="aside-header" style="background:var(--gri)">GÜLİSTAN DERGİSİ</div>
+                <div class="aside-content">
+                    <img src="https://gulistandergisi.com/wp-content/uploads/2026/02/300.jpg" style="width:100%;">
+                    <center><b>Gülistan Dergisi – Aralık-2025 – Sayı: 300</b></center>
+                </div>
+            </div>
+
+            <div class="aside-box">
+    <div class="aside-header" style="background:var(--petrol); color:white; text-align:center; padding:10px; font-weight:bold;">NAMAZ VAKİTLERİ</div>
+    
+    <div style="padding: 10px; background: #f9f9f9; border-bottom: 1px solid #eee;">
+        <select id="sehir-sec" onchange="namazVakitleriniGuncelle()" style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #ccc; color: #333; font-weight: bold;">
+    <option value="Denizli">Denizli</option>
+    <option value="Istanbul">İstanbul</option>
+    <option value="Ankara">Ankara</option>
+    <option value="Izmir">İzmir</option>
+    <option value="Antalya">Antalya</option>
+    <option value="Bursa">Bursa</option>
+    <option value="Adana">Adana</option>
+    <option value="Konya">Konya</option>
+    <option value="Gaziantep">Gaziantep</option>
+    <option value="Samsun">Samsun</option>
+    <option value="Trabzon">Trabzon</option>
+    <option value="Erzurum">Erzurum</option>
+    <option value="Diyarbakir">Diyarbakır</option>
+    <option value="Sanliurfa">Şanlıurfa</option>
+    <option value="Manisa">Manisa</option>
+    <option value="Aydin">Aydın</option>
+    <option value="Balikesir">Balıkesir</option>
+</select>
+    </div>
+
+    <div class="aside-content" style="padding: 10px; background: #fff;">
+        <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;"><span>İmsak</span> <b id="v-imsak">--:--</b></div>
+        <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;"><span>Güneş</span> <b id="v-gunes">--:--</b></div>
+        <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;"><span>Öğle</span> <b id="v-ogle">--:--</b></div>
+        <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;"><span>İkindi</span> <b id="v-ikindi">--:--</b></div>
+        <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee;"><span>Akşam</span> <b id="v-aksam">--:--</b></div>
+        <div style="display: flex; justify-content: space-between; padding: 5px 0;"><span>Yatsı</span> <b id="v-yatsi">--:--</b></div>
+    </div>
+</div>
+
+            <div class="aside-box">
+                <div class="aside-header" style="background:var(--hardal)">GÜNÜN HADİSİ</div>
+                <div class="aside-content">
+                    <p>"Tevbe eden, hiç günah işlememiş gibidir." (İbn Mâce)</p>
+                </div>
+            </div>
+
+            <div class="aside-box">
+                <div class="aside-header" style="background:#333">YAYIN AKIŞI</div>
+                <div class="aside-content">
+                    <small>21:00 - Hadis Sohbetleri<br>22:30 - Kur'an Meali</small>
+                </div>
+            </div>
+			
+			<div class="aside-video-box">
+    <div class="aside-header" style="background:var(--petrol)">HAFTANIN SOHBETİ</div>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Haftanın Sohbeti" allowfullscreen></iframe>
+    </div>
+    <div class="aside-video-footer">
+        <i class="fa fa-play-circle"></i> Canlı Yayın Kaydı - 2026
+    </div>
+</div>
+        </aside>
+    </div>
+
+    <footer>
+    <div class="footer-logo">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
+        <h2 style="margin: 0;">TEVBE KAPISI</h2>
+    </a>
+        <small>&copy; 2026 Mehmet3620 | Tüm Hakları Saklıdır.</small>
+        <small style="display: block;">Görsel ve Konu Kaynak: <a href="https://gulistandergisi.com/" target="_blank" style="color: inherit;">https://gulistandergisi.com/</a></small>
+        <small style="display: block;">Görsel ve Konu Kaynak: <a href="https://www.islamveihsan.com/" target="_blank" style="color: inherit;">https://www.islamveihsan.com/</a></small>
+    </div>
+
+    <div style="text-align: center; font-size: 13px; max-width: 1000px; color: #999;">
+        <p>"Ey iman edenler! Samimi bir tevbe ile Allah'a dönün..." (Tahrim, 8)</p>
+        İslam, Hz. Adem’den Peygamber Efendimize (s.a.v) gönderilen tüm dinlerin ortak adıdır. Bu gerçeği ifâde için Kur’ân-ı Kerîm’de: “Allâh katında dîn İslâm’dır …” (Âl-i İmrân, 19) buyurulmaktadır. Bu hakîkat, bir başka âyet-i kerîmede şöyle buyurulur: “Kim İslâm’dan başka bir dîn ararsa bilsin ki, ondan (böyle bir dîn) aslâ kabul edilmeyecek ve o âhırette de zarar edenlerden olacaktır.” (Âl-i İmrân, 85)
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="social-icons" style="font-size:22px;">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-youtube"></i>
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        <div class="up-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+            <i class="fa fa-arrow-up"></i>
+        </div>
+    </div>
+</footer>
+<script>
+    function saatGuncelle() {
+    const simdi = new Date();
+    
+    // Saat
+    document.getElementById('miladi-saat').innerText = simdi.toLocaleTimeString('tr-TR');
+    
+    // Miladi Tarih
+    const miladiOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById('miladi-tarih').innerText = simdi.toLocaleDateString('tr-TR', miladiOptions);
+    
+    // Hicri Tarih
+    const hicriOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const hicriFormatter = new Intl.DateTimeFormat('tr-TR-u-ca-islamic-ummalqura', hicriOptions);
+    document.getElementById('hicri-tarih').innerText = hicriFormatter.format(simdi);
+}
+
+setInterval(saatGuncelle, 1000);
+saatGuncelle();
+</script>
+<script>	
+	// 1. Arama kutusu
+	function siteIciAra() {
+    // 1. Arama kutusundaki yazıyı al ve küçük harfe çevir
+    let input = document.getElementById('siteSearch').value.toLowerCase();
+    
+    // Eğer kutu boşsa hiçbir şey yapma
+    if (input.length < 3) return; 
+
+    // 2. Sayfadaki tüm başlıkları ve kartları tara
+    let basliklar = document.querySelectorAll('h2, h3, h4, .post-item, .aside-box');
+
+    for (let i = 0; i < basliklar.length; i++) {
+        let icerikMetni = basliklar[i].innerText.toLowerCase();
+
+        // 3. Eğer aranan kelime bu başlıkta/kartta geçiyorsa
+        if (icerikMetni.includes(input)) {
+            // Sayfayı o bölüme yumuşak bir şekilde kaydır
+            basliklar[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Bulunan bölümü geçici olarak vurgula (opsiyonel)
+            basliklar[i].style.transition = "0.5s";
+            basliklar[i].style.backgroundColor = "rgba(177, 150, 75, 0.2)"; // Hardal rengi hafif vurgu
+            
+            setTimeout(() => {
+                basliklar[i].style.backgroundColor = "transparent";
+            }, 2000);
+
+            break; // İlk sonucu bulunca dur (sayfayı her harfte zıplatmamak için)
+        }
+    }
+}
+</script>
+
+<script>
+async function namazVakitleriniGuncelle() {
+    const sehirSecici = document.getElementById('sehir-sec');
+    const secilenSehir = sehirSecici.value;
+    
+    // Seçilen şehri hafızaya al (Sayfa yenilense de gitmez)
+    localStorage.setItem('secilenSehir', secilenSehir);
+
+    try {
+        const url = `https://api.aladhan.com/v1/timingsByCity?city=${secilenSehir}&country=Turkey&method=13`;
+        const response = await fetch(url);
+        const resData = await response.json();
+        
+        if(resData.status === "OK") {
+            const v = resData.data.timings;
+            
+            document.getElementById('v-imsak').innerText = v.Fajr;
+            document.getElementById('v-gunes').innerText = v.Sunrise;
+            document.getElementById('v-ogle').innerText = v.Dhuhr;
+            document.getElementById('v-ikindi').innerText = v.Asr;
+            document.getElementById('v-aksam').innerText = v.Maghrib;
+            document.getElementById('v-yatsi').innerText = v.Isha;
+        }
+    } catch (error) {
+        console.error("Vakitler alınamadı:", error);
+    }
+}
+
+// Sayfa ilk açıldığında çalışacak ayarlar
+window.onload = function() {
+    const kaydedilenSehir = localStorage.getItem('secilenSehir');
+    if (kaydedilenSehir) {
+        document.getElementById('sehir-sec').value = kaydedilenSehir;
+    }
+    namazVakitleriniGuncelle();
+};
+</script>
+
+<script>
+function updateGD(img, title, sum, link) {
+    document.getElementById('gd-img').src = img;
+    document.getElementById('gd-title').innerText = title;
+    document.getElementById('gd-title').href = link;
+    document.getElementById('gd-link').href = link;
+    document.getElementById('gd-summary').innerText = sum;
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Sayfadaki tüm başlıkları buluyoruz
+    const basliklar = document.querySelectorAll('.title-small a, .main-title-bg a');
+    const bant = document.getElementById('otomatik-haber-bandi');
+    
+    let tumKonular = "";
+
+    // Bulduğumuz her başlığı bandın içine ekliyoruz
+    basliklar.forEach((baslik, index) => {
+        if(index < 10) { // Sadece son 10 konuyu çek (kalabalık olmasın)
+            tumKonular += `<span> • ${baslik.innerText} </span>`;
+        }
+    });
+
+    // Eğer sayfada hiç konu bulamazsa varsayılan yazı yazsın
+    if (tumKonular === "") {
+        tumKonular = "Güncel dini bilgiler ve makaleler için takipte kalın...";
+    }
+
+    bant.innerHTML = tumKonular;
+});
+</script>
+</body>
+</html>
