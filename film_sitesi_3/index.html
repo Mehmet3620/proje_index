@@ -11,14 +11,17 @@
         :root { --bg: #141414; --text: #ffffff; --card: rgba(255, 255, 255, 0.05); --red: #e50914; --modal-bg: #1a1a1a; }
         .light-mode { --bg: #f4f4f4; --text: #141414; --card: #ffffff; --border: #ddd; --modal-bg: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg); color: var(--text); transition: 0.3s; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: var(--bg); color: var(--text); transition: 0.3s; overflow-x: hidden; }
         
+        /* DEĞİŞEN ARKA PLAN KATMANI */
+        #bgOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; background-size: cover; background-position: center; transition: 0.8s; filter: blur(5px); }
+
         /* HEADER */
-        .header { background: rgba(0,0,0,0.9); padding: 15px 5%; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .header { background: rgba(0,0,0,0.9); padding: 15px 5%; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
         .logo { font-size: 1.8rem; font-weight: bold; color: var(--red); }
 
-        /* HERO SLIDER */
-        .hero-section { width: 100%; height: 75vh; background: #000; }
+        /* HERO SLIDER (BÜYÜK BOYUT) */
+        .hero-section { width: 100%; height: 75vh; }
         .hero-swiper { width: 100%; height: 100%; }
         .hero-slide { width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 5%; position: relative; }
         .hero-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 10%, transparent 80%); }
@@ -28,48 +31,50 @@
         .filter-bar { padding: 20px 5%; display: flex; gap: 15px; background: rgba(255,255,255,0.02); flex-wrap: wrap; }
         .filter-bar select, .filter-bar input { background: #000; color: #fff; border: 1px solid #333; padding: 10px 20px; border-radius: 20px; outline: none; }
 
-        /* GRID */
+        /* GRID VE KARTLAR */
         .main-content { padding: 40px 5%; }
-        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
-        .movie-card { background: var(--card); border-radius: 12px; overflow: hidden; transition: 0.4s; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
+        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+        .movie-card { background: var(--card); border-radius: 12px; overflow: hidden; transition: 0.4s; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); position: relative; }
         .movie-card:hover { transform: translateY(-10px); border-color: var(--red); }
 
+        /* FAVORİ BUTONU */
+        .fav-btn { position: absolute; top: 10px; right: 10px; z-index: 100; background: rgba(0,0,0,0.6); width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; transition: 0.3s; }
+        .fav-btn.active { color: var(--red); transform: scale(1.1); }
+
         /* MODAL (DETAY KUTUSU) */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; z-index: 2000; overflow-y: auto; align-items: flex-start; }
-        .modal-content { width: 95%; max-width: 1100px; margin: 50px auto; background: var(--modal-bg); border-radius: 15px; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        
-        /* KAPAT BUTONU (X) */
-        .close-btn { position: absolute; top: 15px; right: 20px; background: var(--red); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; z-index: 2100; transition: 0.3s; border: 2px solid white; }
-        .close-btn:hover { transform: rotate(90deg); scale: 1.1; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; z-index: 2000; overflow-y: auto; }
+        .modal-content { width: 95%; max-width: 1100px; margin: 50px auto; background: var(--modal-bg); border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .close-btn { position: absolute; top: 15px; right: 20px; background: var(--red); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2100; border: 2px solid white; }
 
-        /* YORUMLAR */
-        .comment-section { padding: 30px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.1); }
-        .no-comments { padding: 15px; background: rgba(229, 9, 20, 0.1); border-radius: 8px; text-align: center; color: var(--red); font-weight: bold; }
-
-        /* ZENGİN FOOTER */
-        .footer { background: #000; padding: 60px 5% 30px; color: #bbb; border-top: 2px solid var(--red); margin-top: 50px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: left; }
+        /* ZENGİN FOOTER (GERİ GELDİ) */
+        .footer { background: #000; padding: 60px 5% 30px; border-top: 2px solid var(--red); margin-top: 50px; color: #bbb; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .footer-col h3 { color: var(--red); margin-bottom: 20px; font-size: 1.4rem; }
         .footer-col p { line-height: 1.8; font-size: 0.9rem; }
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons i { font-size: 1.5rem; cursor: pointer; transition: 0.3s; color: #fff; }
+        .social-icons i:hover { color: var(--red); transform: translateY(-3px); }
         .footer-links { list-style: none; }
         .footer-links li { margin-bottom: 10px; }
-        .footer-links a { color: #888; transition: 0.3s; }
+        .footer-links a { color: #888; text-decoration: none; transition: 0.3s; }
         .footer-links a:hover { color: var(--red); padding-left: 5px; }
-        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
-        .social-icons i { font-size: 1.5rem; cursor: pointer; transition: 0.3s; }
-        .social-icons i:hover { color: var(--red); }
         .copyright { text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid #222; font-size: 0.8rem; }
 
+        /* DİĞER ARAÇLAR */
         .back-to-top { position: fixed; bottom: 30px; right: 30px; background: var(--red); color: white; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; z-index: 1500; }
-        .btn-load-more { background: transparent; color: var(--red); border: 2px solid var(--red); padding: 12px 50px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; margin: 40px auto; display: block; }
+        .swiper-button-next, .swiper-button-prev { color: var(--red) !important; }
+        .btn-load-more { background: transparent; color: var(--red); border: 2px solid var(--red); padding: 12px 50px; border-radius: 30px; cursor: pointer; font-weight: bold; margin: 40px auto; display: block; transition: 0.3s; }
         .btn-load-more:hover { background: var(--red); color: #fff; }
     </style>
 </head>
-<body id="bodyTag">
+<body>
+
+    <div id="bgOverlay"></div>
 
     <header class="header">
         <div class="logo">MovieFlix Pro</div>
         <div style="display:flex; align-items:center; gap:20px;">
+            <span id="favCount" style="background:var(--red); padding:3px 12px; border-radius:15px; font-size:0.8rem; font-weight:bold;">0 Favori</span>
             <i class="fas fa-moon" id="themeIcon" onclick="toggleTheme()" style="cursor:pointer; color:var(--red); font-size:1.5rem;"></i>
             <input type="text" id="searchInput" placeholder="Film ara..." oninput="app.search(this.value)">
         </div>
@@ -98,7 +103,7 @@
         <button class="btn-load-more" onclick="app.loadMore()">DAHA FAZLA FİLM GÖSTER</button>
     </main>
 
-    <div class="modal" id="movieModal" onclick="closeModalOnOuterClick(event)">
+    <div class="modal" id="movieModal" onclick="if(event.target.id === 'movieModal') closeModal()">
         <div class="modal-content">
             <div class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></div>
             <div id="videoArea" style="height: 550px; background: #000;"></div>
@@ -107,14 +112,8 @@
                 <p id="mDesc" style="margin: 20px 0; line-height: 1.8; color: #ccc;"></p>
                 <h3 style="margin-bottom:15px;"><i class="fas fa-users"></i> Oyuncu Kadrosu</h3>
                 <div id="castArea" style="display:flex; gap:15px; overflow-x:auto; padding-bottom:15px;"></div>
-                
-                <div class="comment-section">
-                    <h3><i class="fas fa-comments"></i> Yorumlar</h3>
-                    <div id="commentsList" style="margin-top:20px;">
-                        <div class="no-comments">Bu filme henüz yorum yapılmamış. İlk yorumu sen yap!</div>
-                    </div>
-                    <textarea placeholder="Yorumunuzu buraya yazın..." style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:15px; margin-top:20px; border-radius:10px;"></textarea>
-                    <button style="background:var(--red); color:#fff; border:none; padding:12px 30px; border-radius:5px; margin-top:10px; cursor:pointer; font-weight:bold;">YORUM YAP</button>
+                <div style="margin-top:20px; padding:20px; background:rgba(229, 9, 20, 0.1); border-radius:10px; color:var(--red); text-align:center; font-weight:bold;">
+                    Bu filme henüz yorum yapılmamış. İlk yorumu sen yap!
                 </div>
             </div>
         </div>
@@ -124,7 +123,7 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h3>MovieFlix Pro</h3>
-                <p>Dünyanın en popüler film ve dizi veritabanını kullanarak size en güncel içerikleri sunuyoruz. Mehmet3620 tarafından tasarlanan bu portal, tamamen kullanıcı dostu bir deneyim sunar.</p>
+                <p>Dünyanın en güncel film veritabanını Mehmet3620 farkıyla keşfedin. Her gün yenilenen içerikler ve profesyonel arayüz.</p>
                 <div class="social-icons">
                     <i class="fab fa-facebook"></i> <i class="fab fa-twitter"></i> <i class="fab fa-instagram"></i> <i class="fab fa-youtube"></i>
                 </div>
@@ -132,23 +131,20 @@
             <div class="footer-col">
                 <h3>Hızlı Menü</h3>
                 <ul class="footer-links">
-                    <li><a href="#">Ana Sayfa</a></li>
                     <li><a href="#">Popüler Filmler</a></li>
                     <li><a href="#">Vizyondakiler</a></li>
-                    <li><a href="#">Kullanım Şartları</a></li>
-                    <li><a href="#">Gizlilik Politikası</a></li>
+                    <li><a href="#">Favorilerim</a></li>
+                    <li><a href="#">Hakkımızda</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Bize Ulaşın</h3>
-                <p><i class="fas fa-map-marker-alt" style="color:var(--red)"></i> Türkiye, Denizli</p>
                 <p><i class="fas fa-envelope" style="color:var(--red)"></i> destek@movieflixpro.com</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--red)"></i> Denizli, Türkiye</p>
                 <p><i class="fas fa-phone" style="color:var(--red)"></i> +90 5XX XXX XX XX</p>
             </div>
         </div>
-        <div class="copyright">
-            © 2026 Seyyah20 & Mehmet3620 Tasarımıdır. Tüm Hakları Saklıdır.
-        </div>
+        <div class="copyright">© 2026 Mehmet3620 (Seyyah20) Tasarımıdır. Tüm Hakları Saklıdır.</div>
     </footer>
 
     <div class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">
@@ -158,6 +154,7 @@
     <script>
         const API_KEY = '89b82830eb424a86b7c63ce9c1b8b5a8';
         const IMG = 'https://image.tmdb.org/t/p/original';
+        let favorites = JSON.parse(localStorage.getItem('myFavs')) || [];
 
         class MovieApp {
             constructor() { this.page = 1; this.init(); }
@@ -167,10 +164,13 @@
                 gData.genres.forEach(g => document.getElementById('genreFilter').innerHTML += `<option value="${g.id}">${g.name}</option>`);
                 for(let i=2026; i>=1990; i--) document.getElementById('yearFilter').innerHTML += `<option value="${i}">${i}</option>`;
                 this.loadMovies(true);
+                this.updateFavCount();
                 window.onscroll = () => document.getElementById('backToTop').style.display = window.scrollY > 500 ? 'flex' : 'none';
             }
+
             resetAndLoad() { this.page = 1; document.getElementById('moviesGrid').innerHTML = ''; this.loadMovies(true); }
             loadMore() { this.page++; this.loadMovies(false); }
+
             async loadMovies(isFirst) {
                 const g = document.getElementById('genreFilter').value;
                 const y = document.getElementById('yearFilter').value;
@@ -181,6 +181,7 @@
                 if(isFirst) { this.renderHero(data.results.slice(0, 5)); this.renderGrid(data.results.slice(5), true); }
                 else { this.renderGrid(data.results, false); }
             }
+
             renderHero(movies) {
                 document.getElementById('heroWrapper').innerHTML = movies.map(m => `
                     <div class="swiper-slide">
@@ -188,20 +189,38 @@
                             <div class="hero-content">
                                 <h1>${m.title}</h1>
                                 <p>${m.overview.substring(0, 200)}...</p>
-                                <button onclick="app.openMovie(${m.id})" style="background:var(--red); color:white; border:none; padding:15px 40px; border-radius:50px; cursor:pointer; font-weight:bold;">HEMEN İZLE</button>
+                                <button onclick="app.openMovie(${m.id})" style="background:var(--red); color:white; border:none; padding:15px 40px; border-radius:50px; cursor:pointer; font-weight:bold;">ŞİMDİ İNCELE</button>
                             </div>
                         </div>
                     </div>`).join('');
                 new Swiper('.hero-swiper', { loop: true, autoplay: {delay:5000}, navigation: {nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev'}, pagination: {el:'.swiper-pagination', clickable:true} });
             }
+
             renderGrid(movies, clear) {
                 const html = movies.map(m => `
-                    <div class="movie-card" onclick="app.openMovie(${m.id})">
-                        <img src="${IMG + m.poster_path}" style="width:100%; height:300px; object-fit:cover;">
+                    <div class="movie-card" onmouseenter="app.setBg('${m.backdrop_path}')" onclick="app.openMovie(${m.id})">
+                        <div class="fav-btn ${favorites.includes(m.id) ? 'active' : ''}" onclick="app.toggleFav(event, ${m.id})">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <img src="${IMG + (m.poster_path || '')}" style="width:100%; height:320px; object-fit:cover;" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
                         <div style="padding:15px;"><b>${m.title}</b><br><span style="color:var(--red)">★ ${m.vote_average.toFixed(1)}</span></div>
                     </div>`).join('');
                 if(clear) document.getElementById('moviesGrid').innerHTML = html; else document.getElementById('moviesGrid').innerHTML += html;
             }
+
+            setBg(p) { if(p) document.getElementById('bgOverlay').style.backgroundImage = `url(${IMG + p})`; }
+
+            toggleFav(e, id) {
+                e.stopPropagation();
+                if(favorites.includes(id)) favorites = favorites.filter(f => f !== id);
+                else favorites.push(id);
+                localStorage.setItem('myFavs', JSON.stringify(favorites));
+                this.updateFavCount();
+                e.currentTarget.classList.toggle('active');
+            }
+
+            updateFavCount() { document.getElementById('favCount').innerText = `${favorites.length} Favori`; }
+
             async openMovie(id) {
                 const [mRes, vRes, cRes] = await Promise.all([
                     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=tr-TR`),
@@ -214,12 +233,10 @@
                 const trailer = videos.results.find(v => v.type === 'Trailer');
                 if(trailer) document.getElementById('videoArea').innerHTML = `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>`;
                 document.getElementById('castArea').innerHTML = credits.cast.slice(0, 10).map(c => `
-                    <div style="min-width:90px; text-align:center;">
-                        <img src="${c.profile_path ? IMG + c.profile_path : 'https://via.placeholder.com/80'}" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--red);">
-                        <p style="font-size:0.7rem; margin-top:5px;">${c.name}</p>
-                    </div>`).join('');
-                document.getElementById('movieModal').style.display = 'flex';
+                    <div style="min-width:90px; text-align:center;"><img src="${c.profile_path ? IMG + c.profile_path : 'https://via.placeholder.com/80'}" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--red);"><p style="font-size:0.75rem; margin-top:5px;">${c.name}</p></div>`).join('');
+                document.getElementById('movieModal').style.display = 'block';
             }
+
             async search(q) {
                 if(!q) return this.resetAndLoad();
                 const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=tr-TR&query=${q}`);
@@ -230,21 +247,8 @@
         }
 
         const app = new MovieApp();
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const icon = document.getElementById('themeIcon');
-            icon.classList.toggle('fa-moon'); icon.classList.toggle('fa-sun');
-        }
-        function closeModal() {
-            document.getElementById('movieModal').style.display = 'none';
-            document.getElementById('videoArea').innerHTML = '';
-        }
-        // BOŞ YERE TIKLAYINCA KAPATMA FONKSİYONU
-        function closeModalOnOuterClick(event) {
-            if (event.target.id === 'movieModal') {
-                closeModal();
-            }
-        }
+        function toggleTheme() { document.body.classList.toggle('light-mode'); }
+        function closeModal() { document.getElementById('movieModal').style.display = 'none'; document.getElementById('videoArea').innerHTML = ''; }
     </script>
 </body>
 </html>
