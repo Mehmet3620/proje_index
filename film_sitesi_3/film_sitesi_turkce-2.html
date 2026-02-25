@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFlix - Film Gezgini</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #141414;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #e50914;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            min-width: 300px;
+            max-width: 500px;
+            padding: 12px 20px;
+            border: 2px solid #333;
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 8px 15px;
+            border: 1px solid #333;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .clear-btn {
+            padding: 8px 20px;
+            background: #e50914;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .clear-btn.show { display: inline-block; }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* TREND AFİŞLER */
+        .carousel-container {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 15px;
+            padding: 20px 0;
+            scrollbar-width: none;
+        }
+
+        .carousel::-webkit-scrollbar { display: none; }
+
+        .trending-card {
+            position: relative;
+            min-width: 300px;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .trending-card:hover {
+            transform: scale(1.05);
+        }
+
+        .trending-card .movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* YAN OKLAR - GLOW TAMAMEN KALDIRILDI */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 10;
+            transition: 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: #e50914; /* Parlama olmadan düz kırmızı */
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev { left: -30px; }
+        .carousel-btn.next { right: -30px; }
+
+        /* ORTA AFİŞLER - EFECTLER GERİ GELDİ */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease; /* Orijinal geçiş efekti */
+            cursor: pointer;
+            min-height: 450px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Orijinal Hover Efekti: Yukarı kayma ve gölge */
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #e50914;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.3s ease; /* Resim büyüme efekti */
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05); /* Üzerine gelince resmin hafif büyümesi */
+        }
+
+        .movie-info { padding: 15px; }
+        
+        /* PUANA GÖRE RENKLİ KUTULAR */
+        .movie-rating {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8em;
+            margin-bottom: 8px;
+        }
+        .rating-green { background: #2ecc71; color: white; }
+        .rating-yellow { background: #f1c40f; color: black; }
+        .rating-red { background: #e74c3c; color: white; }
+
+        .movie-description {
+            color: #999;
+            font-size: 0.85em;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        #backToTop {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #e50914; color: white; width: 50px; height: 50px;
+            border-radius: 50%; border: none; cursor: pointer;
+            display: none; z-index: 1000; font-size: 20px;
+        }
+
+        .footer {
+            background: #000; padding: 40px 20px; margin-top: 50px;
+            text-align: center; border-top: 2px solid #e50914;
+        }
+        .footer-logo { color: #e50914; font-size: 2em; font-weight: bold; margin-bottom: 10px; }
+        .footer-links a { color: #888; text-decoration: none; margin: 0 10px; font-size: 0.9em; }
+        .footer-copy { color: #555; font-size: 0.85em; margin-top: 15px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MovieFlix</div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Film ara..." id="searchInput">
+            <div class="filters">
+                <select id="genreFilter"><option value="">Tüm Türler</option></select>
+                <select id="yearFilter"><option value="">Tüm Yıllar</option></select>
+                <select id="sortFilter">
+                    <option value="">Sıralama Yok</option>
+                    <option value="popularity.desc">En Popüler</option>
+                    <option value="vote_average.desc">En Yüksek Puan</option>
+                    <option value="release_date.desc">En Yeni</option>
+                    <option value="title.asc">A-Z</option>
+                </select>
+            </div>
+            <button class="clear-btn" id="clearBtn">Temizle</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="trendingSection">
+            <div class="section-title">🔥 Trend Olanlar</div>
+            <div class="carousel-container">
+                <button class="carousel-btn prev" id="trendingPrev">‹</button>
+                <div class="carousel" id="trendingCarousel"></div>
+                <button class="carousel-btn next" id="trendingNext">›</button>
+            </div>
+        </div>
+
+        <div class="section-title" id="randomSectionTitle">🎬 Filmleri Keşfet</div>
+        <div class="movies-grid" id="moviesGrid"></div>
+    </div>
+
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+
+    <footer class="footer">
+        <div class="footer-logo">MovieFlix</div>
+        <div class="footer-links">
+            <a href="#">Hakkımızda</a>
+            <a href="#">Kullanım Koşulları</a>
+            <a href="#">Gizlilik Politikası</a>
+            <a href="#">İletişim</a>
+        </div>
+        <div class="footer-copy">
+            © 2026 MovieFlix. Tüm Hakları Saklıdır.<br>
+            Kullanıcı ID: Mehmet3620
+        </div>
+    </footer>
+
+    <script>
+        class MovieExplorer {
+            constructor() {
+                this.API_KEY = '89b82830eb424a86b7c63ce9c1b8b5a8';
+                this.BASE_URL = 'https://api.themoviedb.org/3';
+                this.IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
+                this.init();
+            }
+
+            async init() {
+                await this.loadGenres();
+                this.setupYears();
+                this.loadTrending();
+                this.loadMovies();
+                this.setupEvents();
+            }
+
+            async loadGenres() {
+                const res = await fetch(`${this.BASE_URL}/genre/movie/list?api_key=${this.API_KEY}&language=tr-TR`);
+                const data = await res.json();
+                const sel = document.getElementById('genreFilter');
+                data.genres.forEach(g => sel.add(new Option(g.name, g.id)));
+            }
+
+            setupYears() {
+                const sel = document.getElementById('yearFilter');
+                for (let y = 2026; y >= 1990; y--) sel.add(new Option(y, y));
+            }
+
+            getRatingClass(v) {
+                if (v >= 7.5) return 'rating-green';
+                if (v >= 5.5) return 'rating-yellow';
+                return 'rating-red';
+            }
+
+            async loadTrending() {
+                const res = await fetch(`${this.BASE_URL}/trending/movie/week?api_key=${this.API_KEY}&language=tr-TR`);
+                const data = await res.json();
+                document.getElementById('trendingCarousel').innerHTML = data.results.slice(0, 10).map((m, i) => `
+                    <div class="trending-card">
+                        <img src="${this.IMAGE_URL + m.poster_path}" class="movie-poster">
+                        <div style="position:absolute; top:15px; left:15px; background:rgba(0,0,0,0.8); color:#e50914; padding:10px; border-radius:10px; font-weight:bold; border:2px solid #e50914; z-index:5;">#${i+1}</div>
+                    </div>`).join('');
+            }
+
+            async loadMovies() {
+                const res = await fetch(`${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&language=tr-TR&page=1`);
+                const data = await res.json();
+                this.render(data.results);
+            }
+
+            render(movies) {
+                document.getElementById('moviesGrid').innerHTML = movies.map(m => `
+                    <div class="movie-card">
+                        <img src="${this.IMAGE_URL + m.poster_path}" class="movie-poster">
+                        <div class="movie-info">
+                            <div class="movie-rating ${this.getRatingClass(m.vote_average)}">★ ${m.vote_average.toFixed(1)}</div>
+                            <div style="font-weight:bold; margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.title}</div>
+                            <div class="movie-description">${m.overview || 'Açıklama bulunamadı.'}</div>
+                        </div>
+                    </div>`).join('');
+            }
+
+            setupEvents() {
+                document.getElementById('trendingPrev').onclick = () => document.getElementById('trendingCarousel').scrollBy({ left: -320, behavior: 'smooth' });
+                document.getElementById('trendingNext').onclick = () => document.getElementById('trendingCarousel').scrollBy({ left: 320, behavior: 'smooth' });
+                document.getElementById('searchInput').oninput = (e) => this.search(e.target.value);
+                window.onscroll = () => { document.getElementById('backToTop').style.display = window.scrollY > 500 ? 'block' : 'none'; };
+            }
+
+            async search(q) {
+                if(!q.trim()) return this.loadMovies();
+                const res = await fetch(`${this.BASE_URL}/search/movie?api_key=${this.API_KEY}&language=tr-TR&query=${q}`);
+                const data = await res.json();
+                this.render(data.results);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => new MovieExplorer());
+    </script>
+</body>
+</html>

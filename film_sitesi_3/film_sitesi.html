@@ -1,0 +1,821 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFlix - Movie Explorer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #141414;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #e50914;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #333;
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #e50914;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 8px 15px;
+            border: 1px solid #333;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select:focus {
+            border-color: #e50914;
+        }
+
+        .clear-btn {
+            padding: 8px 20px;
+            background: #e50914;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+            display: none;
+        }
+
+        .clear-btn:hover {
+            background: #b8070f;
+        }
+
+        .clear-btn.show {
+            display: inline-block;
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .carousel-container {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 15px;
+            padding: 20px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .trending-card {
+            position: relative;
+            min-width: 300px;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, rgba(229, 9, 20, 0.1), rgba(0, 0, 0, 0.8));
+        }
+
+        .trending-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(229, 9, 20, 0.3);
+        }
+
+        .trending-card .movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .trending-card:hover .movie-poster {
+            transform: scale(1.1);
+        }
+
+        .trending-rank {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #e50914;
+            font-size: 2.5em;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 10px;
+            z-index: 5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            border: 2px solid #e50914;
+        }
+
+        .trending-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 40px 20px 20px;
+            color: white;
+        }
+
+        .trending-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .trending-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .trending-genres {
+            font-size: 0.8em;
+            color: #cccccc;
+            margin-top: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .trending-rating {
+            background: #e50914;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .carousel-btn:hover {
+            background: rgba(229, 9, 20, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: -30px;
+        }
+
+        .carousel-btn.next {
+            right: -30px;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 450px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #e50914;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffffff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .movie-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #cccccc;
+        }
+
+        .movie-genres {
+            font-size: 0.8em;
+            color: #cccccc;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .movie-rating {
+            background: #e50914;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .movie-description {
+            color: #999999;
+            font-size: 0.85em;
+            line-height: 1.4;
+            display: -webkit-box;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #cccccc;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #e50914;
+            font-size: 1.1em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #cccccc;
+        }
+
+        .no-results h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filters {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .carousel-btn {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MovieFlix</div>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search for movies..." id="searchInput">
+            </div>
+            <div class="filters">
+                <select id="genreFilter">
+                    <option value="">All Genres</option>
+                </select>
+                <select id="yearFilter">
+                    <option value="">All Years</option>
+                </select>
+                <select id="sortFilter">
+                    <option value="">No Sort</option>
+                    <option value="popularity.desc">Most Popular</option>
+                    <option value="vote_average.desc">Highest Rated</option>
+                    <option value="release_date.desc">Latest Release</option>
+                    <option value="title.asc">A-Z</option>
+                </select>
+            </div>
+            <button class="clear-btn" id="clearBtn">Clear All</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Trending Movies Section -->
+        <div id="trendingSection">
+            <div class="section-title">🔥 Trending Now</div>
+            <div class="carousel-container">
+                <button class="carousel-btn prev" id="trendingPrev">‹</button>
+                <div class="carousel" id="trendingCarousel">
+                    <div class="loading">Loading trending movies...</div>
+                </div>
+                <button class="carousel-btn next" id="trendingNext">›</button>
+            </div>
+        </div>
+
+        <!-- Random Movies Section -->
+        <div class="section-title" id="randomSectionTitle">🎬 Discover Movies</div>
+        <div class="movies-grid" id="moviesGrid">
+            <div class="loading">Loading movies...</div>
+			<div class="section-title">https://my.mail.ru/video/embed/7541989780393821249?autoplay=1&wmode=opaque</div>
+        </div>
+    </div>
+
+    <script>
+        class MovieExplorer {
+            constructor() {
+                this.API_KEY = '89b82830eb424a86b7c63ce9c1b8b5a8';
+                this.BASE_URL = 'https://api.themoviedb.org/3';
+                this.IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+                this.FALLBACK_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDI4MCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMzAwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE0MCIgeT0iMTUwIiBmaWxsPSIjNjY2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm8gSW1hZ2U8L3RleHQ+Cjwvc3ZnPg==';
+                this.genres = {};
+                this.currentPage = 1;
+                this.isSearching = false;
+                this.currentFilters = {
+                    genre: '',
+                    year: '',
+                    sort: ''
+                };
+                
+                this.init();
+            }
+
+            async init() {
+                this.setupEventListeners();
+                await this.loadGenres();
+                this.setupYearFilter();
+                await this.loadTrendingMovies();
+                await this.loadRandomMovies();
+            }
+
+            setupEventListeners() {
+                const searchInput = document.getElementById('searchInput');
+                const genreFilter = document.getElementById('genreFilter');
+                const yearFilter = document.getElementById('yearFilter');
+                const sortFilter = document.getElementById('sortFilter');
+                const clearBtn = document.getElementById('clearBtn');
+                const trendingPrev = document.getElementById('trendingPrev');
+                const trendingNext = document.getElementById('trendingNext');
+
+                let searchTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        this.handleSearch(e.target.value);
+                    }, 500);
+                });
+
+                genreFilter.addEventListener('change', () => this.handleFilterChange());
+                yearFilter.addEventListener('change', () => this.handleFilterChange());
+                sortFilter.addEventListener('change', () => this.handleFilterChange());
+                clearBtn.addEventListener('click', () => this.clearAllFilters());
+
+                trendingPrev.addEventListener('click', () => this.scrollCarousel('prev'));
+                trendingNext.addEventListener('click', () => this.scrollCarousel('next'));
+            }
+
+            async loadGenres() {
+                try {
+                    const response = await fetch(`${this.BASE_URL}/genre/movie/list?api_key=${this.API_KEY}`);
+                    const data = await response.json();
+                    
+                    this.genres = data.genres.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                    
+                    const genreSelect = document.getElementById('genreFilter');
+                    data.genres.forEach(genre => {
+                        const option = document.createElement('option');
+                        option.value = genre.id;
+                        option.textContent = genre.name;
+                        genreSelect.appendChild(option);
+                    });
+                } catch (error) {
+                    console.error('Error loading genres:', error);
+                }
+            }
+
+            setupYearFilter() {
+                const yearSelect = document.getElementById('yearFilter');
+                const currentYear = new Date().getFullYear();
+                
+                for (let year = currentYear; year >= 1990; year--) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearSelect.appendChild(option);
+                }
+            }
+
+            async loadTrendingMovies() {
+                try {
+                    const response = await fetch(`${this.BASE_URL}/trending/movie/week?api_key=${this.API_KEY}`);
+                    const data = await response.json();
+                    
+                    const trendingMovies = data.results.slice(0, 10);
+                    this.displayTrendingMovies(trendingMovies);
+                } catch (error) {
+                    console.error('Error loading trending movies:', error);
+                    document.getElementById('trendingCarousel').innerHTML = '<div class="error">Failed to load trending movies</div>';
+                }
+            }
+
+            async loadRandomMovies() {
+                try {
+                    const randomPage = Math.floor(Math.random() * 10) + 1;
+                    let url = `${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=${randomPage}`;
+                    if (this.currentFilters.sort) {
+                        url += `&sort_by=${this.currentFilters.sort}`;
+                    }
+                    if (this.currentFilters.genre) {
+                        url += `&with_genres=${this.currentFilters.genre}`;
+                    }
+                    
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    this.displayMovies(data.results, 'moviesGrid');
+                } catch (error) {
+                    console.error('Error loading random movies:', error);
+                    document.getElementById('moviesGrid').innerHTML = '<div class="error">Failed to load movies</div>';
+                }
+            }
+
+            displayTrendingMovies(movies) {
+                const carousel = document.getElementById('trendingCarousel');
+                carousel.innerHTML = movies.map((movie, index) => this.createTrendingCard(movie, index + 1)).join('');
+            }
+
+            createTrendingCard(movie, rank) {
+                const posterPath = movie.poster_path 
+                    ? `${this.IMAGE_BASE_URL}${movie.poster_path}` 
+                    : this.FALLBACK_IMAGE;
+                
+                const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+                const year = movie.release_date ? new Date(movie.release_date).getFullYear() : 'TBA';
+                const genres = movie.genre_ids
+                    ? movie.genre_ids.slice(0, 2).map(id => this.genres[id]).filter(Boolean).join(', ')
+                    : 'N/A';
+
+                return `
+                    <div class="trending-card">
+                        <img src="${posterPath}" alt="${movie.title}" class="movie-poster" loading="lazy"
+                             onerror="this.src='${this.FALLBACK_IMAGE}'">
+                        <div class="trending-rank">${rank}</div>
+                        <div class="trending-overlay">
+                            <div class="trending-title">${movie.title}</div>
+                            <div class="trending-details">
+                                <span class="trending-year">${year}</span>
+                                <span class="trending-rating">★ ${rating}</span>
+                            </div>
+                            <div class="trending-genres">${genres}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            displayMovies(movies, containerId) {
+                const container = document.getElementById(containerId);
+                
+                if (movies.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-results">
+                            <h2>🔍 No movies found</h2>
+                            <p>Try adjusting your search criteria or filters</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = movies.map(movie => this.createMovieCard(movie)).join('');
+            }
+
+            createMovieCard(movie) {
+                const posterPath = movie.poster_path 
+                    ? `${this.IMAGE_BASE_URL}${movie.poster_path}` 
+                    : this.FALLBACK_IMAGE;
+                
+                const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+                const year = movie.release_date ? new Date(movie.release_date).getFullYear() : 'TBA';
+                const description = movie.overview || 'No description available.';
+                const genres = movie.genre_ids
+                    ? movie.genre_ids.slice(0, 2).map(id => this.genres[id]).filter(Boolean).join(', ')
+                    : 'N/A';
+
+                return `
+                    <div class="movie-card">
+                        <img src="${posterPath}" alt="${movie.title}" class="movie-poster" loading="lazy"
+                             onerror="this.src='${this.FALLBACK_IMAGE}'">
+                        <div class="movie-info">
+                            <div class="movie-title">${movie.title}</div>
+                            <div class="movie-details">
+                                <span class="movie-year">${year}</span>
+                                <span class="movie-rating">★ ${rating}</span>
+                            </div>
+                            <div class="movie-genres">${genres}</div>
+                            <div class="movie-description">${description}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            async handleSearch(query) {
+                const trimmedQuery = query.trim();
+                const clearBtn = document.getElementById('clearBtn');
+                const sectionTitle = document.getElementById('randomSectionTitle');
+                const trendingSection = document.getElementById('trendingSection');
+                
+                if (trimmedQuery === '') {
+                    this.isSearching = false;
+                    clearBtn.classList.remove('show');
+                    sectionTitle.textContent = '🎬 Discover Movies';
+                    trendingSection.style.display = 'block';
+                    await this.loadRandomMovies();
+                    return;
+                }
+
+                this.isSearching = true;
+                clearBtn.classList.add('show');
+                sectionTitle.textContent = `🔍 Search Results for "${trimmedQuery}"`;
+                trendingSection.style.display = 'none';
+                
+                try {
+                    document.getElementById('moviesGrid').innerHTML = '<div class="loading">Searching movies...</div>';
+                    
+                    let url = `${this.BASE_URL}/search/movie?api_key=${this.API_KEY}&query=${encodeURIComponent(trimmedQuery)}&page=1`;
+                    if (this.currentFilters.year) {
+                        url += `&primary_release_year=${this.currentFilters.year}`;
+                    }
+                    if (this.currentFilters.genre) {
+                        url += `&with_genres=${this.currentFilters.genre}`;
+                    }
+                    
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    let results = data.results;
+                    
+                    if (this.currentFilters.sort) {
+                        results = this.sortMovies(results, this.currentFilters.sort);
+                    }
+                    
+                    this.displayMovies(results, 'moviesGrid');
+                } catch (error) {
+                    console.error('Error searching movies:', error);
+                    document.getElementById('moviesGrid').innerHTML = '<div class="error">Search failed. Please try again.</div>';
+                }
+            }
+
+            sortMovies(movies, sortBy) {
+                switch (sortBy) {
+                    case 'popularity.desc':
+                        return movies.sort((a, b) => b.popularity - a.popularity);
+                    case 'vote_average.desc':
+                        return movies.sort((a, b) => b.vote_average - a.vote_average);
+                    case 'release_date.desc':
+                        return movies.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+                    case 'title.asc':
+                        return movies.sort((a, b) => a.title.localeCompare(b.title));
+                    default:
+                        return movies;
+                }
+            }
+
+            async handleFilterChange() {
+                const genreFilter = document.getElementById('genreFilter');
+                const yearFilter = document.getElementById('yearFilter');
+                const sortFilter = document.getElementById('sortFilter');
+                const searchInput = document.getElementById('searchInput');
+                const clearBtn = document.getElementById('clearBtn');
+                const trendingSection = document.getElementById('trendingSection');
+
+                this.currentFilters = {
+                    genre: genreFilter.value,
+                    year: yearFilter.value,
+                    sort: sortFilter.value
+                };
+
+                if (this.currentFilters.genre || this.currentFilters.year || this.currentFilters.sort || searchInput.value.trim()) {
+                    clearBtn.classList.add('show');
+                } else {
+                    clearBtn.classList.remove('show');
+                }
+
+                if (searchInput.value.trim()) {
+                    trendingSection.style.display = 'none';
+                    await this.handleSearch(searchInput.value.trim());
+                } else {
+                    if (this.currentFilters.genre || this.currentFilters.year || this.currentFilters.sort) {
+                        trendingSection.style.display = 'none';
+                        document.getElementById('randomSectionTitle').textContent = '🎬 Filtered Movies';
+                    } else {
+                        trendingSection.style.display = 'block';
+                        document.getElementById('randomSectionTitle').textContent = '🎬 Discover Movies';
+                    }
+                    await this.loadFilteredMovies();
+                }
+            }
+
+            async loadFilteredMovies() {
+                try {
+                    document.getElementById('moviesGrid').innerHTML = '<div class="loading">Loading filtered movies...</div>';
+                    
+                    let url = `${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=1`;
+                    
+                    if (this.currentFilters.genre) {
+                        url += `&with_genres=${this.currentFilters.genre}`;
+                    }
+                    if (this.currentFilters.year) {
+                        url += `&primary_release_year=${this.currentFilters.year}`;
+                    }
+                    if (this.currentFilters.sort) {
+                        url += `&sort_by=${this.currentFilters.sort}`;
+                    }
+                    
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    this.displayMovies(data.results, 'moviesGrid');
+                } catch (error) {
+                    console.error('Error loading filtered movies:', error);
+                    document.getElementById('moviesGrid').innerHTML = '<div class="error">Failed to load filtered movies</div>';
+                }
+            }
+
+            clearAllFilters() {
+                const trendingSection = document.getElementById('trendingSection');
+                
+                document.getElementById('searchInput').value = '';
+                document.getElementById('genreFilter').value = '';
+                document.getElementById('yearFilter').value = '';
+                document.getElementById('sortFilter').value = '';
+                document.getElementById('clearBtn').classList.remove('show');
+                document.getElementById('randomSectionTitle').textContent = '🎬 Discover Movies';
+                
+                trendingSection.style.display = 'block';
+                
+                this.currentFilters = {
+                    genre: '',
+                    year: '',
+                    sort: ''
+                };
+                
+                this.isSearching = false;
+                this.loadRandomMovies();
+            }
+
+            scrollCarousel(direction) {
+                const carousel = document.getElementById('trendingCarousel');
+                const scrollAmount = 320;
+                
+                if (direction === 'prev') {
+                    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                } else {
+                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new MovieExplorer();
+            
+            if (!app.API_KEY) {
+                document.querySelector('.main-content').innerHTML = `
+                    <div class="error" style="padding: 60px 20px; text-align: center;">
+                        <h2>⚠️ API Key Required</h2>
+                        <p>To use this app, you need to:</p>
+                        <ol style="text-align: left; max-width: 600px; margin: 20px auto;">
+                            <li>Go to <a href="https://www.themoviedb.org/settings/api" target="_blank" style="color: #e50914;">https://www.themoviedb.org/settings/api</a></li>
+                            <li>Create a free TMDB account and get your API key</li>
+                            <li>Replace the empty API_KEY in the code with your key</li>
+                        </ol>
+                        <p style="margin-top: 30px; color: #999;">Once you add your API key, the app will display trending movies, search functionality, and filters!</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
