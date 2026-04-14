@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seyyah Premium - 30 Usta Şair</title>
+    <style>
+        :root {
+            --bg: #090a0c;
+            --panel: #15171b;
+            --neon-blue: #00d4ff;
+            --neon-orange: #ff9d00;
+        }
+
+        body {
+            background: var(--bg);
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            color: #e0e0e0;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- TAM SAYFA RESİM TABANLI HEADER --- */
+        .seyyah-header-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1920 / 120;
+            background: url('images/header2.png') no-repeat center top;
+            background-size: 100% auto;
+            margin: 0; padding: 0;
+            z-index: 1001;
+        }
+
+        .hotspot {
+            position: absolute;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0);
+            display: block;
+            z-index: 10;
+        }
+
+        /* --- LİNK KOORDİNATLARI --- */
+        .link-forum  { left: 17.5%;  top: 2%; width: 6.5%;  height: 60%; }
+        .link-siir   { left: 24.5%; top: 2%; width: 5.5%;  height: 60%; }
+        .link-uyeler { left: 30.5%; top: 2%; width: 6.5%;  height: 60%; }
+        .link-liste  { right: 21.5%; top: 2%; width: 2.2%; height: 50%; }
+        .link-yaz    { right: 19.5%; top: 2%; width: 2.2%; height: 50%; }
+        .link-ayarlar{ right: 17.5%; top: 2%; width: 2.2%; height: 50%; }
+        .link-ara    { right: 14.9%; top: 2%; width: 2.2%; height: 50%; }
+
+        /* --- INDUSTRIAL PLAYER --- */
+        .industrial-player {
+            position: absolute; 
+            top: 70px; /* Header'ın altına çekildi */
+            right: 250px; 
+            background: #000; 
+            border: 1px solid #333;
+            border-radius: 50px; 
+            padding: 6px 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            box-shadow: inset 2px 2px 10px #000; 
+            width: 200px; 
+            z-index: 9999;
+        }
+
+        .p-main-btn { 
+            width: 38px; height: 38px; 
+            background: radial-gradient(circle, #3a3d44, #0a0b0d); 
+            border: 2px solid #4d4d4d; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer; 
+        }
+
+        /* --- GRID VE KARTLAR --- */
+        .wrapper {
+            max-width: 1030px; 
+            margin: 140px auto 80px;
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            row-gap: 30px; 
+            column-gap: 30px; 
+            padding: 0 30px;
+            justify-items: center;
+        }
+
+        .p-card {
+            background: #121418; border-radius: 12px; padding: 8px; 
+            border: 1px solid #2a2d33; box-shadow: 0 15px 30px rgba(0,0,0,0.8);
+            transition: 0.4s ease; width: 320px;
+        }
+
+        .p-card.blue-side { border-top: 3px solid var(--neon-blue); }
+        .p-card.orange-side { border-top: 3px solid var(--neon-orange); }
+
+        /* --- RESİM EFEKTLERİ --- */
+.p-img-box {
+    width: 100%; 
+    height: 140px; 
+    border-radius: 8px;
+    padding: 3px; 
+    background: #000;
+    box-shadow: inset 0px 0px 12px #000; 
+    overflow: hidden; /* Büyüyen resmin dışarı taşmasını engeller */
+    cursor: pointer;
+    position: relative;
+}
+
+.p-img { 
+    width: 100%; 
+    height: 100%; 
+    border-radius: 6px; 
+    background-size: cover; 
+    background-position: center; 
+    filter: brightness(0.5) grayscale(30%); /* Başlangıçta karanlık */
+    transition: transform 0.5s ease, filter 0.5s ease; /* Yumuşak geçiş */
+}
+
+/* Mouse karta gelince resmi canlandır */
+.p-card:hover .p-img {
+    transform: scale(1.15); /* %15 büyüme */
+    filter: brightness(1) grayscale(0%); /* Parlak ve renkli */
+}
+
+/* Karta hafif bir dış ışıma */
+.p-card:hover {
+    box-shadow: 0 0 20px rgba(255, 157, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+        .p-body { 
+            padding: 12px; text-align: center; margin-top: 8px;
+            background: #0a0b0d; border-radius: 8px;
+            box-shadow: inset 0px 3px 10px #000;
+        } 
+
+        .p-title { font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+
+        .p-text { 
+            font-size: 13px; color: #777; line-height: 1.5; 
+            font-style: italic; overflow: hidden; 
+            max-height: 45px; 
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
+            white-space: pre-wrap; 
+        }
+
+        .p-text.active { max-height: 1000px; color: #ccc; } 
+
+        .toggle-btn {
+            background: #111; border: 1px solid #333; color: #555; padding: 5px 12px;
+            border-radius: 12px; cursor: pointer; font-size: 9px; letter-spacing: 1px;
+            text-transform: uppercase; transition: 0.3s; margin-top: 10px;
+        }
+
+        .toggle-btn:hover { border-color: var(--neon-orange); color: #fff; }
+
+        footer { padding: 40px 0; text-align: center; color: #333; border-top: 1px solid #222; background: #000; margin-top: 40px; }
+        .footer-info { border: 1px solid #222; display: inline-block; padding: 10px 25px; border-radius: 8px; letter-spacing: 2px; }
+
+        @media (max-width: 768px) {
+            .industrial-player { 
+                top: 100px; right: 50%; transform: translateX(50%); width: 240px; 
+            }
+            .wrapper { margin-top: 180px; grid-template-columns: 1fr; }
+            .p-card { width: 90%; }
+        }
+		
+	</style>
+
+<style>	
+		
+		/* --- MODAL (RESİM BÜYÜTME PANELİ) --- */
+#imgModal {
+    display: none; /* Normalde gizli */
+    position: fixed;
+    z-index: 2000; /* Her şeyin en üstünde */
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.95); /* Çok koyu arka plan */
+    align-items: center; justify-content: center;
+}
+
+#imgModal img {
+    max-width: 90%;
+    max-height: 80%;
+    border: 3px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgba(0,0,0,1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 30px; right: 40px;
+    color: #fff; font-size: 50px;
+    cursor: pointer; font-weight: bold;
+}
+    </style>
+	
+</head>
+<body>
+
+    <header class="seyyah-header-container">
+        <a href="/forum"  class="hotspot link-forum"  title="Forum"></a>
+        <a href="/siir"   class="hotspot link-siir"   title="Şiirler"></a>
+        <a href="/uyeler" class="hotspot link-uyeler" title="Üyeler"></a>
+        <a href="/liste"   class="hotspot link-liste"   title="Liste"></a>
+        <a href="/yaz"     class="hotspot link-yaz"     title="Yaz"></a>
+        <a href="/ayarlar" class="hotspot link-ayarlar" title="Ayarlar"></a>
+        <a href="/ara"     class="hotspot link-ara"     title="Ara"></a>
+    </header>
+
+    <div class="industrial-player">
+        <span onclick="oncekiParca()" style="color:#444; cursor:pointer;">⏮</span>
+        <div class="p-main-btn" onclick="muzikKontrol()"><span id="durumIkon">▶</span></div>
+        <span onclick="sonrakiParca()" style="color:#444; cursor:pointer;">⏭</span>
+        <div id="parcaBilgi" style="color:var(--neon-orange); font-weight:bold; font-size:10px;">FON 1</div>
+        <audio id="seyyahPlayer"></audio>
+    </div>
+
+    <div class="wrapper" id="mainGrid"></div>
+
+    <footer>
+        <div class="footer-info">SEYYAH &bull; <span style="color:var(--neon-orange)">DENİZLİ 2026</span></div>
+    </footer>
+	
+<div id="imgModal">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <img id="modalResim" src="">
+</div>
+
+    <script>
+        // Şair verileri ve müzik fonksiyonları aynı kaldı (Orijinal Kod)
+        const grid = document.getElementById('mainGrid');
+        const siirData = [
+            { s: "Cemal Süreya", t: "Üvercinka", i: "images/1.jpg", m: "Böylece bir kere daha boynunlayız sayılı yerlerinden\nLaleli’den dünyaya doğru giden bir tramvaydayız\nBirden nasıl oluyor sen yüreğimi elliyorsun\nAma nasıl oluyor sen yüreğimi eller ellemez\nSevişmek bir kere daha yürürlüğe giriyor..." },
+            { s: "Attilâ İlhan", t: "Ben Sana Mecburum", i: "images/2.jpg", m: "Ben sana mecburum bilemezsin\nAdını mıh gibi aklımda tutuyorum\nBüyüdükçe büyüyor gözlerin\nBen sana mecburum bilemezsin\nİçimi seninle ısıtıyorum..." },
+            { s: "Turgut Uyar", t: "Göğe Bakma Durağı", i: "images/3.jpg", m: "İkimiz birden sevinebiliriz göğe bakalım\nŞu kaçamak ışıklardan şu şeker kamışlarından\nBebe dişlerinden güneşlerden yaban otlarından\nDurmadan harcadığım şu gözlerimi al kurtar\nŞu aranıp duran korkak ellerimi tut..." },
+            { s: "Nâzım Hikmet", t: "Davet", i: "images/4.jpg", m: "Dörtnala gelip Uzak Asya'dan\nAkdeniz'e bir kısrak başı gibi uzanan\nbu memleket, bizim.\nBilekler kan içinde, dişler kenetli, ayaklar çıplak\nve ipek bir halıya benzeyen toprak\nbu cehennem, bu cennet bizim." },
+            { s: "Özdemir Asaf", t: "Lavinia", i: "images/5.jpg", m: "Sana gitme demeyeceğim.\nÜşüyorsun ceketimi al.\nGünün en güzel saatleri bunlar.\nYanımda kal.\nSana gitme demeyeceğim.\nAma gitme, Lavinia." },
+            { s: "Edip Cansever", t: "Yerçekimli Karanfil", i: "images/6.jpg", m: "Biliyor musun az az yaşıyorsun içimde\nOysaki seninle güzel olmak var\nÖrneğin rakı içiyoruz, içimize bir karanfil düşüyor gibi\nBir yerimiz varsa günlerce bakışıyoruz\nAman kendini asmış yüz kiloluk bir zenci..." },
+            { s: "Ahmet Arif", t: "Hasretinden Prangalar Eskittim", i: "images/7.jpg", m: "Seni anlatabilmek seni.\nİyi çocuklara, kahramanlara.\nSeni anlatabilmek seni,\nNamussuza, halden bilmeze,\nKahpe yalana..." },
+            { s: "Cahit Sıtkı Tarancı", t: "Otuz Beş Yaş", i: "images/8.jpg", m: "Yaş otuz beş! yolun yarısı eder.\nDante gibi ortasındayız ömrün.\nDelikanlı çağımızdaki cevher,\nYalvarmak, yakarmak nafile bugün;\nGözünün yaşına bakmadan gider." },
+            { s: "Yahya Kemal", t: "Sessiz Gemi", i: "images/9.jpg", m: "Artık demir almak günü gelmişse zamandan\nMeçhule giden bir gemi kalkar bu limandan.\nHiç yolcusu yokmuş gibi sessizce alır yol;\nSallanmaz o kalkışta ne mendil, ne de bir kol." },
+            { s: "Orhan Veli Kanık", t: "Anlatamıyorum", i: "images/10.jpg", m: "Ağlasam sesimi duyar mısınız,\nMısralarımda;\nDokunabilir misiniz,\nGözyaşlarıma, ellerinizle?\nBilmezdim şarkıların bu kadar güzel,\nKelimelerinse kifayetsiz olduğunu..." },
+            { s: "Sabahattin Ali", t: "Çocuklar Gibi", i: "images/11.jpg", m: "Bende hiç tükenmez bir hayat vardı\nKırlara yayılan ilkbahar gibi\nYüreğimde hiç bitmez bir heyecan vardı\nHayata atılan çocuklar gibi..." },
+            { s: "Sezai Karakoç", t: "Monna Rosa", i: "images/12.jpg", m: "Monna Rosa. Siyah güller, ak güller.\nGeyve'nin gülleri ve beyaz yatak.\nKanadı kırık kuş merhamet ister.\nAh senin bakışın muma ses verir..." },
+            { s: "Can Yücel", t: "Sevgi Duvarı", i: "images/13.jpg", m: "Sen miydin o yalnızlığım mıydı yoksa\nKör karanlıkta açardık paslı gözlerimizi\nDilimizde akşamdan kalma bir küfür\nAdının her harfine bin öpücük..." },
+            { s: "Cahit Zarifoğlu", t: "Yedi Güzel Adam", i: "images/14.jpg", m: "Bu insanlar dev midir\nYatak görmemiş gövde midir\nbir yanda akan nehir\nbir yanda duran dağdır onlar..." },
+            { s: "İsmet Özel", t: "Mataramda Tuzlu Su", i: "images/15.jpg", m: "Uzak nedir?\nKendinin bile ücra köşesinde yaşayanlar için\nSahi nedir uzak?\nYorulmuş bir isyanın kalbinde mi başlar?" },
+            { s: "Necip Fazıl", t: "Kaldırımlar", i: "images/16.jpg", m: "Sokaktayım, kimsesiz bir sokak ortasında;\nYürüyorum, arkama bakmadan yürüyorum.\nYolumun karanlığa saplanan noktasında,\nSanki beni bekleyen bir hayal görüyorum." },
+            { s: "A. Hamdi Tanpınar", t: "Bursa'da Zaman", i: "images/17.jpg", m: "Bursa'da bir eski cami avlusu,\nMermer şadırvanda şakırdayan su;\nOrhan zamanından kalma bir duvar...\nOnunla bir yaşta ihtiyar çınar..." },
+            { s: "Bedri Rahmi", t: "Karadut", i: "images/18.jpg", m: "Karadutum, çatal karam, chingenem\nNar tanem, nur tanem, bir tanem\nAğaç isem dalımsın salkım saçak\nPetek isem balımsın oğul oğul..." },
+            { s: "Nilgün Marmara", t: "Yalnızlık", i: "images/19.jpg", m: "Kendi içinde sönen bir yıldız gibi\nYalnızlığın derin sularında bir kuğu\nSesim rüzgara karışır, izim suya\nBeni bu derin sessizlikte ara..." },
+            { s: "Ahmet Haşim", t: "Merdiven", i: "images/20.jpg", m: "Ağır ağır çıkacaksın bu merdivenlerden,\nEteklerinde güneş rengi bir yığın yaprak,\nVe bir zaman bakacaksın semaya ağlayarak..." },
+            { s: "Ataol Behramoğlu", t: "Aşk İki Kişiliktir", i: "images/21.jpg", m: "Değişir yönü rüzgarın\nSolar ansızın yapraklar\nAşk iki kişiliktir\nPaylaşılmaz bir kederdir..." },
+            { s: "Gülten Akın", t: "Deli Kızın Türküsü", i: "images/22.jpg", m: "Sana geldim, ayaklarına kapandım.\nBağışla beni.\nŞehirler dar geliyor, ruhum sığmıyor bu bedene\nBeni bu türküden çıkar..." },
+            { s: "Nurullah Genç", t: "Yağmur", i: "images/23.jpg", m: "Vururken sulara gölgeler bir bir\nYüreğim bir derin sızıdır şimdi\nYağmurun sesinde gizli bir şiir\nSanki seni bana getirir şimdi..." },
+            { s: "Ümit Yaşar Oğuzcan", t: "Sesini Sevdim", i: "images/24.jpg", m: "Ben senin en çok sesini sevdim\nBuğulu, derinden gelen o sesi\nSanki bir masal anlatır gibi\nİçimi ısıtan o nefesi sevdim..." },
+            { s: "Asaf Hâlet", t: "He", i: "images/25.jpg", m: "He. Bir gizli harf gibi içimde saklı\nNe sese gelir, ne söze\nSadece duyulur sessizlikte\nSanki bir rüya, sanki bir gölge..." },
+            { s: "Arkadaş Z. Özger", t: "Pencere", i: "images/26.jpg", m: "Pencereyi kapat, içime soğuk giriyor\nBir kuş ölürse bugün, sebebi benim sessizliğimdir\nBana bir çiçek getir, rengi aşk olsun..." },
+            { s: "M. Cevdet Anday", t: "Anı", i: "images/27.jpg", m: "Bir çift güvercin havalansa\nYan yana uçsalar gökyüzünde\nBir anı kalsa bizden geriye\nSadece sevgi, sadece huzur..." },
+            { s: "Behçet Necatigil", t: "Sevgilerde", i: "images/28.jpg", m: "Sevgileri yarınlara bıraktınız\nÇekingen, tutuk, saygılı\nBütün yakınlarınız sizi yanlış tanıdı\nBitmeyen işleriniz vardı..." },
+            { s: "Ceyhun Atuf Kansu", t: "Dünyanın Bütün Çiçekleri", i: "images/29.jpg", m: "Dünyanın bütün çiçeklerini diyorum\nGetirin buraya, mezarıma serpin\nBütün çocukları getirin diyorum\nGülüşleri bana hayat versin..." },
+            { s: "Hilmi Yavuz", t: "Gül ve Hüzün", i: "images/30.jpg", m: "Hüzün ki en çok yakışandır bize\nGülün yaprağında saklı bir dize\nGelirse bir gün ayrılık vakti\nSiirler teselli olur kalbimize..." }
+        ];
+
+        // Kartları oluştur
+        // Kartları Oluştururken Tıklama Fonksiyonunu Değiştirdik
+siirData.forEach((data, i) => {
+    const isBlue = i % 2 !== 0;
+    const card = document.createElement('div');
+    card.className = `p-card ${isBlue ? 'blue-side' : 'orange-side'}`;
+    card.innerHTML = `
+        <div class="p-img-box" onclick="openModal('${data.i}')">
+            <div class="p-img" style="background-image: url('${data.i}');"></div>
+        </div>
+        <div class="p-body">
+            <div class="p-title" style="color:${isBlue ? 'var(--neon-blue)' : 'var(--neon-orange)'}">${data.t}</div>
+            <div class="p-text" id="txt-${i}"><strong>${data.s}</strong>\n${data.m}</div>
+            <button class="toggle-btn" onclick="toggle(${i})" id="btn-${i}">OKU</button>
+        </div>`;
+    grid.appendChild(card);
+});
+
+// Resim Açma Fonksiyonu
+function openModal(imgSrc) {
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalResim');
+    modal.style.display = "flex";
+    modalImg.src = imgSrc;
+}
+
+// Resim Kapatma Fonksiyonu
+function closeModal() {
+    document.getElementById('imgModal').style.display = "none";
+}
+
+// Ekranın boş bir yerine tıklayınca da kapansın
+window.onclick = function(event) {
+    const modal = document.getElementById('imgModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+        function toggle(id) {
+            const el = document.getElementById(`txt-${id}`);
+            const btn = document.getElementById(`btn-${id}`);
+            el.classList.toggle('active');
+            btn.innerText = el.classList.contains('active') ? 'KAPAT' : 'OKU';
+        }
+
+        const playlist = [
+            {ad: "FON 1", src: "https://ia601401.us.archive.org/33/items/sozun-bitti-i-yer-fon/%27%27Dokunabilsem%20Fon%27%27.mp3"},
+            {ad: "FON 2", src: "https://ia601401.us.archive.org/33/items/sozun-bitti-i-yer-fon/%27%27S%C3%B6z%C3%BCn%20Bitti-i%20Yer%20Fon%27%27.mp3"},
+            {ad: "FON 3", src: "https://ia601401.us.archive.org/33/items/sozun-bitti-i-yer-fon/Bu%20Kadar%20G%C3%BCzel%20Harika%20Bir%20Fon%20Olabilirmi...---.mp3"}
+        ];
+
+        let suankiParca = 0;
+        const audio = document.getElementById('seyyahPlayer');
+        const ikon = document.getElementById('durumIkon');
+        const bilgi = document.getElementById('parcaBilgi');
+
+        function parcaYukle(index) {
+            audio.src = playlist[index].src;
+            bilgi.innerText = playlist[index].ad;
+        }
+
+        function muzikKontrol() {
+            if (audio.paused) {
+                audio.play().catch(e => console.log("Oynatma hatası:", e));
+                ikon.innerText = "||";
+            } else {
+                audio.pause();
+                ikon.innerText = "▶";
+            }
+        }
+
+        function sonrakiParca() {
+            suankiParca = (suankiParca + 1) % playlist.length;
+            parcaYukle(suankiParca);
+            audio.play();
+            ikon.innerText = "||";
+        }
+
+        function oncekiParca() {
+            suankiParca = (suankiParca - 1 + playlist.length) % playlist.length;
+            parcaYukle(suankiParca);
+            audio.play();
+            ikon.innerText = "||";
+        }
+
+        audio.onended = sonrakiParca;
+        parcaYukle(suankiParca);
+    </script>
+</body>
+</html>
